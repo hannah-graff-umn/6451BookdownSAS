@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Software Lesson 1 Creating Table 1 in SAS | 6451 Software Lessons - SAS</title>
+  <meta name="description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Software Lesson 1 Creating Table 1 in SAS | 6451 Software Lessons - SAS" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="github-repo" content="hannah-graff-umn/6451BookdownSAS" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Software Lesson 1 Creating Table 1 in SAS | 6451 Software Lessons - SAS" />
+  
+  <meta name="twitter:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  
+
+
+
+<meta name="date" content="2026-04-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="multiple-linear-regression-part-1-in-sas.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pubh 6451 Software Lessons - SAS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html"><i class="fa fa-check"></i><b>1</b> Creating Table 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#dataset"><i class="fa fa-check"></i><b>1.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#importing-data"><i class="fa fa-check"></i><b>1.1.1</b> Importing data</a></li>
+<li class="chapter" data-level="1.1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#examine-the-dataset"><i class="fa fa-check"></i><b>1.1.2</b> Examine the dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#creating-table-1"><i class="fa fa-check"></i><b>1.2</b> Creating Table 1</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-1-identify-the-relevant-variables-to-include-in-table-1"><i class="fa fa-check"></i><b>1.2.1</b> Step 1: Identify the relevant variables to include in Table 1</a></li>
+<li class="chapter" data-level="1.2.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-2-determine-which-variables-are-continuous-and-which-are-categorical"><i class="fa fa-check"></i><b>1.2.2</b> Step 2: Determine which variables are continuous and which are categorical</a></li>
+<li class="chapter" data-level="1.2.3" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-3-format-the-values-of-the-categorical-variables-optional"><i class="fa fa-check"></i><b>1.2.3</b> Step 3: Format the values of the categorical variables (optional)</a></li>
+<li class="chapter" data-level="1.2.4" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-4-relabel-the-variable-names-optional"><i class="fa fa-check"></i><b>1.2.4</b> Step 4: Relabel the variable names (optional)</a></li>
+<li class="chapter" data-level="1.2.5" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-5-create-table-1"><i class="fa fa-check"></i><b>1.2.5</b> Step 5: Create Table 1</a></li>
+<li class="chapter" data-level="1.2.6" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-6-export-table-1-to-word-doc"><i class="fa fa-check"></i><b>1.2.6</b> Step 6: Export Table 1 to Word Doc</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html"><i class="fa fa-check"></i><b>2</b> Multiple Linear Regression, Part 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#dataset-1"><i class="fa fa-check"></i><b>2.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#multiple-linear-regression"><i class="fa fa-check"></i><b>2.1.1</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="2.1.2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#fit-multiple-linear-regression-model"><i class="fa fa-check"></i><b>2.1.2</b> Fit multiple linear regression model</a></li>
+<li class="chapter" data-level="2.1.3" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#set-the-reference-group-for-a-categorical-predictor"><i class="fa fa-check"></i><b>2.1.3</b> Set the reference group for a categorical predictor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html"><i class="fa fa-check"></i><b>3</b> Multiple Linear Regression, Part 2 in SAS</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#dataset-2"><i class="fa fa-check"></i><b>3.1</b> Dataset</a></li>
+<li class="chapter" data-level="3.2" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#multicategorical-predictors"><i class="fa fa-check"></i><b>3.2</b> Multicategorical Predictors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#conduct-overall-test-for-multicategorical-predictors"><i class="fa fa-check"></i><b>3.2.1</b> Conduct overall test for multicategorical predictors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html"><i class="fa fa-check"></i><b>4</b> Multiple Linear Regression, Part 3 in SAS</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#dataset-3"><i class="fa fa-check"></i><b>4.1</b> Dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#model-diagnostics"><i class="fa fa-check"></i><b>4.2</b> Model Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#calculate-measures-of-model-fit"><i class="fa fa-check"></i><b>4.2.1</b> Calculate measures of model fit</a></li>
+<li class="chapter" data-level="4.2.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#check-for-outliers-and-influential-points"><i class="fa fa-check"></i><b>4.2.2</b> Check for outliers and influential points</a></li>
+<li class="chapter" data-level="4.2.3" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#collinearity-and-multicollinearity"><i class="fa fa-check"></i><b>4.2.3</b> Collinearity and multicollinearity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html"><i class="fa fa-check"></i><b>5</b> Multiple Linear Regression, Part 4 in SAS</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#dataset-4"><i class="fa fa-check"></i><b>5.1</b> Dataset</a></li>
+<li class="chapter" data-level="5.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interactions"><i class="fa fa-check"></i><b>5.2</b> Interactions</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-one-binary-and-one-continuous-predictor"><i class="fa fa-check"></i><b>5.2.1</b> Interaction between one binary and one continuous predictor</a></li>
+<li class="chapter" data-level="5.2.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#collapse-categories-in-a-categorical-variable"><i class="fa fa-check"></i><b>5.2.2</b> Collapse categories in a categorical variable</a></li>
+<li class="chapter" data-level="5.2.3" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plot-fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.3</b> Create interaction plot &amp; Fit a model with interaction term</a></li>
+<li class="chapter" data-level="5.2.4" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-two-binary-predictors"><i class="fa fa-check"></i><b>5.2.4</b> Interaction between two binary predictors</a></li>
+<li class="chapter" data-level="5.2.5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plots"><i class="fa fa-check"></i><b>5.2.5</b> Create interaction plots</a></li>
+<li class="chapter" data-level="5.2.6" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.6</b> Fit a model with interaction term</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html"><i class="fa fa-check"></i><b>6</b> Logistic Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#dataset-5"><i class="fa fa-check"></i><b>6.1</b> Dataset</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#fit-logistic-regression-model"><i class="fa fa-check"></i><b>6.2.1</b> Fit logistic regression model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#model-evaluation"><i class="fa fa-check"></i><b>6.3</b> Model Evaluation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html"><i class="fa fa-check"></i><b>7</b> Survival Analysis in SAS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#dataset-6"><i class="fa fa-check"></i><b>7.1</b> Dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#survival-analysis"><i class="fa fa-check"></i><b>7.2</b> Survival Analysis</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#create-kaplan-meier-survival-curve"><i class="fa fa-check"></i><b>7.2.1</b> Create Kaplan-Meier survival curve</a></li>
+<li class="chapter" data-level="7.2.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-quartile-e.g.-q1-median-q3-survival-times"><i class="fa fa-check"></i><b>7.2.2</b> Compute quartile (e.g., Q1, median, Q3) survival time(s)</a></li>
+<li class="chapter" data-level="7.2.3" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-survival-at-specific-time-points"><i class="fa fa-check"></i><b>7.2.3</b> Compute survival at specific time points</a></li>
+<li class="chapter" data-level="7.2.4" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#conduct-hypothesis-test-for-comparing-two-groups-on-time-to-event-outcome"><i class="fa fa-check"></i><b>7.2.4</b> Conduct hypothesis test for comparing two groups on time-to-event outcome</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html"><i class="fa fa-check"></i><b>8</b> Proportional Hazards Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#dataset-7"><i class="fa fa-check"></i><b>8.1</b> Dataset</a></li>
+<li class="chapter" data-level="8.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#exploratory-data-analysis-eda"><i class="fa fa-check"></i><b>8.2</b> Exploratory Data Analysis (EDA)</a></li>
+<li class="chapter" data-level="8.3" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-fitting"><i class="fa fa-check"></i><b>8.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-1-cox-proportional-hazards-regression-with-a-categorical-predictor"><i class="fa fa-check"></i><b>8.3.1</b> Model 1: Cox proportional hazards regression with a categorical predictor</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-2-multiple-cox-proportional-hazards-regression"><i class="fa fa-check"></i><b>8.3.2</b> Model 2: Multiple Cox proportional hazards regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="project-1.html"><a href="project-1.html"><i class="fa fa-check"></i><b>9</b> Project 1</a></li>
+<li class="chapter" data-level="10" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html"><i class="fa fa-check"></i><b>10</b> Poisson Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#datasets"><i class="fa fa-check"></i><b>10.1</b> Datasets</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-1-lung-health-study"><i class="fa fa-check"></i><b>10.1.1</b> Dataset #1: Lung Health Study</a></li>
+<li class="chapter" data-level="10.1.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-2-canadian-smoking-and-death-study"><i class="fa fa-check"></i><b>10.1.2</b> Dataset #2: Canadian Smoking and Death Study</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data"><i class="fa fa-check"></i><b>10.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data-cleaning"><i class="fa fa-check"></i><b>10.2.1</b> Data cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-fitting-1"><i class="fa fa-check"></i><b>10.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-1-count-data-with-a-fixed-denominator"><i class="fa fa-check"></i><b>10.3.1</b> Model 1: Count data with a fixed denominator</a></li>
+<li class="chapter" data-level="10.3.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-evaluation-1"><i class="fa fa-check"></i><b>10.3.2</b> Model Evaluation</a></li>
+<li class="chapter" data-level="10.3.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#models-for-overdispersed-data"><i class="fa fa-check"></i><b>10.3.3</b> Models for overdispersed data</a></li>
+<li class="chapter" data-level="10.3.4" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-2-binary-data-with-a-variable-denominator-offset-term"><i class="fa fa-check"></i><b>10.3.4</b> Model 2: Binary data with a variable denominator (offset term)</a></li>
+<li class="chapter" data-level="10.3.5" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-3-binary-data-with-a-variable-denominator-and-a-covariate"><i class="fa fa-check"></i><b>10.3.5</b> Model 3: Binary data with a variable denominator and a covariate</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html"><i class="fa fa-check"></i><b>11</b> Other Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#dataset-8"><i class="fa fa-check"></i><b>11.1</b> Dataset</a></li>
+<li class="chapter" data-level="11.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-ordinal-regression"><i class="fa fa-check"></i><b>11.2</b> Log-Binomial &amp; Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regressiono"><i class="fa fa-check"></i><b>11.2.1</b> Log-Binomial RegressionO</a></li>
+<li class="chapter" data-level="11.2.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-1"><i class="fa fa-check"></i><b>11.2.2</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.2.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#putting-all-edits-together"><i class="fa fa-check"></i><b>11.2.3</b> Putting All Edits Together</a></li>
+<li class="chapter" data-level="11.2.4" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regression-model"><i class="fa fa-check"></i><b>11.2.4</b> Log-Binomial Regression Model</a></li>
+<li class="chapter" data-level="11.2.5" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#estimate-effect-of-predictors-1"><i class="fa fa-check"></i><b>11.2.5</b> Estimate effect of predictors</a></li>
+<li class="chapter" data-level="11.2.6" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#relative-risk"><i class="fa fa-check"></i><b>11.2.6</b> Relative Risk</a></li>
+<li class="chapter" data-level="11.2.7" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#predicted-risk"><i class="fa fa-check"></i><b>11.2.7</b> Predicted Risk</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression"><i class="fa fa-check"></i><b>11.3</b> Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-2"><i class="fa fa-check"></i><b>11.3.1</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.3.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression-model"><i class="fa fa-check"></i><b>11.3.2</b> Ordinal Regression Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html"><i class="fa fa-check"></i><b>12</b> Sample Size and Power in SAS</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#introduction-1"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#methods"><i class="fa fa-check"></i><b>12.2</b> Methods</a></li>
+<li class="chapter" data-level="12.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-means"><i class="fa fa-check"></i><b>12.3</b> Differences in Group Means</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes"><i class="fa fa-check"></i><b>12.3.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.3.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid"><i class="fa fa-check"></i><b>12.3.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.3.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid"><i class="fa fa-check"></i><b>12.3.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-proportions"><i class="fa fa-check"></i><b>12.4</b> Differences in Group Proportions</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes-1"><i class="fa fa-check"></i><b>12.4.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.4.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid-1"><i class="fa fa-check"></i><b>12.4.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.4.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid-1"><i class="fa fa-check"></i><b>12.4.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">6451 Software Lessons - SAS</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="creating-table-1-in-sas" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Software Lesson 1</span> Creating Table 1 in SAS<a href="creating-table-1-in-sas.html#creating-table-1-in-sas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="graybox">
+<p><font size="4"><strong>Goals</strong></font></p>
+<p>The goal of this software lesson is to learn how to</p>
+<ul>
+<li>create “Table 1” for a report or manuscript.</li>
+<li>examine the missingness of the variables in the dataset.</li>
+</ul>
+</div>
+<div id="dataset" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Dataset<a href="creating-table-1-in-sas.html#dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this software lesson, you will use the Rheumatoid Arthritis dataset. The dataset, data dictionary, and dataset introduction can be found on Canvas, titled <em>RheumArth.csv</em>, <em>RheumArth Data Dictionary.pdf</em>, and <em>RheumArth Data Introduction.pdf</em>, respectively.</p>
+<div id="importing-data" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Importing data<a href="creating-table-1-in-sas.html#importing-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="creating-table-1-in-sas.html#cb1-1" tabindex="-1"></a>proc import</span>
+<span id="cb1-2"><a href="creating-table-1-in-sas.html#cb1-2" tabindex="-1"></a>  DATAFILE <span class="ot">=</span> <span class="st">&quot;/&lt;filepath&gt;/RheumArth.csv&quot;</span></span>
+<span id="cb1-3"><a href="creating-table-1-in-sas.html#cb1-3" tabindex="-1"></a>  OUT <span class="ot">=</span> rheum_arth</span>
+<span id="cb1-4"><a href="creating-table-1-in-sas.html#cb1-4" tabindex="-1"></a>  DBMS <span class="ot">=</span> csv</span>
+<span id="cb1-5"><a href="creating-table-1-in-sas.html#cb1-5" tabindex="-1"></a>  REPLACE;</span>
+<span id="cb1-6"><a href="creating-table-1-in-sas.html#cb1-6" tabindex="-1"></a>  GETNAMES <span class="ot">=</span> yes;</span>
+<span id="cb1-7"><a href="creating-table-1-in-sas.html#cb1-7" tabindex="-1"></a>run;</span></code></pre></div>
+<p>NOTE: <code>&lt;filepath&gt;</code> should be replaced by the exact filepath name for the dataset. In SAS Studio, you can figure out the exact filepath name by right-clicking on the dataset in your <code>Files(Home)</code> folder, choose <code>Properties</code>, and copy-and-paste the <code>Location:</code> information in between the quotation marks after the <code>DATAFILE =</code>.</p>
+</div>
+<div id="examine-the-dataset" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Examine the dataset<a href="creating-table-1-in-sas.html#examine-the-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Make sure to view your imported dataset and explore the variables (e.g., variable type, missingness, min/max for unusual values) before you begin any analyses to make sure it was imported properly.</p>
+<p>In the previous course (PubH 6450: Biostatistics 1), you learned how to examine the dataset and carry out exploratory data analysis. However, you may not have explicitly learned how to examine the missingness of the variables.</p>
+<ul>
+<li>To count the number of missing values in each variable, use <code>proc means</code>, specifying the name of the dataset and the option <code>NMISS</code>, which calculates number of missing observations for each variable:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="creating-table-1-in-sas.html#cb2-1" tabindex="-1"></a>proc means data<span class="ot">=</span>rheum_arth NMISS;</span>
+<span id="cb2-2"><a href="creating-table-1-in-sas.html#cb2-2" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output produces two columns: one for each variable in the dataset and the number of missing observations for each variable (<code>N Miss</code>).</p>
+</div>
+</div>
+<div id="creating-table-1" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Creating Table 1<a href="creating-table-1-in-sas.html#creating-table-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Previously, when you would calculate summary statistics for many variables, you would run multiple lines of the same code for all the variables of interest and then manually type those values into a table in a separate document. As you progress in your coding abilities, it’s important to start using best coding practices, and one of those is reproducibility. It’s better to let the computer do the work and produce the output you need with minimal copy-and-pasting. In this class, when you have to make a “large” table of summary statistics (i.e., Table 1), use a function that will do all of the work for you.</p>
+<p>Recall that the purpose of Table 1 is to summarize demographic, baseline, clinical, and other relevant variables for the participants in the study, overall and/or by exposure/intervention groups.</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional resources on Table 1, see:</p>
+<ul>
+<li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6773463/">Who is in this study, anyway? Guidelines for a useful Table 1 </a> (Hayes-Larson et al. 2019)</li>
+<li><a href="https://blog.uvm.edu/tbplante/2022/07/05/part-5-baseline-characteristics-in-a-table-1/"> Baseline Characteristics in a Table 1 </a> (University of Vermont)</li>
+<li><a href="https://www.goodreports.org/reporting-checklists/consort/info/#15"> CONSORT Guidelines for Baseline Data </a> (#15)</li>
+<li><a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0040297"> STROBE Guidelines Explanation and Elaboration </a> (see #14(a). Descriptive Data)</li>
+</ul>
+</div>
+<p><br></p>
+<p>When creating Table 1, there are several steps that you need to work through.</p>
+<div id="step-1-identify-the-relevant-variables-to-include-in-table-1" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Step 1: Identify the relevant variables to include in Table 1<a href="creating-table-1-in-sas.html#step-1-identify-the-relevant-variables-to-include-in-table-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, identify the relevant variables to include in Table 1, both the ones in the rows and the one(s) in the columns.</p>
+<ul>
+<li><p><strong>Rows</strong>: The variables presented in the rows of Table 1 are a subset of ones in the dataset, focusing on demographic, baseline, and clinical characteristics and sometimes the exploratory variables of interest in the research question.</p></li>
+<li><p><strong>Columns</strong>: The variable(s) presented in the columns of Table 1 are overall and/or by groups. For randomized clinical trials (RCTs), ALWAYS have column for the intervention groups. For observational studies, have a column for exposure groups (if relevant) or by cases/controls (for a case-control study).</p></li>
+</ul>
+<p>Suppose for the Rheumatoid Arthritis study, you are interested investigating whether there is a difference in disease activity measurements and treatments by age groups (elderly vs. young patients).</p>
+<p>In this scenario, your Table 1 might summarize 10 variables by age group (<code>AgeGp</code>):</p>
+<ul>
+<li><p>available baseline characteristics (i.e., <code>Sex</code>; years since rheumatoid arthritis diagnosis <code>Yrs_From_Dx</code>), and also</p></li>
+<li><p>disease activity measurements (i.e., Clinical Disease Activity Indicator value <code>CDAI</code>; CDAI measurement status <code>CDAI_YN</code>; disease activity score value <code>DAS_28</code>; DAS measurement status <code>DAS28_YN</code>) and</p></li>
+<li><p>treatment indicators (steroid treatment status <code>Steroids_GT_5</code>; disease modifying anti-rheumatic treatment status <code>DMARDs</code>; biologic agent status <code>Biologics</code>; synthetic DMARDs status <code>sDMARDS</code>).</p></li>
+</ul>
+</div>
+<div id="step-2-determine-which-variables-are-continuous-and-which-are-categorical" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Step 2: Determine which variables are continuous and which are categorical<a href="creating-table-1-in-sas.html#step-2-determine-which-variables-are-continuous-and-which-are-categorical" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The summary statistics that are calculated depend on the type of variable, but there are at least two values for each variable.</p>
+<ul>
+<li><p>For continuous variables, the summary statistics include a measure of center and a measure of spread, so this might be mean + SD (for symmetric data) or median + IQR (for skewed data). Be sure to plot the continuous variable(s) (e.g., boxplot, histogram) prior to creating Table 1 to understand the appropriate summary statistics to use.</p></li>
+<li><p>For categorical variables, the summary statistics are count (n) + proportion or percent.</p></li>
+</ul>
+<p>For the Rheumatoid Arthritis study, three of the variables in Table 1 are continuous: <code>Yrs_From_Dx</code>, <code>CDAI</code>, and <code>DAS_28</code> (and the rest are categorical variables). If you plot these variables using code learned from the previous course, you will see that they all have skewed distributions so the most appropriate summary statistics for these variables are median + IQR.</p>
+</div>
+<div id="step-3-format-the-values-of-the-categorical-variables-optional" class="section level3 hasAnchor" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Step 3: Format the values of the categorical variables (optional)<a href="creating-table-1-in-sas.html#step-3-format-the-values-of-the-categorical-variables-optional" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Prior to creating Table 1, it can be helpful to format the values of the categorical variables to how you want them displayed in the table. In particular, it allows you to rename the values as well as insert a fixed number of spaces in front of the names so that the text appears to be indented in the table (e.g., 4 spaces, tab).</p>
+<ul>
+<li>To format the values of the categorical variables, use
+<ul>
+<li>the <code>proc format</code> step,</li>
+<li>the <code>VALUE</code> statement for each reformatted categorical variable, specifying a name for the formatted variable (e.g., <code>AgeGpf</code>) and how the values should be reformatted in quotation marks, including adding spaces in front of the text if you want indentation in the table (Note: 3 spaces were added in front of the text in the example),</li>
+<li>(optional) the <code>PICTURE</code> statement to create a template for printing numbers (e.g., <code>pctfmt (round) other = "009.9%"</code> formats the percents by rounding them to the nearest tenth).</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="creating-table-1-in-sas.html#cb3-1" tabindex="-1"></a>proc format;</span>
+<span id="cb3-2"><a href="creating-table-1-in-sas.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="creating-table-1-in-sas.html#cb3-3" tabindex="-1"></a>VALUE AgeGpf <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;40 to 70 years (control)&quot;</span> </span>
+<span id="cb3-4"><a href="creating-table-1-in-sas.html#cb3-4" tabindex="-1"></a>             <span class="dv">2</span> <span class="ot">=</span> <span class="st">&quot;75+ years (elderly)&quot;</span>;</span>
+<span id="cb3-5"><a href="creating-table-1-in-sas.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="creating-table-1-in-sas.html#cb3-6" tabindex="-1"></a>VALUE Sexf <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;   Female&quot;</span>  </span>
+<span id="cb3-7"><a href="creating-table-1-in-sas.html#cb3-7" tabindex="-1"></a>           <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;   Male&quot;</span>;</span>
+<span id="cb3-8"><a href="creating-table-1-in-sas.html#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="creating-table-1-in-sas.html#cb3-9" tabindex="-1"></a>VALUE CDAI_YNf <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;   No&quot;</span> </span>
+<span id="cb3-10"><a href="creating-table-1-in-sas.html#cb3-10" tabindex="-1"></a>               <span class="dv">2</span> <span class="ot">=</span> <span class="st">&quot;   Yes&quot;</span>;</span>
+<span id="cb3-11"><a href="creating-table-1-in-sas.html#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="creating-table-1-in-sas.html#cb3-12" tabindex="-1"></a>VALUE DAS28_YNf <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;   No&quot;</span> </span>
+<span id="cb3-13"><a href="creating-table-1-in-sas.html#cb3-13" tabindex="-1"></a>                <span class="dv">2</span> <span class="ot">=</span> <span class="st">&quot;   Yes&quot;</span>;</span>
+<span id="cb3-14"><a href="creating-table-1-in-sas.html#cb3-14" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="creating-table-1-in-sas.html#cb3-15" tabindex="-1"></a>VALUE Steroids_GT_5f <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;   No&quot;</span> </span>
+<span id="cb3-16"><a href="creating-table-1-in-sas.html#cb3-16" tabindex="-1"></a>                     <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;   Yes&quot;</span>;</span>
+<span id="cb3-17"><a href="creating-table-1-in-sas.html#cb3-17" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="creating-table-1-in-sas.html#cb3-18" tabindex="-1"></a>VALUE DMARDsf <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;   No&quot;</span> </span>
+<span id="cb3-19"><a href="creating-table-1-in-sas.html#cb3-19" tabindex="-1"></a>              <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;   Yes&quot;</span>;</span>
+<span id="cb3-20"><a href="creating-table-1-in-sas.html#cb3-20" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="creating-table-1-in-sas.html#cb3-21" tabindex="-1"></a>VALUE Biologicsf <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;   No&quot;</span></span>
+<span id="cb3-22"><a href="creating-table-1-in-sas.html#cb3-22" tabindex="-1"></a>                         <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;   Yes&quot;</span>;</span>
+<span id="cb3-23"><a href="creating-table-1-in-sas.html#cb3-23" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="creating-table-1-in-sas.html#cb3-24" tabindex="-1"></a>VALUE sDMARDSf <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;   No&quot;</span></span>
+<span id="cb3-25"><a href="creating-table-1-in-sas.html#cb3-25" tabindex="-1"></a>                     <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;   Yes&quot;</span>;</span>
+<span id="cb3-26"><a href="creating-table-1-in-sas.html#cb3-26" tabindex="-1"></a>               </span>
+<span id="cb3-27"><a href="creating-table-1-in-sas.html#cb3-27" tabindex="-1"></a>PICTURE <span class="fu">pctfmt</span> (round) other <span class="ot">=</span> <span class="st">&quot;009.9%&quot;</span>;</span>
+<span id="cb3-28"><a href="creating-table-1-in-sas.html#cb3-28" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="creating-table-1-in-sas.html#cb3-29" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Remember that the <code>proc format</code> step won’t result in any output, but is stored internally in SAS to be used in a later procedure.</p>
+</div>
+<div id="step-4-relabel-the-variable-names-optional" class="section level3 hasAnchor" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Step 4: Relabel the variable names (optional)<a href="creating-table-1-in-sas.html#step-4-relabel-the-variable-names-optional" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another helpful step prior to creating Table 1 is relabeling the variable names to the words or phrases you want displayed in the table.</p>
+<ul>
+<li>To relabel the variables, use
+<ul>
+<li>the <code>data</code> step to create a new dataset, specifying the name of the new dataset in the first line of code (e.g., <code>table1arth</code>), and using the <code>SET</code> statement to make a copy of the original dataset, and</li>
+<li>the <code>LABEL</code> statement for the variable you want to relabel, specifying the original variable name first (e.g., <code>AgeGp</code>) followed by an equals sign (<code>=</code>) and the text (in quotation marks) you want displayed in the table (e.g., <code>"Age Group"</code>).</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="creating-table-1-in-sas.html#cb4-1" tabindex="-1"></a>data table1arth;</span>
+<span id="cb4-2"><a href="creating-table-1-in-sas.html#cb4-2" tabindex="-1"></a>    SET rheum_arth;</span>
+<span id="cb4-3"><a href="creating-table-1-in-sas.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="creating-table-1-in-sas.html#cb4-4" tabindex="-1"></a>LABEL AgeGp <span class="ot">=</span> <span class="st">&quot;Age Group&quot;</span>;</span>
+<span id="cb4-5"><a href="creating-table-1-in-sas.html#cb4-5" tabindex="-1"></a>LABEL Yrs_From_Dx <span class="ot">=</span> <span class="st">&quot;Years since Diagnosis&quot;</span>;</span>
+<span id="cb4-6"><a href="creating-table-1-in-sas.html#cb4-6" tabindex="-1"></a>LABEL CDAI <span class="ot">=</span> <span class="st">&quot;CDAI Score&quot;</span>;</span>
+<span id="cb4-7"><a href="creating-table-1-in-sas.html#cb4-7" tabindex="-1"></a>LABEL CDAI_YN <span class="ot">=</span> <span class="st">&quot;Was CDAI measured?&quot;</span>;</span>
+<span id="cb4-8"><a href="creating-table-1-in-sas.html#cb4-8" tabindex="-1"></a>LABEL DAS_28 <span class="ot">=</span> <span class="st">&quot;DAS Score&quot;</span>;</span>
+<span id="cb4-9"><a href="creating-table-1-in-sas.html#cb4-9" tabindex="-1"></a>LABEL DAS28_YN <span class="ot">=</span> <span class="st">&quot;Was DAS measured?&quot;</span>;;</span>
+<span id="cb4-10"><a href="creating-table-1-in-sas.html#cb4-10" tabindex="-1"></a>LABEL Steroids_GT_5 <span class="ot">=</span> <span class="st">&quot;Taking 5mg Steroids Daily&quot;</span>;</span>
+<span id="cb4-11"><a href="creating-table-1-in-sas.html#cb4-11" tabindex="-1"></a>LABEL DMARDS <span class="ot">=</span> <span class="st">&quot;Receiving DMARDs&quot;</span>;</span>
+<span id="cb4-12"><a href="creating-table-1-in-sas.html#cb4-12" tabindex="-1"></a>LABEL Biologics <span class="ot">=</span> <span class="st">&quot;Receiving biologic agents&quot;</span>;</span>
+<span id="cb4-13"><a href="creating-table-1-in-sas.html#cb4-13" tabindex="-1"></a>LABEL sDMARDS <span class="ot">=</span> <span class="st">&quot;Receiving synthetic DMARDs&quot;</span>;</span>
+<span id="cb4-14"><a href="creating-table-1-in-sas.html#cb4-14" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="creating-table-1-in-sas.html#cb4-15" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+<div id="step-5-create-table-1" class="section level3 hasAnchor" number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> Step 5: Create Table 1<a href="creating-table-1-in-sas.html#step-5-create-table-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To create Table 1, use <code>proc tabulate</code>. The general template for using this procedure is:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="creating-table-1-in-sas.html#cb5-1" tabindex="-1"></a>PROC TABULATE data <span class="ot">=</span> dataset <span class="sc">&lt;</span>options<span class="sc">&gt;</span>;</span>
+<span id="cb5-2"><a href="creating-table-1-in-sas.html#cb5-2" tabindex="-1"></a>  </span>
+<span id="cb5-3"><a href="creating-table-1-in-sas.html#cb5-3" tabindex="-1"></a>  CLASS <span class="fu">list_cat_variable</span>(s) <span class="sc">&lt;</span> <span class="er">/</span> options<span class="sc">&gt;</span>; <span class="ot">-&gt;</span> variables used <span class="cf">in</span> PROC FREQ, <span class="cf">if</span> any</span>
+<span id="cb5-4"><a href="creating-table-1-in-sas.html#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="creating-table-1-in-sas.html#cb5-5" tabindex="-1"></a>  VAR <span class="fu">list_cont_variable</span>(s) <span class="sc">&lt;</span> <span class="er">/</span> options<span class="sc">&gt;</span>; <span class="ot">-&gt;</span> variables used <span class="cf">in</span> PROC MEANS, <span class="cf">if</span> any</span>
+<span id="cb5-6"><a href="creating-table-1-in-sas.html#cb5-6" tabindex="-1"></a>           </span>
+<span id="cb5-7"><a href="creating-table-1-in-sas.html#cb5-7" tabindex="-1"></a>  <span class="fu">TABLE</span> (row variables)<span class="sc">*</span>(statistics), (column variables) <span class="sc">&lt;</span> <span class="er">/</span> options<span class="sc">&gt;</span>;</span>
+<span id="cb5-8"><a href="creating-table-1-in-sas.html#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="creating-table-1-in-sas.html#cb5-9" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Knowing the basics of the procedure can be helpful as you read through worked examples or generate your own Table 1 (otherwise the code can be a little overwhelming).</p>
+<div class="redbox">
+<p><font size="4"><strong>SAS TIP</strong></font></p>
+<p>Other useful tips when using <code>proc tabulate</code>:</p>
+<ul>
+<li>All variables listed in the <code>TABLE</code> statement must be listed in <code>CLASS</code> or <code>VAR</code>.</li>
+<li>The order of the variables in the <code>TABLE</code> statement will be the same as the table that is produced.</li>
+<li>Parentheses (<code>()</code>) group elements and simplify coding.</li>
+<li>Using the word <code>All</code> in the `TABLE} statement calculates row or column totals.</li>
+</ul>
+</div>
+<p><br></p>
+<ul>
+<li>To create Table 1, use
+<ul>
+<li>the <code>proc tabulate</code> step, specifying the name of the dataset and any options (e.g., <code>order=formatted</code> to order the values by ascending formatted values),</li>
+<li>the <code>CLASS</code> statement with all the categorical variables of interest, including the exposure/intervention group and the <code>missing</code> option to include missingness of the variables in the table,</li>
+<li>(optional) the <code>CLASSLEV</code> statement to list the variables that you want to apply a style element (e.g., indent categorical values in rows),</li>
+<li>the <code>VAR</code> statement with all the continuous variables of interest,</li>
+<li>the <code>TABLE</code> statement to supply the information for the variables in the rows and the variables in the columns.
+<ul>
+<li>First list the row variables, followed by an asterisk (<code>*</code>), and in parentheses, the statistics to be calculated for those variables (e.g., <code>n</code> for count; <code>colpctn</code> for column percent; <code>mean</code>, <code>std</code> for standard deviation; <code>median</code>, <code>qrange</code> for IQR) as well as any customizations you want displayed in the table (e.g., <code>statistic = "NAME"</code> to relabel the statistic in the table; <code>*f=</code> after the statistic (+ relabel) to add some formatting to the displayed value). Code is shown on how to change the statistics for continuous variables to <code>mean</code> and <code>std</code> (Note: it’s currently commented out, but the <code>/* */</code> can be removed if you need to use it in the future).</li>
+<li>Add a comma (<code>,</code>) after listing all of the row variables.</li>
+<li>Then list the column variable(s) (e.g., <code>All</code> for adding a column for overall summary statistics, <code>AgeGp</code>).</li>
+<li>Add the option (<code>/</code> ) of <code>misstext = "0"</code> to put a 0 in for cells with no data (if any), and</li>
+</ul></li>
+<li>(optional) the <code>FORMAT</code> statement to relabel the values of the categorical variables (from Step 3). The structure for this is to list the variable first (as it occurs in the dataset), followed by a space and then list the formatted variable name (e.g., <code>AgeGp AgeGpf.</code>), making sure to put a period (<code>.</code>) after the formatted variable name.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="creating-table-1-in-sas.html#cb6-1" tabindex="-1"></a>proc tabulate data <span class="ot">=</span> table1arth order<span class="ot">=</span>formatted;</span>
+<span id="cb6-2"><a href="creating-table-1-in-sas.html#cb6-2" tabindex="-1"></a>  CLASS AgeGp Sex CDAI_YN DAS28_YN Steroids_GT_5 DMARDs Biologics sDMARDS <span class="sc">/</span> missing;</span>
+<span id="cb6-3"><a href="creating-table-1-in-sas.html#cb6-3" tabindex="-1"></a>  CLASSLEV Sex CDAI_YN DAS28_YN Steroids_GT_5 DMARDs Biologics sDMARDS </span>
+<span id="cb6-4"><a href="creating-table-1-in-sas.html#cb6-4" tabindex="-1"></a>           <span class="sc">/</span> style <span class="ot">=</span> [asis<span class="ot">=</span>on];</span>
+<span id="cb6-5"><a href="creating-table-1-in-sas.html#cb6-5" tabindex="-1"></a>  </span>
+<span id="cb6-6"><a href="creating-table-1-in-sas.html#cb6-6" tabindex="-1"></a>  VAR Yrs_From_Dx CDAI DAS_28;</span>
+<span id="cb6-7"><a href="creating-table-1-in-sas.html#cb6-7" tabindex="-1"></a>  </span>
+<span id="cb6-8"><a href="creating-table-1-in-sas.html#cb6-8" tabindex="-1"></a>  TABLE Sex<span class="sc">*</span>(<span class="at">n =</span> <span class="st">&quot;N&quot;</span> <span class="at">colpctn =</span> <span class="st">&quot;%&quot;</span><span class="sc">*</span><span class="at">f=</span>pctfmt.)</span>
+<span id="cb6-9"><a href="creating-table-1-in-sas.html#cb6-9" tabindex="-1"></a>        Yrs_From_Dx<span class="sc">*</span>(n median <span class="at">qrange =</span> <span class="st">&quot;IQR&quot;</span>) <span class="sc">/</span><span class="er">*</span>Yrs_From_Dx<span class="sc">*</span>(n mean <span class="at">std =</span> <span class="st">&quot;SD&quot;</span>)<span class="sc">*</span><span class="er">/</span></span>
+<span id="cb6-10"><a href="creating-table-1-in-sas.html#cb6-10" tabindex="-1"></a>        CDAI<span class="sc">*</span>(n median <span class="at">qrange =</span> <span class="st">&quot;IQR&quot;</span>) <span class="sc">/</span><span class="er">*</span>CDAI<span class="sc">*</span>(n mean <span class="at">std =</span> <span class="st">&quot;SD&quot;</span>)<span class="sc">*</span><span class="er">/</span></span>
+<span id="cb6-11"><a href="creating-table-1-in-sas.html#cb6-11" tabindex="-1"></a>        CDAI_YN<span class="sc">*</span>(<span class="at">n =</span> <span class="st">&quot;N&quot;</span> <span class="at">colpctn =</span> <span class="st">&quot;%&quot;</span><span class="sc">*</span><span class="at">f=</span>pctfmt.)</span>
+<span id="cb6-12"><a href="creating-table-1-in-sas.html#cb6-12" tabindex="-1"></a>        DAS_28<span class="sc">*</span>(n median <span class="at">qrange =</span> <span class="st">&quot;IQR&quot;</span>) <span class="sc">/</span><span class="er">*</span>DAS_28<span class="sc">*</span>(n mean <span class="at">std =</span> <span class="st">&quot;SD&quot;</span>)<span class="sc">*</span><span class="er">/</span></span>
+<span id="cb6-13"><a href="creating-table-1-in-sas.html#cb6-13" tabindex="-1"></a>        (DAS28_YN Steroids_GT_5 DMARDs Biologics sDMARDS)<span class="sc">*</span>(<span class="at">n =</span> <span class="st">&quot;N&quot;</span> </span>
+<span id="cb6-14"><a href="creating-table-1-in-sas.html#cb6-14" tabindex="-1"></a>                                                           <span class="at">colpctn =</span> <span class="st">&quot;%&quot;</span><span class="sc">*</span><span class="at">f=</span>pctfmt.),</span>
+<span id="cb6-15"><a href="creating-table-1-in-sas.html#cb6-15" tabindex="-1"></a>        (All AgeGp) <span class="sc">/</span> misstext <span class="ot">=</span> <span class="st">&quot;0&quot;</span>;</span>
+<span id="cb6-16"><a href="creating-table-1-in-sas.html#cb6-16" tabindex="-1"></a>        </span>
+<span id="cb6-17"><a href="creating-table-1-in-sas.html#cb6-17" tabindex="-1"></a>  FORMAT AgeGp AgeGpf. Sex Sexf. CDAI_YN CDAI_YNf. DAS28_YN DAS28_YNf. </span>
+<span id="cb6-18"><a href="creating-table-1-in-sas.html#cb6-18" tabindex="-1"></a>           Steroids_GT_5 Steroids_GT_5f. DMARDs DMARDsf. Biologics Biologicsf. </span>
+<span id="cb6-19"><a href="creating-table-1-in-sas.html#cb6-19" tabindex="-1"></a>           sDMARDS sDMARDSf.;</span>
+<span id="cb6-20"><a href="creating-table-1-in-sas.html#cb6-20" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output will display the count and percent for the 7 categorical variables and the count, median, and Q1 and Q3 for the 3 continuous variables, by overall and by Age Group. It will also present the variable names and categories in a “pretty” way (as specified in Step 4 and in Step 3).</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional SAS resources on <code>proc tabulate</code>, see:</p>
+<p>KEEP GOING</p>
+<ul>
+<li><a href="https://www.sas.com/content/dam/SAS/en_ca/User%20Group%20Presentations/Vancouver-User-Group/Lai_ProcTabulateIntro_May2015.pdf"> Basics of Proc Tabulate </a> (Anky Lai)</li>
+<li><a href="https://support.sas.com/resources/papers/proceedings/pdfs/sgf2008/091-2008.pdf"> Creating Journal-Style Tables in an Easy Way </a> (SAS Global Forum 2008)</li>
+<li><a href="https://www.lexjansen.com/nesug/nesug06/dm/da05.pdf"> Introduction to PROC TABULATE </a> (NESUG 2006)</li>
+<li><a href="http://people.musc.edu/~elg26/teaching/statcomputing.2013/Lectures/Lecture5.SAStabulate/Proc_Tabulate_how_to_-_version_2.0.pdf"> How to use Proc Tabulate </a> (Tasha Chapman)</li>
+<li><a href="https://support.sas.com/resources/papers/proceedings/pdfs/sgf2008/264-2008.pdf"> PROC TABULATE and the Neat Things You Can Do With It </a> (SAS Global Forum 2008)</li>
+</ul>
+</div>
+</div>
+<div id="step-6-export-table-1-to-word-doc" class="section level3 hasAnchor" number="1.2.6">
+<h3><span class="header-section-number">1.2.6</span> Step 6: Export Table 1 to Word Doc<a href="creating-table-1-in-sas.html#step-6-export-table-1-to-word-doc" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can export SAS tables into an HTML, PDF, and Rich Text File (RTF; which can be opened via Word Document).</p>
+<div class="redbox">
+<p><font size="4"><strong>SAS TIP</strong></font></p>
+<p>By default, SAS Studio has exporting tables into a PDF and RTF turned off.</p>
+<p>To modify your SAS Studio preferences:
+* Go to the icon with the 3 lines and 3 dots in the upper-right-hand corner of the SAS Studio window and click Preferences.
+* Then click on Results and then select the box for “Produce PDF output” and the box for “Produce RTF output”.
+* Then click Save.</p>
+<p>If those icons are still greyed out, refresh your SAS Studio page and rerun your code to get the table you want to export.</p>
+</div>
+<p><br></p>
+<ul>
+<li>To export SAS Results, click on the file icon with the “W” in the lower-right-corner (third icon from the left) and the file will save into your Downloads folder on your computer.</li>
+</ul>
+<p>Right-click the file and select a Word Document software to view the table. Once the table is opened via a Word Document, you can copy-and-paste the entire table to another document and do some editing of the labels (if need be).</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multiple-linear-regression-part-1-in-sas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

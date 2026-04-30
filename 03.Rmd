@@ -1,0 +1,82 @@
+# Multiple Linear Regression, Part 2 in SAS
+
+::: {.graybox}
+
+<font size="4">**Goals**</font>
+
+The goal of this software lesson is to learn how to
+
+* include multicategorical predictors in a model and test their overall significance.
+
+:::
+
+## Dataset
+
+Let’s use the Lung Health Study (LHS) again. Recall this was the dataset used in software lessons in the previous course (PubH 6450: Biostatistics 1).
+
+Recall that the dataset and data dictionary can be found on Canvas, *lhs.csv* and *lhsdoc.docx*, respectively.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc import
+  DATAFILE = "/<filepath>/lhs.csv"
+  OUT = lhs
+  DBMS = csv
+  REPLACE;
+  GETNAMES = yes;
+run;
+```
+
+## Multicategorical Predictors
+
+Thus far, you have only dealt with binary predictors in modeling, with the variables sometimes being denoted in text (e.g., "No" or "Yes") or in numbers (e.g., 0 or 1; 1 or 2). But there can be situations where you have categorical variables with more than two categories. 
+
+In the Lung Health Study, the researchers were interested in whether smoking interventions (`alphagroup`) would decrease the rate of decline in lung function over the 5-year follow-up period (`FEVFVC5`). 
+
+Suppose the following was their research question: 
+
+<center>
+*What is the effect of smoking interventions (SI-A, SI-P, UC) on FEV1/FVC % at 5th year annual visit, after adjusting for baseline age and cigarettes per day at baseline?*
+</center>
+
+The code for multicategorical predictors is the same as what you saw in a previous lesson. 
+
+- To fit a multiple linear regression model, use
+    + `proc glm`, specifying the name of the dataset, 
+    + the `CLASS` statement with all the categorical variables in the model and setting the reference level using `(ref="value")` (if applicable), and
+    + the `MODEL` statement with the form `y = x1 x2 x3`, separating the x-variables with a space and including the options of `ss3` to get the Type III sum of squares, `solution` to get obtain the table with the regression coefficient estimates and inferential results, `clparm` to obtain confidence intervals for the regression coefficients, and `alpha=` to specify the confidence level: 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc glm data = lhs;
+CLASS alphagroup(ref="UC");
+MODEL FEVFVC5 = alphagroup age f10cigs / ss3 solution clparm alpha = 0.05;
+run;
+```
+
+The output is similar to the output shown previously, except now you have two rows for the `alphagroup` categories. Since there were three categories, there were two indicator variables: one indicator variable for comparing "SI-A" to "UC" and the other indicator variable for comparing "SI-P" to "UC" (since the "UC" category was explicitly set as the reference group).  
+
+
+### Conduct overall test for multicategorical predictors
+
+The output for the regression model provides *t*-tests comparing each category of interest to the reference group, but to understand whether the multicategorical predictor has an overall significant effect on the outcome, you need to conduct an omnibus test. There are two approaches to do this: ANOVA *F*-test with Type III sums of squares or Likelihood Ratio Test (LRT). The two tests will usually give similar (though not identical) results, so you only need to use one approach to conduct the test. 
+
+**Approach #1: ANOVA *F*-test**
+
+Luckily, `proc glm` automatically provides you with Type III sum of squares information in the output, in the sixth table (directly above the regression coefficients table).
+
+The table has one row for each predictor in the model, denoted by the column `Source`. The information of interest is the *p*-value for the omnibus test, which is in the sixth column (`Pr > F`). 
+
+**Approach #2: Likelihood Ratio Test (LRT)**
+
+- To conduct the overall test for multicategorical predictors using LRT, use
+    + `proc genmod`, specifying the name of the dataset, 
+    + the `CLASS` statement with all the categorical variables in the model and setting the reference level using `(ref="value")` (if applicable), and
+    + the `MODEL` statement with the form `y = x1 x2 x3`, separating the x-variables with a space and including the option of `type3` to obtain the likelihood ratio test results: 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc genmod data = lhs;
+CLASS alphagroup(ref="UC") ;
+MODEL FEVFVC5 = alphagroup age f10cigs / type3;
+run;
+```
+
+The table of interest is titled `LR Statistics For Type 3 Analysis` (the last table in the output). The output returns one row for each predictor in the model, denoted by the column `Source`, as well as the *p*-value for the omnibus test (fourth column, labeled `Pr > ChiSq`).

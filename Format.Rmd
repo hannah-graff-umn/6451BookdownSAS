@@ -1,0 +1,43 @@
+# Creating Table 1
+
+
+::: {.graybox}
+
+<font size="4">**Goals**</font>
+
+The goal of this software lesson is to learn how to
+
+* create "Table 1" for a report or manuscript.
+* examine the missingness of the variables in the dataset.
+
+:::
+
+<br>
+
+* 
+* 
+* 
+* 
+* 
+* 
+
+::: {.bluebox}
+
+<font size="4">**Additional Resources**</font>
+
+For additional R resources on the {\fontfamily{qcr}\selectfont tbl\_summary()} function, see:
+
+* <a href="https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html"> gtsummary Tutorial: tbl\_summary </a>
+* <a href="https://www.epirhandbook.com/en/new_pages/tables_descriptive.html#tbl_gt"> R package reviews {gtsummary} gtsummary package chapter (The Epidemiologist R Handbook) </a>
+* <a href="https://www.emilyzabor.com/cleveland-r-gtsummary/#1"> Creating presentation-ready summary tables with \{gtsummary\}(Emily Zabor, Cleveland Clinic) </a>
+
+:::
+
+::: {.redbox}
+
+<font size="4">**SAS TIP**</font>
+
+This structure of coding is part of the "tidyverse" family and is supposed to be more readable. Additionally, it uses a pipe operator, \%>\%, between functions and can be read as "and then". This operator allows you to string together multiple functions in sequence, rather than running multiple lines of code.
+
+:::
+

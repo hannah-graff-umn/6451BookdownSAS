@@ -1,0 +1,220 @@
+# Proportional Hazards Regression in SAS
+
+::: {.graybox}
+
+<font size="4">**Goals**</font>
+
+The goal of this software lesson is to learn how to
+
+* fit a proportional hazards regression model and obtain estimates for the effect of a predictor in terms of log hazards and in terms of hazard ratios, and
+* obtain model diagnostics to check assumptions and evaluate the model fit.
+
+:::
+
+## Dataset
+
+Let’s use the Laryngoscope dataset again.
+
+Recall that the dataset, data dictionary, and dataset introduction can be found on Canvas, titled *Laryngoscope.csv*, *Laryngoscope Data Dictionary.pdf*, and *Laryngoscope Dataset Introduction.pdf*, respectively.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc import
+  DATAFILE = "/<filepath>/Laryngoscope.csv"
+  OUT = lar
+  DBMS = csv
+  REPLACE;
+  GETNAMES = yes;
+run;
+```
+
+In a previous lesson, you examined successful first attempt intubations. This week, you will compare time-to-intubation in first attempt between each laryngoscope. The models we will explore are:
+
+- **Model 1:** Is there a difference in the time-to-intubate on the first try for the different types of laryngoscopes?
+
+- **Model 2:** Is there a difference in the time-to-intubate on the first try for the different types of laryngoscopes, controlling for BMI and ease of intubation?
+
+## Exploratory Data Analysis (EDA)
+
+As mentioned in a previous lesson, when you have an outcome that is a time-to-event variable, you use a Kaplan-Meier graph to best visualize time-to-event data. (Note: for completeness, the instructions from the previous lesson will be presented again.)
+
+The `proc lifetest` task is the main procedure used to conduct survival analysis in SAS, and we should choose the `method=KM` option to generate Kaplan-Meier estimates.
+
+The `time` statement identifies the time-to event variable, which is made up of a time variable as well as the event indicator variable. In this case, *attempt1_time* is the time variable (or the time index), and *attempt1_S_F* is the event indicator. We need to also specify the value for a censored observation. In this situation, since the event of interest was successful intubation during first attempt, a participant would be censored if first attempt intubation was *not* successful (i.e., `attempt1_S_F=0`).
+
+The `label` statement is optional, and can be used to relabel the x-axis of the plot.
+
+Then, use the `strata` statement to indicate the grouping variable.
+
+To generate *only* KM curves and no other output, use the `plots=survival` option and the `ods select survivalplot;` statement. Adding `(cl)` to `plots=survival(cl)` will generate $95\%$ confidence regions to the survival curves. 
+
+There are additional plotting statements you can use to customize your plot (e.g., `title` for specifying the title, `title2` for specifying the subtitle, and `footnote` for specifying a plot footnote). 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc lifetest data = lar plots = survival;
+TIME attempt1_time * attempt1_S_F(0);
+STRATA Randomization;
+LABEL attempt1_time = "Time to Intubation (Seconds)";
+TITLE "Time to Intubation";
+TITLE2 "By Laryngoscope";
+FOOTNOTE "First Attempt Only";
+ODS SELECT survivalplot;
+run;
+```
+
+The output includes one curve per group, including $95\%$ confidence regions for the estimated survival probabilities. Each *+* on the plot indicates censored data (i.e., observations that did not have the event, in this case, a successful intubation).
+
+Note that the curves do not cross, which may indicate the hazards are proportional (an assumption for Cox proportional hazards regression).
+
+## Model Fitting
+
+### Model 1: Cox proportional hazards regression with a categorical predictor
+
+To fit a proportional hazards regression model, use `proc phreg` procedure. (Note: The structure looks similar to what you saw in previous lessons.) 
+
+Use the `class` statement to indicate any variables that should be treated as categorical variables in the model. You can set the reference levels in the `class` statement with `(ref=)` for each variable and the `param=reference` option. 
+
+Then, use the `model` statement to list the survival response variable as well as our treatment variable, `Randomization`. As with `proc lifetest`, both the time-to-event and event-indicator variables must be specified in the model statement. The option `rl=wald` is added to the `model` statement to compute the 95\% confidence interval for the hazard ratio.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc phreg data = lar;
+  class Randomization(ref="0")/ param = reference;
+  model attempt1_time*attempt1_S_F(0) = Randomization / rl = wald;
+run;
+```
+
+Note: Predictor variables that are already coded as indicator variables (0 or 1) do not need to be included in the CLASS statement at all. But if they are included, then be sure to set ref="0"; otherwise SAS by default will recode them with the last level (1 in this case) as the reference level. 
+
+The tables of interest are:
+
+- `Summary of the Number of Event and Censored Values`. This table is fourth from the top and will give you a sense of how many are censored; which, in this case, are the number of intubation attempts that didn't work on the first intubation.
+
+- `Type 3 Tests`. This table is second to last and gives you the *p*-value for the null hypotheses that the two groups had equal intubation times.
+
+- `Analysis of Maximum Likelihood Estimates`. This table is the last one in the output, is similar in structure to the table in previous lessons but estimated regression coefficients are in terms of log hazard. The regression coefficient values are under the column `Parameter Estimate`, the standard error for the log hazards (`Standard Error`), the $\chi$-statistic for log hazard regression coefficient (`Chi-Square`), and its *p*-value (`Pr > ChiSq)`). It also provides the hazard ratio (`Hazard Ratio`) and the $95\%$ confidence interval for the hazard ratio (`95\% Hazard Ratio Confidence Limits`). 
+
+#### Checking the proportional hazards assumption
+
+Recall that one of the approaches to check the proportional hazards assumption is to calculate the Schoenfeld residuals and make a plot of the residuals verses time. 
+
+There is no built-in procedure in SAS to create the Schoenfeld residuals and test them. Instead, you will have to first create the Schoenfeld residuals, then graph them, then run the proportionality test separately.
+
+#### Creating and graphing the Schoenfeld residuals
+
+First, we will use `proc phreg` to create the Schoenfeld residuals as a variable, and then we will use `proc loess` to graph the residuals over time.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+* Creating Schoenfeld residuals;
+proc phreg data = lar; *noprint;
+ class Randomization(ref="0") / param = reference;
+ model attempt1_time * attempt1_S_F(0) = Randomization;
+ output out = phout /* name the output dataset */
+ 	ressch = /* create schoenfeld residuals */
+ 		pentax_sch;		
+run;
+
+* Graphing Schoenfeld residuals;
+proc loess data = phout;
+	model pentax_sch = attempt1_time;
+	ods select fitplot;
+run;
+```
+
+We created only a single plot of Schoenfeld residuals verses time because there's only one predictor. To evaluate the proportional hazards assumptions using the plot, determine whether there appears to be time trends. The proportional hazards assumption is met if there is a lack of a trend over time.
+
+#### Test for proportionality
+
+It is also good to conduct a test of proportionality to evaluate the assumption. Recall that one approach for testing the proportional hazards assumption is to put an interaction term in the model between the predictor and time. This is what the code below is doing.
+
+Our null for this hypothesis test is that there is no time-dependent trend in the residuals for that predictor. We can conduct the test using the `proc phreg` test below.
+
+Note that in this test, we need to create a new variable called `group_time`. This variable allows us to examine the time variable by group. The proportionality test is run on this new variable.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc phreg data = lar; 
+  class Randomization(ref="0")/ param = reference;
+  model attempt1_time*attempt1_S_F(0) = Randomization group_time;
+     group_time = Randomization*log(attempt1_time);
+  proportionality_test: test group_time;
+run;
+```
+
+The results of the proportionality test appear in the last table in the output, titled `Linear Hypothesis Testing Results`. NOTE: The resulting *p*-value in the proportionality test will be identical to the *p*-value for that variable_time in the `Type 3 Tests` table. You are being shown this approach, as it extends to testing multiple variables at once (if applicable).
+
+NOTE: SAS and R use different algorithms to perform a proportionality test, so the results will differ. Most of the time the differences will be minimal and the conclusions will be the same, but sometimes you will end up at a different conclusion.
+
+### Model 2: Multiple Cox proportional hazards regression
+
+In this model, we will control for *BMI* and ease of intubation (*Mallampati*). 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc phreg data = lar;
+ class Randomization(ref="0") Mallampati(ref="1") / param = reference;
+ model attempt1_time*attempt1_S_F(0) = Randomization bmi Mallampati / rl = wald;
+run;
+```
+
+#### Pairwise comparisons for multi-categorical predictors
+
+The ease of intubation variable (*Mallampati*) has 4 categories, but we only see 3 of the categories in comparison to the reference group of 1 (which represents "Full Visibility") in the model output. 
+
+To conduct pairwise comparisons for all categories of a predictor that has multiple categories, use the `hazardratio` statement for the variable of interest, and make sure to specify `diff=pairwise` to compute all pairwise comparisons and `cl=wald` to compute Wald confidence intervals.
+
+Note: In this code, we ask for SAS to only list the pairwise comparisons using the `ods select` command. If you want to print out the other information for the model, remove the line `ods select hazardratios;`
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc phreg data=lar;
+ class Randomization(ref="0") Mallampati(ref="1") / param = reference;
+ model attempt1_time*attempt1_S_F(0) = Randomization bmi Mallampati;
+ hazardratio Mallampati / diff = pairwise cl = wald;
+ ods select hazardratios; 
+ /* previous line is optional and limits output to*/
+ /* a table of hazard ratios and confidence limits */
+run;
+```
+
+The first column denotes the two categories that are being compared. The second column (`Point Estimate`) provides the hazard ratios between the two groups and the subsequent columns (`95% Wald Confidence Limits`) provides the lower and upper limits of the confidence interval (which took into account multiple comparisons). You determine statistical significance between the groups as you would for any other hazard ratio (i.e., look to see if 1 is in the interval or not).
+
+#### Checking the proportional hazards assumption
+
+We should also check the proportional hazards assumption for Model 2. The code is similar to the code presented earlier in Model 1. 
+
+Note: When a model has multiple predictors in it, you are often interested in just one (or two) variables. As a result, when checking the proportional hazards assumption, you may only focus on those variables of most interest. That is, you will compute Schoenfeld residuals and test proportionality for only these variables (vs. all variables). This is the approach we will take in the course.  
+
+#### Schoenfeld residual plots
+
+When calculating the Schoenfeld residuals, SAS will compute them based on the order the predictors appear in the coefficients table. The best way to make sure you are computing the residuals as you intend is to put the predictors of most interest at the beginning of the model (after the `=`). For example, since `Randomization` is the predictor of most interest (according to the second research question), it should come directly after the `=` in the `model` statement and the controlling or adjustment variables (i.e., `bmi` and `Mallampati`) are placed after it.  
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+*Finding Schoenfeld residuals;
+proc phreg data=lar noprint;
+ class Randomization(ref="0") Mallampati(ref="1") / param = reference;
+ model attempt1_time*attempt1_S_F(0) = Randomization bmi Mallampati;
+ output out = phout /* name the output dataset */
+ 	ressch = /* create schoenfeld residuals */
+ 		pentax_sch
+ ;		
+run;
+
+proc loess data = phout;
+	model pentax_sch = attempt1_time;
+	ods select fitplot;
+run;
+```
+
+#### Test of proportionality
+
+You will have to create new variables that combine the time variable with each predictor to test whether there is a time trend. Similar to the Schoenfeld residuals, in this course, we will only be testing proportionality for the predictor(s) of most interest.   
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc phreg data = lar;
+ class Randomization(ref="0") Mallampati(ref="1") / param = reference;
+ model attempt1_time * attempt1_S_F(0) = Randomization bmi Mallampati 
+ 							group_time;
+   group_time = Randomization*log(attempt1_time);
+ proportionality_test: test group_time;
+run;
+```
+
+While we will have output similar to previous output, our only interest is in the final table that displays the proportionality test results.
+
+NOTE: If you would like to run proportionality tests on each predictor, you can modify the above code so the `proportionality_test` line contains only one variable_time name. However, the resulting *p*-value will be identical to the *p*-value for that variable_time in the `Type 3 Tests` table. Or if you want to test for all predictor in the model simultaneously, you can add/create more interaction terms to the model in the same way as shown, and test them together by separating the new interaction terms with commas in the `proportionality_test` row.

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Software Lesson 6 Logistic Regression in SAS | 6451 Software Lessons - SAS</title>
+  <meta name="description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Software Lesson 6 Logistic Regression in SAS | 6451 Software Lessons - SAS" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="github-repo" content="hannah-graff-umn/6451BookdownSAS" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Software Lesson 6 Logistic Regression in SAS | 6451 Software Lessons - SAS" />
+  
+  <meta name="twitter:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  
+
+
+
+<meta name="date" content="2026-04-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="multiple-linear-regression-part-4-in-sas.html"/>
+<link rel="next" href="survival-analysis-in-sas.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pubh 6451 Software Lessons - SAS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html"><i class="fa fa-check"></i><b>1</b> Creating Table 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#dataset"><i class="fa fa-check"></i><b>1.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#importing-data"><i class="fa fa-check"></i><b>1.1.1</b> Importing data</a></li>
+<li class="chapter" data-level="1.1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#examine-the-dataset"><i class="fa fa-check"></i><b>1.1.2</b> Examine the dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#creating-table-1"><i class="fa fa-check"></i><b>1.2</b> Creating Table 1</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-1-identify-the-relevant-variables-to-include-in-table-1"><i class="fa fa-check"></i><b>1.2.1</b> Step 1: Identify the relevant variables to include in Table 1</a></li>
+<li class="chapter" data-level="1.2.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-2-determine-which-variables-are-continuous-and-which-are-categorical"><i class="fa fa-check"></i><b>1.2.2</b> Step 2: Determine which variables are continuous and which are categorical</a></li>
+<li class="chapter" data-level="1.2.3" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-3-format-the-values-of-the-categorical-variables-optional"><i class="fa fa-check"></i><b>1.2.3</b> Step 3: Format the values of the categorical variables (optional)</a></li>
+<li class="chapter" data-level="1.2.4" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-4-relabel-the-variable-names-optional"><i class="fa fa-check"></i><b>1.2.4</b> Step 4: Relabel the variable names (optional)</a></li>
+<li class="chapter" data-level="1.2.5" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-5-create-table-1"><i class="fa fa-check"></i><b>1.2.5</b> Step 5: Create Table 1</a></li>
+<li class="chapter" data-level="1.2.6" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-6-export-table-1-to-word-doc"><i class="fa fa-check"></i><b>1.2.6</b> Step 6: Export Table 1 to Word Doc</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html"><i class="fa fa-check"></i><b>2</b> Multiple Linear Regression, Part 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#dataset-1"><i class="fa fa-check"></i><b>2.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#multiple-linear-regression"><i class="fa fa-check"></i><b>2.1.1</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="2.1.2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#fit-multiple-linear-regression-model"><i class="fa fa-check"></i><b>2.1.2</b> Fit multiple linear regression model</a></li>
+<li class="chapter" data-level="2.1.3" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#set-the-reference-group-for-a-categorical-predictor"><i class="fa fa-check"></i><b>2.1.3</b> Set the reference group for a categorical predictor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html"><i class="fa fa-check"></i><b>3</b> Multiple Linear Regression, Part 2 in SAS</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#dataset-2"><i class="fa fa-check"></i><b>3.1</b> Dataset</a></li>
+<li class="chapter" data-level="3.2" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#multicategorical-predictors"><i class="fa fa-check"></i><b>3.2</b> Multicategorical Predictors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#conduct-overall-test-for-multicategorical-predictors"><i class="fa fa-check"></i><b>3.2.1</b> Conduct overall test for multicategorical predictors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html"><i class="fa fa-check"></i><b>4</b> Multiple Linear Regression, Part 3 in SAS</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#dataset-3"><i class="fa fa-check"></i><b>4.1</b> Dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#model-diagnostics"><i class="fa fa-check"></i><b>4.2</b> Model Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#calculate-measures-of-model-fit"><i class="fa fa-check"></i><b>4.2.1</b> Calculate measures of model fit</a></li>
+<li class="chapter" data-level="4.2.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#check-for-outliers-and-influential-points"><i class="fa fa-check"></i><b>4.2.2</b> Check for outliers and influential points</a></li>
+<li class="chapter" data-level="4.2.3" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#collinearity-and-multicollinearity"><i class="fa fa-check"></i><b>4.2.3</b> Collinearity and multicollinearity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html"><i class="fa fa-check"></i><b>5</b> Multiple Linear Regression, Part 4 in SAS</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#dataset-4"><i class="fa fa-check"></i><b>5.1</b> Dataset</a></li>
+<li class="chapter" data-level="5.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interactions"><i class="fa fa-check"></i><b>5.2</b> Interactions</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-one-binary-and-one-continuous-predictor"><i class="fa fa-check"></i><b>5.2.1</b> Interaction between one binary and one continuous predictor</a></li>
+<li class="chapter" data-level="5.2.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#collapse-categories-in-a-categorical-variable"><i class="fa fa-check"></i><b>5.2.2</b> Collapse categories in a categorical variable</a></li>
+<li class="chapter" data-level="5.2.3" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plot-fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.3</b> Create interaction plot &amp; Fit a model with interaction term</a></li>
+<li class="chapter" data-level="5.2.4" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-two-binary-predictors"><i class="fa fa-check"></i><b>5.2.4</b> Interaction between two binary predictors</a></li>
+<li class="chapter" data-level="5.2.5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plots"><i class="fa fa-check"></i><b>5.2.5</b> Create interaction plots</a></li>
+<li class="chapter" data-level="5.2.6" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.6</b> Fit a model with interaction term</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html"><i class="fa fa-check"></i><b>6</b> Logistic Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#dataset-5"><i class="fa fa-check"></i><b>6.1</b> Dataset</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#fit-logistic-regression-model"><i class="fa fa-check"></i><b>6.2.1</b> Fit logistic regression model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#model-evaluation"><i class="fa fa-check"></i><b>6.3</b> Model Evaluation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html"><i class="fa fa-check"></i><b>7</b> Survival Analysis in SAS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#dataset-6"><i class="fa fa-check"></i><b>7.1</b> Dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#survival-analysis"><i class="fa fa-check"></i><b>7.2</b> Survival Analysis</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#create-kaplan-meier-survival-curve"><i class="fa fa-check"></i><b>7.2.1</b> Create Kaplan-Meier survival curve</a></li>
+<li class="chapter" data-level="7.2.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-quartile-e.g.-q1-median-q3-survival-times"><i class="fa fa-check"></i><b>7.2.2</b> Compute quartile (e.g., Q1, median, Q3) survival time(s)</a></li>
+<li class="chapter" data-level="7.2.3" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-survival-at-specific-time-points"><i class="fa fa-check"></i><b>7.2.3</b> Compute survival at specific time points</a></li>
+<li class="chapter" data-level="7.2.4" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#conduct-hypothesis-test-for-comparing-two-groups-on-time-to-event-outcome"><i class="fa fa-check"></i><b>7.2.4</b> Conduct hypothesis test for comparing two groups on time-to-event outcome</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html"><i class="fa fa-check"></i><b>8</b> Proportional Hazards Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#dataset-7"><i class="fa fa-check"></i><b>8.1</b> Dataset</a></li>
+<li class="chapter" data-level="8.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#exploratory-data-analysis-eda"><i class="fa fa-check"></i><b>8.2</b> Exploratory Data Analysis (EDA)</a></li>
+<li class="chapter" data-level="8.3" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-fitting"><i class="fa fa-check"></i><b>8.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-1-cox-proportional-hazards-regression-with-a-categorical-predictor"><i class="fa fa-check"></i><b>8.3.1</b> Model 1: Cox proportional hazards regression with a categorical predictor</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-2-multiple-cox-proportional-hazards-regression"><i class="fa fa-check"></i><b>8.3.2</b> Model 2: Multiple Cox proportional hazards regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="project-1.html"><a href="project-1.html"><i class="fa fa-check"></i><b>9</b> Project 1</a></li>
+<li class="chapter" data-level="10" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html"><i class="fa fa-check"></i><b>10</b> Poisson Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#datasets"><i class="fa fa-check"></i><b>10.1</b> Datasets</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-1-lung-health-study"><i class="fa fa-check"></i><b>10.1.1</b> Dataset #1: Lung Health Study</a></li>
+<li class="chapter" data-level="10.1.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-2-canadian-smoking-and-death-study"><i class="fa fa-check"></i><b>10.1.2</b> Dataset #2: Canadian Smoking and Death Study</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data"><i class="fa fa-check"></i><b>10.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data-cleaning"><i class="fa fa-check"></i><b>10.2.1</b> Data cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-fitting-1"><i class="fa fa-check"></i><b>10.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-1-count-data-with-a-fixed-denominator"><i class="fa fa-check"></i><b>10.3.1</b> Model 1: Count data with a fixed denominator</a></li>
+<li class="chapter" data-level="10.3.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-evaluation-1"><i class="fa fa-check"></i><b>10.3.2</b> Model Evaluation</a></li>
+<li class="chapter" data-level="10.3.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#models-for-overdispersed-data"><i class="fa fa-check"></i><b>10.3.3</b> Models for overdispersed data</a></li>
+<li class="chapter" data-level="10.3.4" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-2-binary-data-with-a-variable-denominator-offset-term"><i class="fa fa-check"></i><b>10.3.4</b> Model 2: Binary data with a variable denominator (offset term)</a></li>
+<li class="chapter" data-level="10.3.5" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-3-binary-data-with-a-variable-denominator-and-a-covariate"><i class="fa fa-check"></i><b>10.3.5</b> Model 3: Binary data with a variable denominator and a covariate</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html"><i class="fa fa-check"></i><b>11</b> Other Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#dataset-8"><i class="fa fa-check"></i><b>11.1</b> Dataset</a></li>
+<li class="chapter" data-level="11.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-ordinal-regression"><i class="fa fa-check"></i><b>11.2</b> Log-Binomial &amp; Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regressiono"><i class="fa fa-check"></i><b>11.2.1</b> Log-Binomial RegressionO</a></li>
+<li class="chapter" data-level="11.2.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-1"><i class="fa fa-check"></i><b>11.2.2</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.2.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#putting-all-edits-together"><i class="fa fa-check"></i><b>11.2.3</b> Putting All Edits Together</a></li>
+<li class="chapter" data-level="11.2.4" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regression-model"><i class="fa fa-check"></i><b>11.2.4</b> Log-Binomial Regression Model</a></li>
+<li class="chapter" data-level="11.2.5" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#estimate-effect-of-predictors-1"><i class="fa fa-check"></i><b>11.2.5</b> Estimate effect of predictors</a></li>
+<li class="chapter" data-level="11.2.6" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#relative-risk"><i class="fa fa-check"></i><b>11.2.6</b> Relative Risk</a></li>
+<li class="chapter" data-level="11.2.7" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#predicted-risk"><i class="fa fa-check"></i><b>11.2.7</b> Predicted Risk</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression"><i class="fa fa-check"></i><b>11.3</b> Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-2"><i class="fa fa-check"></i><b>11.3.1</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.3.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression-model"><i class="fa fa-check"></i><b>11.3.2</b> Ordinal Regression Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html"><i class="fa fa-check"></i><b>12</b> Sample Size and Power in SAS</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#introduction-1"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#methods"><i class="fa fa-check"></i><b>12.2</b> Methods</a></li>
+<li class="chapter" data-level="12.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-means"><i class="fa fa-check"></i><b>12.3</b> Differences in Group Means</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes"><i class="fa fa-check"></i><b>12.3.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.3.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid"><i class="fa fa-check"></i><b>12.3.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.3.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid"><i class="fa fa-check"></i><b>12.3.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-proportions"><i class="fa fa-check"></i><b>12.4</b> Differences in Group Proportions</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes-1"><i class="fa fa-check"></i><b>12.4.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.4.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid-1"><i class="fa fa-check"></i><b>12.4.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.4.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid-1"><i class="fa fa-check"></i><b>12.4.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">6451 Software Lessons - SAS</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="logistic-regression-in-sas" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Software Lesson 6</span> Logistic Regression in SAS<a href="logistic-regression-in-sas.html#logistic-regression-in-sas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="graybox">
+<p><font size="4"><strong>Goals</strong></font></p>
+<p>The goal of this software lesson is to learn how to</p>
+<ul>
+<li>fit a logistic regression model and obtain estimates for the effect of a predictor in terms of log odds and in terms of odds ratios, and</li>
+<li>obtain model diagnostics to check assumptions and evaluate the model fit.</li>
+</ul>
+</div>
+<div id="dataset-5" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Dataset<a href="logistic-regression-in-sas.html#dataset-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this software lesson, you will use the Core Temperature dataset. The dataset, data dictionary, and dataset introduction can be found on Canvas, titled <em>Core-Temp.csv</em>, <em>Core-Temp-Data-Dictionary.pdf</em>, and <em>Core-Temp-Dataset-Intro.pdf</em>, respectively.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="logistic-regression-in-sas.html#cb32-1" tabindex="-1"></a>proc import</span>
+<span id="cb32-2"><a href="logistic-regression-in-sas.html#cb32-2" tabindex="-1"></a>  DATAFILE <span class="ot">=</span> <span class="st">&quot;/&lt;filepath&gt;/Core-Temp.csv&quot;</span></span>
+<span id="cb32-3"><a href="logistic-regression-in-sas.html#cb32-3" tabindex="-1"></a>  OUT <span class="ot">=</span> core_temp</span>
+<span id="cb32-4"><a href="logistic-regression-in-sas.html#cb32-4" tabindex="-1"></a>  DBMS <span class="ot">=</span> csv</span>
+<span id="cb32-5"><a href="logistic-regression-in-sas.html#cb32-5" tabindex="-1"></a>  REPLACE;</span>
+<span id="cb32-6"><a href="logistic-regression-in-sas.html#cb32-6" tabindex="-1"></a>  GETNAMES <span class="ot">=</span> yes;</span>
+<span id="cb32-7"><a href="logistic-regression-in-sas.html#cb32-7" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+<div id="logistic-regression" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Logistic Regression<a href="logistic-regression-in-sas.html#logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Thus far in the course, you have focused on <em>linear</em> regression, which is used when you have a continuous outcome. But, if the outcome is not continuous, other types of regression methods are necessary. This software lesson builds on what you have learned thus far, but focuses on <em>logistic</em> regression, which is used when you have a binary outcome.</p>
+<p>In the Core Temperature study, the researchers were interested in examining the relationship between the development of serious infections (<code>SeriousInfection</code>) and time weighted average core temperature (<code>TWATemp</code>) in Celsius, after adjusting for <code>Age</code> at time of surgery (in years), sex (<code>FEMALE</code>), body mass index at time of surgery (<code>BMI</code>), and Charlson score (<code>CharlsonScore</code>). In this example, <code>TWATemp</code> is the predictor of interest, and <code>Age</code>, sex, <code>BMI</code>, and <code>CharlsonScore</code> are considered to potential confounders.</p>
+<div id="fit-logistic-regression-model" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Fit logistic regression model<a href="logistic-regression-in-sas.html#fit-logistic-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When you fit a logistic regression model, you can obtain regression coefficient results in terms of log odds or odds ratios. The model is fit on the log-odds scale, but the results are often more interpretable when the values are converted to odds ratios.</p>
+<p><em>Estimates in terms of log odds and odds ratios</em></p>
+<ul>
+<li>To fit a logistic regression model and obtain log odd estimates, use
+<ul>
+<li><code>proc logistic</code>, specifying the name of the dataset,</li>
+<li>the <code>CLASS</code> statement with all the categorical variables in the model and setting the reference level using <code>(ref="value")</code> (if applicable), and</li>
+<li>the <code>MODEL</code> statement with the form <code>y(event="value") = x1 x2 x3</code>, denoting the event of interest in quotation marks for the response variable and separating the x-variables with a space and including the options of <code>cl</code> to get obtain confidence intervals:</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="logistic-regression-in-sas.html#cb33-1" tabindex="-1"></a>proc logistic data <span class="ot">=</span> core_temp;</span>
+<span id="cb33-2"><a href="logistic-regression-in-sas.html#cb33-2" tabindex="-1"></a>CLASS <span class="fu">FEMALE</span>(<span class="at">ref=</span><span class="st">&quot;0&quot;</span>) <span class="sc">/</span> param<span class="ot">=</span>ref; </span>
+<span id="cb33-3"><a href="logistic-regression-in-sas.html#cb33-3" tabindex="-1"></a>MODEL <span class="fu">SeriousInfection</span>(<span class="at">event=</span><span class="st">&quot;1&quot;</span>) <span class="ot">=</span> TWATemp Age FEMALE BMI CharlsonScore <span class="sc">/</span> cl; </span>
+<span id="cb33-4"><a href="logistic-regression-in-sas.html#cb33-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Note: Predictor variables that are already coded as indicator variables (such as FEMALE, which is coded 1 if female and 0 if not) do not need to be included in the CLASS statement at all. But if they are included, then be sure to set ref=“0”; otherwise SAS by default will recode them with the last level (1 in this case) as the reference level.</p>
+<p>The output provides twelve tables. The tables of interest for this week are in ninth (titled <code>Analysis of Maximum Likelihood Estimates</code>), tenth (titled <code>Odds Ratio Estimates</code>), and twelfth (titled <code>Parameter Estimates and Wald Confidence Intervals</code>) tables.</p>
+<p>The <code>Analysis of Maximum Likelihood Estimates</code> (ninth) table provides the information for the regression coefficients, in terms of log-odds, including:</p>
+<ul>
+<li><p>the regression coefficient values in terms of log odds under the column <code>Estimate</code>, with the intercept denoted in the first row and the regression coefficients denoted in the subsequent rows. For example, the regression coefficient value for <code>TWATemp</code> is 0.230, which means that for every one-degree (in Celsius) increase in core temperature, the log odds of a developing serious infection increases by 0.230 (holding all else constant).</p></li>
+<li><p>the <em>p</em>-values for testing the regression coefficients in the column <code>Pr &gt; ChiSq</code>.</p></li>
+</ul>
+<p>The <code>Odds Ratio Estimates</code> (tenth) table displays the odds ratios (<code>Point Estimate</code>) and their confidence intervals (<code>95% Wald Confidence Limits</code>) for each of the predictors. For example, the regression coefficient value for <code>TWATemp</code> is 1.2587 (which is <span class="math inline">\(exp(0.230)\)</span>), which means that for every one-degree (in Celsius) increase in core temperature, the odds of a developing serious infection increases by 25.87% (holding all else constant).</p>
+<p>The <code>Parameter Estimates and Wald Confidence Intervals</code> (twelfth) table presents the log-odds estimates (again) (<code>Estimate</code>) and their confidence intervals (<code>95% Confidence Limits</code>) for each of the predictors.</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional SAS Resources on logistic regression, see:</p>
+<ul>
+<li><a href="https://stats.idre.ucla.edu/sas/dae/logit-regression/"> Logit Regression </a> (UCLA)</li>
+<li><a href="https://stats.idre.ucla.edu/sas/output/proc-logistic/"> PROC LOGISTIC SAS Annotated Output </a> (UCLA)</li>
+<li><a href="https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_logistic_sect049.htm"> ODS Table Names in PROC LOGISTIC </a> (SAS)</li>
+<li><a href="https://www.youtube.com/watch?v=DKWoM_Greyk"> Saving Predicted Probability in PROC Logistic VIDEO </a> (Analytics University)</li>
+<li><a href="https://support.sas.com/documentation/cdl/en/statug/63962/HTML/default/viewer.htm#statug_logistic_sect018.htm"> Output statement in PROC LOGISTIC </a> (SAS)</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="model-evaluation" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Model Evaluation<a href="logistic-regression-in-sas.html#model-evaluation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As with any statistical method, you need to check model assumptions and evaluate model fit. Some code from previous software lessons also apply for logistic regression:</p>
+<ul>
+<li><code>proc corr</code> for checking multicollinearity (Note: You can’t get VIF values using <code>proc logistic</code> in SAS)</li>
+</ul>
+<p>Only new model diagnostic topics are presented in this software lesson.</p>
+<p><em>Linearity of continuous predictors</em></p>
+<p>One of the assumptions for logistic regression is <strong>L</strong>inearity, meaning the continuous predictor(s) needs to be linearly related to the <em>log odds</em> of the binary outcome. You can check this by examining a scatterplot of the model-predicted log odds (i.e., logit) verses the continuous predictor and look to see if the form is approximately linear.</p>
+<ul>
+<li>To create scatterplot(s) of model-predicted logit vs. continuous predictor(s),
+<ul>
+<li>first, use the code you have seen thus far, include the option <code>NOPRINT</code> to suppress displaying the results and use the <code>OUTPUT</code> statement, specifying the name of the new dataset in <code>out=</code> , and the statistics you want to save (e.g., <code>predicted</code> for probabilities) followed by how you want to name of the variable after the equals sign.</li>
+<li>Then, create a copy of the <code>model1</code> dataset and create a new variable that computes the log-odds (i.e., logit) for each observation (<code>logit = log(probabilities/(1-probabilities))</code>).</li>
+<li>Then, for each predictor, use <code>proc sgplot</code>, specifying the name of the dataset, followed by the <code>LOESS</code> statement, specifying a continuous predictor for the x-axis (e.g., <code>x = TWATemp</code>), the logits for the y-axis (<code>y = logit</code>), and the option to modify the line color (<code>lineattrs = (color = "blue")</code>), and finally the <code>REG</code> statement with similar structure to <code>LOESS</code> (but changing the line color to red):</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="logistic-regression-in-sas.html#cb34-1" tabindex="-1"></a><span class="sc">*</span>Saving the model<span class="sc">-</span>predicted probabilities to a new dataset; </span>
+<span id="cb34-2"><a href="logistic-regression-in-sas.html#cb34-2" tabindex="-1"></a>proc logistic data <span class="ot">=</span> core_temp NOPRINT;</span>
+<span id="cb34-3"><a href="logistic-regression-in-sas.html#cb34-3" tabindex="-1"></a>CLASS <span class="fu">FEMALE</span>(<span class="at">ref=</span><span class="st">&quot;0&quot;</span>) <span class="sc">/</span> param<span class="ot">=</span>ref; </span>
+<span id="cb34-4"><a href="logistic-regression-in-sas.html#cb34-4" tabindex="-1"></a>MODEL <span class="fu">SeriousInfection</span>(<span class="at">event=</span><span class="st">&quot;1&quot;</span>) <span class="ot">=</span> TWATemp Age FEMALE BMI CharlsonScore <span class="sc">/</span> cl; </span>
+<span id="cb34-5"><a href="logistic-regression-in-sas.html#cb34-5" tabindex="-1"></a>OUTPUT out <span class="ot">=</span> model1 predicted <span class="ot">=</span> probabilities;</span>
+<span id="cb34-6"><a href="logistic-regression-in-sas.html#cb34-6" tabindex="-1"></a>run;</span>
+<span id="cb34-7"><a href="logistic-regression-in-sas.html#cb34-7" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="logistic-regression-in-sas.html#cb34-8" tabindex="-1"></a><span class="sc">*</span>Calculating the model<span class="sc">-</span>predicted log<span class="sc">-</span><span class="fu">odds</span> (logit) values; </span>
+<span id="cb34-9"><a href="logistic-regression-in-sas.html#cb34-9" tabindex="-1"></a>data model1;</span>
+<span id="cb34-10"><a href="logistic-regression-in-sas.html#cb34-10" tabindex="-1"></a>  SET model1;</span>
+<span id="cb34-11"><a href="logistic-regression-in-sas.html#cb34-11" tabindex="-1"></a>  logit <span class="ot">=</span> <span class="fu">log</span>(probabilities<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>probabilities));</span>
+<span id="cb34-12"><a href="logistic-regression-in-sas.html#cb34-12" tabindex="-1"></a>run;</span>
+<span id="cb34-13"><a href="logistic-regression-in-sas.html#cb34-13" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="logistic-regression-in-sas.html#cb34-14" tabindex="-1"></a><span class="sc">*</span>Scatterplot of logit vs. TWATemp; </span>
+<span id="cb34-15"><a href="logistic-regression-in-sas.html#cb34-15" tabindex="-1"></a>ods GRAPHICS <span class="sc">/</span> LOESSOBSMAX <span class="ot">=</span> <span class="dv">8000</span>; <span class="sc">*</span>Needed only <span class="cf">for</span> datasets larger than <span class="dv">5000</span>; </span>
+<span id="cb34-16"><a href="logistic-regression-in-sas.html#cb34-16" tabindex="-1"></a>proc sgplot data <span class="ot">=</span> model1;</span>
+<span id="cb34-17"><a href="logistic-regression-in-sas.html#cb34-17" tabindex="-1"></a>LOESS x <span class="ot">=</span> TWATemp y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>);</span>
+<span id="cb34-18"><a href="logistic-regression-in-sas.html#cb34-18" tabindex="-1"></a>REG x <span class="ot">=</span> TWATemp y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;red&quot;</span>);</span>
+<span id="cb34-19"><a href="logistic-regression-in-sas.html#cb34-19" tabindex="-1"></a>run;</span>
+<span id="cb34-20"><a href="logistic-regression-in-sas.html#cb34-20" tabindex="-1"></a></span>
+<span id="cb34-21"><a href="logistic-regression-in-sas.html#cb34-21" tabindex="-1"></a><span class="sc">*</span>Scatterplot of logit vs. Age; </span>
+<span id="cb34-22"><a href="logistic-regression-in-sas.html#cb34-22" tabindex="-1"></a>ods GRAPHICS <span class="sc">/</span> LOESSOBSMAX <span class="ot">=</span> <span class="dv">8000</span>; <span class="sc">*</span>Needed only <span class="cf">for</span> datasets larger than <span class="dv">5000</span>;</span>
+<span id="cb34-23"><a href="logistic-regression-in-sas.html#cb34-23" tabindex="-1"></a>proc sgplot data <span class="ot">=</span> model1;</span>
+<span id="cb34-24"><a href="logistic-regression-in-sas.html#cb34-24" tabindex="-1"></a>LOESS x <span class="ot">=</span> Age y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>);</span>
+<span id="cb34-25"><a href="logistic-regression-in-sas.html#cb34-25" tabindex="-1"></a>REG x <span class="ot">=</span> Age y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;red&quot;</span>);</span>
+<span id="cb34-26"><a href="logistic-regression-in-sas.html#cb34-26" tabindex="-1"></a>run;</span>
+<span id="cb34-27"><a href="logistic-regression-in-sas.html#cb34-27" tabindex="-1"></a></span>
+<span id="cb34-28"><a href="logistic-regression-in-sas.html#cb34-28" tabindex="-1"></a><span class="sc">*</span>Scatterplot of logit vs. BMI; </span>
+<span id="cb34-29"><a href="logistic-regression-in-sas.html#cb34-29" tabindex="-1"></a>ods GRAPHICS <span class="sc">/</span> LOESSOBSMAX <span class="ot">=</span> <span class="dv">8000</span>; <span class="sc">*</span>Needed only <span class="cf">for</span> datasets larger than <span class="dv">5000</span>;</span>
+<span id="cb34-30"><a href="logistic-regression-in-sas.html#cb34-30" tabindex="-1"></a>proc sgplot data <span class="ot">=</span> model1;</span>
+<span id="cb34-31"><a href="logistic-regression-in-sas.html#cb34-31" tabindex="-1"></a>LOESS x <span class="ot">=</span> BMI y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>);</span>
+<span id="cb34-32"><a href="logistic-regression-in-sas.html#cb34-32" tabindex="-1"></a>REG x <span class="ot">=</span> BMI y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;red&quot;</span>);</span>
+<span id="cb34-33"><a href="logistic-regression-in-sas.html#cb34-33" tabindex="-1"></a>run;</span>
+<span id="cb34-34"><a href="logistic-regression-in-sas.html#cb34-34" tabindex="-1"></a></span>
+<span id="cb34-35"><a href="logistic-regression-in-sas.html#cb34-35" tabindex="-1"></a><span class="sc">*</span>Scatterplot of logit vs. CharlsonScore; </span>
+<span id="cb34-36"><a href="logistic-regression-in-sas.html#cb34-36" tabindex="-1"></a>ods GRAPHICS <span class="sc">/</span> LOESSOBSMAX <span class="ot">=</span> <span class="dv">8000</span>; <span class="sc">*</span>Needed only <span class="cf">for</span> datasets larger than <span class="dv">5000</span>;</span>
+<span id="cb34-37"><a href="logistic-regression-in-sas.html#cb34-37" tabindex="-1"></a>proc sgplot data <span class="ot">=</span> model1;</span>
+<span id="cb34-38"><a href="logistic-regression-in-sas.html#cb34-38" tabindex="-1"></a>LOESS x <span class="ot">=</span> CharlsonScore y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>);</span>
+<span id="cb34-39"><a href="logistic-regression-in-sas.html#cb34-39" tabindex="-1"></a>REG x <span class="ot">=</span> CharlsonScore y <span class="ot">=</span> logit <span class="sc">/</span> lineattrs <span class="ot">=</span> (<span class="at">color =</span> <span class="st">&quot;red&quot;</span>);</span>
+<span id="cb34-40"><a href="logistic-regression-in-sas.html#cb34-40" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output is scatterplots of logit vs. continuous predictor(s), one scatterplot for every continuous predictor in the model. For the Core Temperature study example, there were four continuous predictors in the model, so four scatterplots are created.</p>
+<p>The blue curve is a “best-fit” curve to the data, called loess - a smoothing curve - and doesn’t assume any sort of form/model of the data. The red line is a “best-fit” <em>linear</em> line to the data, where the model is assumed to be a straight line. To evaluate the the linearity of the continuous predictors, you compare the blue curve to the red line in each of the plots. If the two follow a similar trajectory or are relatively the same, then the linearity assumption is met. If the blue curve has a different form (e.g., curved) than red line, then the linearity assumption isn’t met for that predictor.</p>
+<p><em>Model Fit: Likelihood ratio test and AIC</em></p>
+<p>You can use likelihood ratio test (LRT) and AIC to compare model fit between several models. <code>Proc logistic</code> automatically provides you with the LRT result as well as the AIC for the model.</p>
+<p>The AIC value is found in the sixth table (titled <code>Model Fit Statistics</code>). SAS presents the AIC for two models, one for <code>Intercept Only</code> and one for the “full” model (the one you specified) in the <code>Intercept and Covariates</code> column. (Recall that this statistic is best used when you are comparing models to see which model fits the data better. And in this case, you can compare the specified model with a model with no predictors (“intercept-only”)).</p>
+<p>The LRT is found in the seventh table (titled <code>Testing Global Null Hypothesis: BETA=0</code>), in the <code>Liklihood Ratio</code> row. It is an omnibus test, comparing the specified model to a model with only the intercept value. (Note: LRT can also be used more generally to compare different subsets of models. This topic will be discussed later in this course.)</p>
+<p><em>Hosmer-Lemeshow Goodness-Of-Fit test</em></p>
+<p>One test that can be used to check for the goodness-of-fit of the logistic regression model is the Hosmer-Lemeshow test. The Hosmer-Lemeshow test provides an overall or global assessment of how well the (logistic) model fits the data. The null hypothesis is that the model fits the data well.</p>
+<ul>
+<li>To conduct the Hosmer-Lemeshow test, use the code you have seen thus far, but add the <code>lackfit</code> option in the <code>MODEL</code> statement:</li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="logistic-regression-in-sas.html#cb35-1" tabindex="-1"></a>proc logistic data <span class="ot">=</span> core_temp;</span>
+<span id="cb35-2"><a href="logistic-regression-in-sas.html#cb35-2" tabindex="-1"></a>CLASS <span class="fu">FEMALE</span>(<span class="at">ref=</span><span class="st">&quot;0&quot;</span>) <span class="sc">/</span> param<span class="ot">=</span>ref; </span>
+<span id="cb35-3"><a href="logistic-regression-in-sas.html#cb35-3" tabindex="-1"></a>MODEL <span class="fu">SeriousInfection</span>(<span class="at">event=</span><span class="st">&quot;1&quot;</span>) <span class="ot">=</span> TWATemp Age FEMALE BMI CharlsonScore <span class="sc">/</span> cl lackfit; </span>
+<span id="cb35-4"><a href="logistic-regression-in-sas.html#cb35-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Two additional tables are added to the bottom of the output. The last table (the fourteenth one, titled <code>Hosmer and Lemeshow Goodness-of-Fit Test</code>) displays the test statistic (<code>Chi-Square</code>), the degrees of freedom (<code>DF</code>), and the <em>p</em>-value for the test (<code>Pr &gt; ChiSq</code>).</p>
+<p><em>Influential observations: DFBETAs</em></p>
+<p>Recall that you can evaluate influential observations by examining the Cook’s distance and DFBETAs for each observation. In SAS, you can create plots of the DFBETAs verses observation number for a logistic model, but unfortunately, one cannot compute Cook’s distance values.</p>
+<ul>
+<li>To create a plot of DFBETAs values verses observation number, use the code you have seen thus far, but add the <code>PLOT(ONLY)</code> option to <code>proc logistic</code>, specifying <code>DFBETAS</code> for the DFBETAs plot (Note: You only need to include <code>MAXPOINTS=NONE</code> for datasets that have more than 5,000 observations):</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="logistic-regression-in-sas.html#cb36-1" tabindex="-1"></a>proc logistic data <span class="ot">=</span> core_temp <span class="fu">PLOTS</span>(ONLY <span class="at">MAXPOINTS=</span>NONE) <span class="ot">=</span> DFBETAS;</span>
+<span id="cb36-2"><a href="logistic-regression-in-sas.html#cb36-2" tabindex="-1"></a>CLASS <span class="fu">FEMALE</span>(<span class="at">ref=</span><span class="st">&quot;0&quot;</span>) <span class="sc">/</span> param<span class="ot">=</span>ref; </span>
+<span id="cb36-3"><a href="logistic-regression-in-sas.html#cb36-3" tabindex="-1"></a>MODEL <span class="fu">SeriousInfection</span>(<span class="at">event=</span><span class="st">&quot;1&quot;</span>) <span class="ot">=</span> TWATemp Age FEMALE BMI CharlsonScore <span class="sc">/</span> cl; </span>
+<span id="cb36-4"><a href="logistic-regression-in-sas.html#cb36-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The plots are displayed at the bottom of the output, one for each regression coefficient, including the intercept. For example, for the specified model for this software lesson, there are five predictors in the model, so that means there are six plots created (five plots, one for each predictor, and one for the intercept term).</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional SAS Resources on diagnostics for logistic regression, see:</p>
+<ul>
+<li><a href="https://www.lexjansen.com/wuss/2013/135_Paper.pdf"> A Tutorial on PROC LOGISTIC </a> (Arthur Li)</li>
+</ul>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="multiple-linear-regression-part-4-in-sas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="survival-analysis-in-sas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

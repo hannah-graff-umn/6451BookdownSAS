@@ -1,0 +1,17 @@
+--- 
+title: "6451 Software Lessons - SAS"
+date: "2026-04-23"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
+lang: "en"
+github-repo: hannah-graff-umn/6451BookdownSAS
+url: 'http\://hannah-graff-umn.com/6451BookdownSAS/'
+description: "SAS software lessons for U of M's PUBH 6451 class."
+---
+
+# Introduction {-}
+
+General Information

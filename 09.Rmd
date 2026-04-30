@@ -1,0 +1,11 @@
+# Project 1
+
+::: {.graybox}
+
+<font size="4">**Goals**</font>
+
+The goal of this software lesson is to learn how to
+
+* complete Project 1
+
+:::

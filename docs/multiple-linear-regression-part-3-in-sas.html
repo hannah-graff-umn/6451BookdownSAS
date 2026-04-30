@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Software Lesson 4 Multiple Linear Regression, Part 3 in SAS | 6451 Software Lessons - SAS</title>
+  <meta name="description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Software Lesson 4 Multiple Linear Regression, Part 3 in SAS | 6451 Software Lessons - SAS" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="github-repo" content="hannah-graff-umn/6451BookdownSAS" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Software Lesson 4 Multiple Linear Regression, Part 3 in SAS | 6451 Software Lessons - SAS" />
+  
+  <meta name="twitter:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  
+
+
+
+<meta name="date" content="2026-04-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="multiple-linear-regression-part-2-in-sas.html"/>
+<link rel="next" href="multiple-linear-regression-part-4-in-sas.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pubh 6451 Software Lessons - SAS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html"><i class="fa fa-check"></i><b>1</b> Creating Table 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#dataset"><i class="fa fa-check"></i><b>1.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#importing-data"><i class="fa fa-check"></i><b>1.1.1</b> Importing data</a></li>
+<li class="chapter" data-level="1.1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#examine-the-dataset"><i class="fa fa-check"></i><b>1.1.2</b> Examine the dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#creating-table-1"><i class="fa fa-check"></i><b>1.2</b> Creating Table 1</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-1-identify-the-relevant-variables-to-include-in-table-1"><i class="fa fa-check"></i><b>1.2.1</b> Step 1: Identify the relevant variables to include in Table 1</a></li>
+<li class="chapter" data-level="1.2.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-2-determine-which-variables-are-continuous-and-which-are-categorical"><i class="fa fa-check"></i><b>1.2.2</b> Step 2: Determine which variables are continuous and which are categorical</a></li>
+<li class="chapter" data-level="1.2.3" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-3-format-the-values-of-the-categorical-variables-optional"><i class="fa fa-check"></i><b>1.2.3</b> Step 3: Format the values of the categorical variables (optional)</a></li>
+<li class="chapter" data-level="1.2.4" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-4-relabel-the-variable-names-optional"><i class="fa fa-check"></i><b>1.2.4</b> Step 4: Relabel the variable names (optional)</a></li>
+<li class="chapter" data-level="1.2.5" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-5-create-table-1"><i class="fa fa-check"></i><b>1.2.5</b> Step 5: Create Table 1</a></li>
+<li class="chapter" data-level="1.2.6" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-6-export-table-1-to-word-doc"><i class="fa fa-check"></i><b>1.2.6</b> Step 6: Export Table 1 to Word Doc</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html"><i class="fa fa-check"></i><b>2</b> Multiple Linear Regression, Part 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#dataset-1"><i class="fa fa-check"></i><b>2.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#multiple-linear-regression"><i class="fa fa-check"></i><b>2.1.1</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="2.1.2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#fit-multiple-linear-regression-model"><i class="fa fa-check"></i><b>2.1.2</b> Fit multiple linear regression model</a></li>
+<li class="chapter" data-level="2.1.3" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#set-the-reference-group-for-a-categorical-predictor"><i class="fa fa-check"></i><b>2.1.3</b> Set the reference group for a categorical predictor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html"><i class="fa fa-check"></i><b>3</b> Multiple Linear Regression, Part 2 in SAS</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#dataset-2"><i class="fa fa-check"></i><b>3.1</b> Dataset</a></li>
+<li class="chapter" data-level="3.2" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#multicategorical-predictors"><i class="fa fa-check"></i><b>3.2</b> Multicategorical Predictors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#conduct-overall-test-for-multicategorical-predictors"><i class="fa fa-check"></i><b>3.2.1</b> Conduct overall test for multicategorical predictors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html"><i class="fa fa-check"></i><b>4</b> Multiple Linear Regression, Part 3 in SAS</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#dataset-3"><i class="fa fa-check"></i><b>4.1</b> Dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#model-diagnostics"><i class="fa fa-check"></i><b>4.2</b> Model Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#calculate-measures-of-model-fit"><i class="fa fa-check"></i><b>4.2.1</b> Calculate measures of model fit</a></li>
+<li class="chapter" data-level="4.2.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#check-for-outliers-and-influential-points"><i class="fa fa-check"></i><b>4.2.2</b> Check for outliers and influential points</a></li>
+<li class="chapter" data-level="4.2.3" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#collinearity-and-multicollinearity"><i class="fa fa-check"></i><b>4.2.3</b> Collinearity and multicollinearity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html"><i class="fa fa-check"></i><b>5</b> Multiple Linear Regression, Part 4 in SAS</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#dataset-4"><i class="fa fa-check"></i><b>5.1</b> Dataset</a></li>
+<li class="chapter" data-level="5.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interactions"><i class="fa fa-check"></i><b>5.2</b> Interactions</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-one-binary-and-one-continuous-predictor"><i class="fa fa-check"></i><b>5.2.1</b> Interaction between one binary and one continuous predictor</a></li>
+<li class="chapter" data-level="5.2.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#collapse-categories-in-a-categorical-variable"><i class="fa fa-check"></i><b>5.2.2</b> Collapse categories in a categorical variable</a></li>
+<li class="chapter" data-level="5.2.3" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plot-fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.3</b> Create interaction plot &amp; Fit a model with interaction term</a></li>
+<li class="chapter" data-level="5.2.4" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-two-binary-predictors"><i class="fa fa-check"></i><b>5.2.4</b> Interaction between two binary predictors</a></li>
+<li class="chapter" data-level="5.2.5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plots"><i class="fa fa-check"></i><b>5.2.5</b> Create interaction plots</a></li>
+<li class="chapter" data-level="5.2.6" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.6</b> Fit a model with interaction term</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html"><i class="fa fa-check"></i><b>6</b> Logistic Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#dataset-5"><i class="fa fa-check"></i><b>6.1</b> Dataset</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#fit-logistic-regression-model"><i class="fa fa-check"></i><b>6.2.1</b> Fit logistic regression model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#model-evaluation"><i class="fa fa-check"></i><b>6.3</b> Model Evaluation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html"><i class="fa fa-check"></i><b>7</b> Survival Analysis in SAS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#dataset-6"><i class="fa fa-check"></i><b>7.1</b> Dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#survival-analysis"><i class="fa fa-check"></i><b>7.2</b> Survival Analysis</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#create-kaplan-meier-survival-curve"><i class="fa fa-check"></i><b>7.2.1</b> Create Kaplan-Meier survival curve</a></li>
+<li class="chapter" data-level="7.2.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-quartile-e.g.-q1-median-q3-survival-times"><i class="fa fa-check"></i><b>7.2.2</b> Compute quartile (e.g., Q1, median, Q3) survival time(s)</a></li>
+<li class="chapter" data-level="7.2.3" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-survival-at-specific-time-points"><i class="fa fa-check"></i><b>7.2.3</b> Compute survival at specific time points</a></li>
+<li class="chapter" data-level="7.2.4" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#conduct-hypothesis-test-for-comparing-two-groups-on-time-to-event-outcome"><i class="fa fa-check"></i><b>7.2.4</b> Conduct hypothesis test for comparing two groups on time-to-event outcome</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html"><i class="fa fa-check"></i><b>8</b> Proportional Hazards Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#dataset-7"><i class="fa fa-check"></i><b>8.1</b> Dataset</a></li>
+<li class="chapter" data-level="8.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#exploratory-data-analysis-eda"><i class="fa fa-check"></i><b>8.2</b> Exploratory Data Analysis (EDA)</a></li>
+<li class="chapter" data-level="8.3" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-fitting"><i class="fa fa-check"></i><b>8.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-1-cox-proportional-hazards-regression-with-a-categorical-predictor"><i class="fa fa-check"></i><b>8.3.1</b> Model 1: Cox proportional hazards regression with a categorical predictor</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-2-multiple-cox-proportional-hazards-regression"><i class="fa fa-check"></i><b>8.3.2</b> Model 2: Multiple Cox proportional hazards regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="project-1.html"><a href="project-1.html"><i class="fa fa-check"></i><b>9</b> Project 1</a></li>
+<li class="chapter" data-level="10" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html"><i class="fa fa-check"></i><b>10</b> Poisson Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#datasets"><i class="fa fa-check"></i><b>10.1</b> Datasets</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-1-lung-health-study"><i class="fa fa-check"></i><b>10.1.1</b> Dataset #1: Lung Health Study</a></li>
+<li class="chapter" data-level="10.1.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-2-canadian-smoking-and-death-study"><i class="fa fa-check"></i><b>10.1.2</b> Dataset #2: Canadian Smoking and Death Study</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data"><i class="fa fa-check"></i><b>10.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data-cleaning"><i class="fa fa-check"></i><b>10.2.1</b> Data cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-fitting-1"><i class="fa fa-check"></i><b>10.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-1-count-data-with-a-fixed-denominator"><i class="fa fa-check"></i><b>10.3.1</b> Model 1: Count data with a fixed denominator</a></li>
+<li class="chapter" data-level="10.3.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-evaluation-1"><i class="fa fa-check"></i><b>10.3.2</b> Model Evaluation</a></li>
+<li class="chapter" data-level="10.3.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#models-for-overdispersed-data"><i class="fa fa-check"></i><b>10.3.3</b> Models for overdispersed data</a></li>
+<li class="chapter" data-level="10.3.4" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-2-binary-data-with-a-variable-denominator-offset-term"><i class="fa fa-check"></i><b>10.3.4</b> Model 2: Binary data with a variable denominator (offset term)</a></li>
+<li class="chapter" data-level="10.3.5" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-3-binary-data-with-a-variable-denominator-and-a-covariate"><i class="fa fa-check"></i><b>10.3.5</b> Model 3: Binary data with a variable denominator and a covariate</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html"><i class="fa fa-check"></i><b>11</b> Other Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#dataset-8"><i class="fa fa-check"></i><b>11.1</b> Dataset</a></li>
+<li class="chapter" data-level="11.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-ordinal-regression"><i class="fa fa-check"></i><b>11.2</b> Log-Binomial &amp; Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regressiono"><i class="fa fa-check"></i><b>11.2.1</b> Log-Binomial RegressionO</a></li>
+<li class="chapter" data-level="11.2.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-1"><i class="fa fa-check"></i><b>11.2.2</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.2.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#putting-all-edits-together"><i class="fa fa-check"></i><b>11.2.3</b> Putting All Edits Together</a></li>
+<li class="chapter" data-level="11.2.4" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regression-model"><i class="fa fa-check"></i><b>11.2.4</b> Log-Binomial Regression Model</a></li>
+<li class="chapter" data-level="11.2.5" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#estimate-effect-of-predictors-1"><i class="fa fa-check"></i><b>11.2.5</b> Estimate effect of predictors</a></li>
+<li class="chapter" data-level="11.2.6" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#relative-risk"><i class="fa fa-check"></i><b>11.2.6</b> Relative Risk</a></li>
+<li class="chapter" data-level="11.2.7" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#predicted-risk"><i class="fa fa-check"></i><b>11.2.7</b> Predicted Risk</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression"><i class="fa fa-check"></i><b>11.3</b> Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-2"><i class="fa fa-check"></i><b>11.3.1</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.3.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression-model"><i class="fa fa-check"></i><b>11.3.2</b> Ordinal Regression Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html"><i class="fa fa-check"></i><b>12</b> Sample Size and Power in SAS</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#introduction-1"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#methods"><i class="fa fa-check"></i><b>12.2</b> Methods</a></li>
+<li class="chapter" data-level="12.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-means"><i class="fa fa-check"></i><b>12.3</b> Differences in Group Means</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes"><i class="fa fa-check"></i><b>12.3.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.3.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid"><i class="fa fa-check"></i><b>12.3.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.3.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid"><i class="fa fa-check"></i><b>12.3.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-proportions"><i class="fa fa-check"></i><b>12.4</b> Differences in Group Proportions</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes-1"><i class="fa fa-check"></i><b>12.4.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.4.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid-1"><i class="fa fa-check"></i><b>12.4.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.4.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid-1"><i class="fa fa-check"></i><b>12.4.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">6451 Software Lessons - SAS</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multiple-linear-regression-part-3-in-sas" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Software Lesson 4</span> Multiple Linear Regression, Part 3 in SAS<a href="multiple-linear-regression-part-3-in-sas.html#multiple-linear-regression-part-3-in-sas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="graybox">
+<p><font size="4"><strong>Goals</strong></font></p>
+<p>The goal of this software lesson is to learn how to</p>
+<ul>
+<li>obtain model diagnostics to check assumptions and evaluate the model fit.</li>
+</ul>
+</div>
+<div id="dataset-3" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Dataset<a href="multiple-linear-regression-part-3-in-sas.html#dataset-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s use the Rheumatoid Arthritis dataset again.</p>
+<p>Recall that the dataset, data dictionary, and dataset introduction can be found on Canvas, titled <em>RheumArth.csv</em>, <em>RheumArth Data Dictionary.pdf</em>, and <em>RheumArth Data Introduction.pdf</em>, respectively.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb13-1" tabindex="-1"></a>proc import</span>
+<span id="cb13-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb13-2" tabindex="-1"></a>  DATAFILE <span class="ot">=</span> <span class="st">&quot;/&lt;filepath&gt;/RheumArth.csv&quot;</span></span>
+<span id="cb13-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb13-3" tabindex="-1"></a>  OUT <span class="ot">=</span> rheum_arth</span>
+<span id="cb13-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb13-4" tabindex="-1"></a>  DBMS <span class="ot">=</span> csv</span>
+<span id="cb13-5"><a href="multiple-linear-regression-part-3-in-sas.html#cb13-5" tabindex="-1"></a>  REPLACE;</span>
+<span id="cb13-6"><a href="multiple-linear-regression-part-3-in-sas.html#cb13-6" tabindex="-1"></a>  GETNAMES <span class="ot">=</span> yes;</span>
+<span id="cb13-7"><a href="multiple-linear-regression-part-3-in-sas.html#cb13-7" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+<div id="model-diagnostics" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Model Diagnostics<a href="multiple-linear-regression-part-3-in-sas.html#model-diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this software lesson, you are going to obtain model diagnostics for an example used in a previous software lesson.</p>
+<p>That is, in the Rheumatoid Arthritis study, you examined the relationship between the a disease activity measurement, <code>CDAI</code> (Clinical Disease Activity Indicator) value, and age groups (<code>AgeGp</code>), after adjusting for <code>Sex</code> and years since diagnosis (<code>Yrs_From_Dx</code>). The code for fitting this model is presented again (for reference).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb14-1" tabindex="-1"></a>proc glm data <span class="ot">=</span> rheum_arth;</span>
+<span id="cb14-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb14-2" tabindex="-1"></a>  CLASS <span class="fu">AgeGp</span>(<span class="at">ref=</span><span class="st">&quot;1&quot;</span>);</span>
+<span id="cb14-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb14-3" tabindex="-1"></a>  MODEL CDAI <span class="ot">=</span> AgeGp Sex Yrs_From_Dx <span class="sc">/</span> solution clparm alpha <span class="ot">=</span> <span class="fl">0.05</span>;</span>
+<span id="cb14-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb14-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Recall that you learned how to check model assumptions using plots in the previous course (PubH 6450: Biostatistics 1, see Week 14: Software Lessons). Now you are going to obtain additional model diagnostics to evaluate the model fit.</p>
+<div id="calculate-measures-of-model-fit" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Calculate measures of model fit<a href="multiple-linear-regression-part-3-in-sas.html#calculate-measures-of-model-fit" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To measure model fit, we can use adjusted R<sup>2</sup> or PRESS.</p>
+<p><strong>Adjusted <span class="math inline">\(R^2\)</span> and PRESS</strong></p>
+<p>Adjusted <span class="math inline">\(R^2\)</span> provides information about model fit, with the higher the value, the more the model is able to explain the variability in the outcome (generally speaking).</p>
+<p>The PRESS (Predicted REsidual Sum-of-Square) statistic tests to see how well the model will predict on future data. The smaller the PRESS value, the better the fit.</p>
+<ul>
+<li>To calculate the adjusted <span class="math inline">\(R^2\)</span> and PRESS statistics, use
+<ul>
+<li><code>proc glmselect</code>, specifying the name of the dataset,</li>
+<li>the <code>CLASS</code> statement with all the categorical variables in the model that are not denoted as 0/1 and setting the reference level using <code>(ref="value")</code> (if applicable), and</li>
+<li>the <code>MODEL</code> statement with the form <code>y = x1 x2 x3</code>, separating the x-variables with a space and including the options of <code>selection = none</code> to obtain results for specified model and <code>stats = all</code> to display all model fit statistics:</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb15-1" tabindex="-1"></a>proc glmselect data <span class="ot">=</span> rheum_arth;</span>
+<span id="cb15-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb15-2" tabindex="-1"></a>  CLASS <span class="fu">AgeGp</span>(<span class="at">ref=</span><span class="st">&quot;1&quot;</span>);</span>
+<span id="cb15-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb15-3" tabindex="-1"></a>  MODEL CDAI <span class="ot">=</span> AgeGp Sex Yrs_From_Dx <span class="sc">/</span> selection <span class="ot">=</span> none stats <span class="ot">=</span> all;</span>
+<span id="cb15-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb15-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output presents eight tables, but the fit statistics, including adjusted <span class="math inline">\(R^2\)</span> (<code>Adj R-Sq</code>) and <code>PRESS</code>, are in the seventh table (the table where the first row is <code>Root MSE</code>).</p>
+</div>
+<div id="check-for-outliers-and-influential-points" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Check for outliers and influential points<a href="multiple-linear-regression-part-3-in-sas.html#check-for-outliers-and-influential-points" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To check for outliers, you can use various kinds of residual plots. Previously, you created a residual plot for evaluating model assumptions, but you can also examine standardized residual and studentized residual (i.e., “deleted residuals”) plots to determine observations that seem <em>much</em> different than other observations.</p>
+<p>The statistics to detect highly influential points are Cook’s distance, DFFITs, and DFBETAs.</p>
+<p><strong>Studentized residual plot and Cook’s distance</strong></p>
+<p>From <code>proc glm</code>, you can get many diagnostic plots, including the studentized residual plot and a plot of Cook’s distance (D) values.</p>
+<p>Standardized residuals are residuals that have been standardized by dividing by the estimated standard deviation of each residual, which takes into account the leverage/influence of an observation. Studentized residuals are similar to standardized ones, except its calculated from a model that does not include the observation in question. An observation is worth investigating if the studentized residual value is larger than <span class="math inline">\(+/- 2\)</span>.</p>
+<p>Cook’s D measures how much the model changes when an observation is removed from the model. An observation is worth investigating if the Cook’s D value is larger than 1.</p>
+<ul>
+<li>To obtain studentized residual plot and Cook’s D plot, use the <code>proc glm</code> code as presented previously but include the option of <code>PLOTS(UNPACK) = DIAGNOSTICS</code> to produce the diagnostic plots:</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb16-1" tabindex="-1"></a>proc glm data <span class="ot">=</span> rheum_arth <span class="fu">PLOTS</span>(UNPACK) <span class="ot">=</span> DIAGNOSTICS;</span>
+<span id="cb16-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb16-2" tabindex="-1"></a>  CLASS <span class="fu">AgeGp</span>(<span class="at">ref=</span><span class="st">&quot;1&quot;</span>);</span>
+<span id="cb16-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb16-3" tabindex="-1"></a>  MODEL CDAI <span class="ot">=</span> AgeGp Sex Yrs_From_Dx;</span>
+<span id="cb16-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb16-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The diagnostic plots are at the bottom of the output, with nine plots being displayed.</p>
+<p>The second plot is the studentized residual plot, and even has horizontal line indicators at -2 and 2 for a visual indicator on observations worth investigating. You can use this plot to investigate those observations that seem <em>much</em> different than the other observations, based on the model. For example, you can see several observations that have “extreme” studentized residual values.</p>
+<p>The sixth plot is the Cook’s D plot. Similar to the studentized plots in this software lesson, you can use this plot to investigate those observations that have “large” influential values, based on the model. For example, you can see that there are no observations in this dataset that have “large” Cook’s D values.</p>
+<p><strong>Create dataset with outlier and influential statistic values</strong></p>
+<p>For the other outlier and influential statistics, in order to examine them via a plot, you need to use <code>proc glm</code> but tell SAS to save the statistics into a new dataset using the <code>OUTPUT</code> statement.</p>
+<ul>
+<li>To create a new dataset with outlier and influential statistic values, use the code as presented previously but include the option <code>NOPRINT</code> to suppress displaying the results and use the <code>OUTPUT</code> statement, specifying the name of the new dataset in <code>out=</code> , and the statistics you want to save (e.g., <code>student</code> for standardized residuals; <code>dffits</code>; <code>cookd</code>; <code>rstudent</code> for studentized residuals) followed by how you want to name of the variable after the equals sign:</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb17-1" tabindex="-1"></a>proc glm data <span class="ot">=</span> rheum_arth NOPRINT;</span>
+<span id="cb17-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb17-2" tabindex="-1"></a>  CLASS <span class="fu">AgeGp</span>(<span class="at">ref=</span><span class="st">&quot;1&quot;</span>);</span>
+<span id="cb17-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb17-3" tabindex="-1"></a>  MODEL CDAI <span class="ot">=</span> AgeGp Sex Yrs_From_Dx;</span>
+<span id="cb17-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb17-4" tabindex="-1"></a>  OUTPUT out <span class="ot">=</span> diagnostics student <span class="ot">=</span> studr dffits <span class="ot">=</span> dfits cookd <span class="ot">=</span> cd rstudent <span class="ot">=</span> rstudr;</span>
+<span id="cb17-5"><a href="multiple-linear-regression-part-3-in-sas.html#cb17-5" tabindex="-1"></a>run;</span></code></pre></div>
+<p>For reading the <code>OUTPUT</code> statement line, it says:</p>
+<p>“Create a new dataset called <code>diagnostics</code> and save the standardized residuals (<code>student</code>) as <code>studr</code>, the DFFITs (<code>dffits</code>) as <code>dfits</code>, the Cook’s D’s (<code>cookd</code>) ad <code>cd</code> and the studentized residuals (<code>rstudent</code>) as <code>rstudr</code>.”</p>
+<p>Since you told SAS to not print the results, no results is displayed but SAS will pop open the <code>OUTPUT DATA</code> tab, where you can see new columns were added for these statistics.</p>
+<p><strong>Standardized residual plot</strong></p>
+<p>For standardized residuals, an observation is worth investigating if the standardized residual value is larger than 3 (meaning it is more than 3 standard deviations away from the model-fitted value).</p>
+<ul>
+<li>To create a standardized residual plot,
+<ul>
+<li>first, create a copy of the <code>diagnostics</code> dataset and add a new column for observation number (<code>ObsID = _N_</code>).</li>
+<li>Then, use
+<ul>
+<li><code>proc sgplot</code>, specifying the name of the dataset,</li>
+<li>the <code>SCATTER</code> statement, specifying the observation numbers for the x-axis (<code>x = ObsID</code>) and the standardized residuals for the y-axis (<code>y = studr</code>),</li>
+<li>(optional) the <code>XAXIS</code> and <code>YAXIS</code> statements with <code>label=</code> to specify the axes labels (in quotation marks), and</li>
+<li>the <code>REFLINE</code> statement, specifying where the lines should be placed (<code>-3 3</code>) for a visual indicator on observations worth investigating, and options for adding the horizontal lines (<code>axis = y</code>) and any additional arguments for customizing the plot (e.g., <code>lineattrs =</code> for specifying line attributes; <code>color =</code> for specifying the color of the line; <code>thickness =</code> to indicate the thickness of the line):</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-1" tabindex="-1"></a><span class="sc">*</span>Adding observation numbers to diagnostics dataset;</span>
+<span id="cb18-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-2" tabindex="-1"></a>data diagnostics;</span>
+<span id="cb18-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-3" tabindex="-1"></a>  SET diagnostics;</span>
+<span id="cb18-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-4" tabindex="-1"></a>  ObsID <span class="ot">=</span> _N_;</span>
+<span id="cb18-5"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-5" tabindex="-1"></a>run;</span>
+<span id="cb18-6"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-7" tabindex="-1"></a><span class="sc">*</span>Plotting the standardized residual <span class="cf">for</span> each observation;</span>
+<span id="cb18-8"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-8" tabindex="-1"></a><span class="sc">*</span>Adding a red horizontal line at <span class="sc">-</span><span class="dv">3</span> and <span class="dv">3</span>;</span>
+<span id="cb18-9"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-9" tabindex="-1"></a>proc sgplot data <span class="ot">=</span> diagnostics;</span>
+<span id="cb18-10"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-10" tabindex="-1"></a>  SCATTER x <span class="ot">=</span> ObsID y <span class="ot">=</span> studr;</span>
+<span id="cb18-11"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-11" tabindex="-1"></a>  XAXIS label <span class="ot">=</span> <span class="st">&quot;Observation Number&quot;</span>;</span>
+<span id="cb18-12"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-12" tabindex="-1"></a>  YAXIS label <span class="ot">=</span> <span class="st">&quot;Standardized Residuals&quot;</span>;</span>
+<span id="cb18-13"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-13" tabindex="-1"></a>  REFLINE <span class="sc">-</span><span class="dv">3</span> <span class="dv">3</span> <span class="sc">/</span> axis <span class="ot">=</span> y lineattrs <span class="ot">=</span> (<span class="at">color =</span> red <span class="at">thickness =</span> <span class="dv">5</span>);</span>
+<span id="cb18-14"><a href="multiple-linear-regression-part-3-in-sas.html#cb18-14" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Similar to the studentized residual plot, you can use this plot to investigate those observations that seem <em>much</em> different than the other observations, based on the model. For example, you can see two observations that have “extreme” standardized residual values.</p>
+<ul>
+<li>(optional) To obtain observation numbers for those “extreme” observations, use the <code>data</code> task, defining the name you want to call your new data set (e.g., <code>largestresidual</code>), then the <code>SET</code> statement to indicate the dataset you want to make a copy of, and the <code>WHERE</code> statement to subset the data to display only the observations that have an absolute value of standardized residuals that exceed 3:</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb19-1" tabindex="-1"></a>data largestresidual;</span>
+<span id="cb19-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb19-2" tabindex="-1"></a>  SET diagnostics;</span>
+<span id="cb19-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb19-3" tabindex="-1"></a>  WHERE <span class="fu">abs</span>(studr) <span class="sc">&gt;</span> <span class="dv">3</span>;</span>
+<span id="cb19-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb19-4" tabindex="-1"></a>run;</span></code></pre></div>
+<div class="redbox">
+<p><font size="4"><strong>SAS TIP</strong></font></p>
+<p>You could carry out a similar task for investigating the other outlier or influential statistics, but using the <code>cd</code> for Cook’s D, <code>rstudr</code> for studentized residuals, or <code>dfits</code> for DFFITs.</p>
+</div>
+<p><br></p>
+<p>The output displays the rows of the observations that were flagged as potential outliers, according to the standardized residual values.</p>
+<p><strong>DFFITs</strong></p>
+<p>The DFFITs (DiFference of FITs) statistic measures how much the model changes when an observation is removed. An observation is worth investigating if the DFFITs value is larger than 1 for small datasets, or, larger than <span class="math inline">\(2\sqrt(\frac{p}{n})\)</span> for large datasets, where p = the number of predictors and n is the number of non-missing observations used in the model.</p>
+<ul>
+<li>To create a plot of DFFITs values verses observation number, use the <code>proc sgplot</code> code as presented previously but update the <code>y =</code> to be for the DFFITs variable (<code>dfits</code>), and update the <code>REFLINE</code> statement, specifying where the lines should be placed (<code>-0.242 0.242</code>) for a visual indicator on observations worth investigating:</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb20-1" tabindex="-1"></a>proc sgplot data <span class="ot">=</span> diagnostics;</span>
+<span id="cb20-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb20-2" tabindex="-1"></a>  SCATTER x <span class="ot">=</span> ObsID y <span class="ot">=</span> dfits;</span>
+<span id="cb20-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb20-3" tabindex="-1"></a>  XAXIS label <span class="ot">=</span> <span class="st">&quot;Observation Number&quot;</span>;</span>
+<span id="cb20-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb20-4" tabindex="-1"></a>  YAXIS label <span class="ot">=</span> <span class="st">&quot;DFFITs Statistics&quot;</span>;</span>
+<span id="cb20-5"><a href="multiple-linear-regression-part-3-in-sas.html#cb20-5" tabindex="-1"></a>  REFLINE <span class="sc">-</span><span class="fl">0.242</span> <span class="fl">0.242</span> <span class="sc">/</span> axis <span class="ot">=</span> y lineattrs <span class="ot">=</span> (<span class="at">color =</span> red <span class="at">thickness =</span> <span class="dv">5</span>);</span>
+<span id="cb20-6"><a href="multiple-linear-regression-part-3-in-sas.html#cb20-6" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Note: The DFFITs threshold for this model is <span class="math inline">\(2\sqrt(\frac{3}{205}) = 0.24194\)</span>, because there were three predictors in the model and 205 non-missing observations used.</p>
+<p>Similar to the other plots in this software lesson, you can use this plot to investigate those observations that have “large” influential values, based on the model. For example, you can see that there are about a dozen observations in this dataset that have “large” DFFITs values.</p>
+<p><strong>DFBETAs</strong></p>
+<p>Unfortunately, you can’t obtain the DFBETAs using <code>proc glm</code>. If this is of interest, you will have to use <code>proc reg</code>. See <a href="https://blogs.sas.com/content/iml/2019/06/17/influence-regression-dfbeta.html">this resource</a> for more information.</p>
+</div>
+<div id="collinearity-and-multicollinearity" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Collinearity and multicollinearity<a href="multiple-linear-regression-part-3-in-sas.html#collinearity-and-multicollinearity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another consideration when evaluating model fit is whether there are issues of collinearity or multicollinearity.</p>
+<p><strong>Collinearity</strong></p>
+<p>Collinearity happens when one predictor is highly correlated with another predictor. When there is collinearity, it can make the model unstable and give odd results. To investigate collinearity between predictors, calculate a correlation matrix.</p>
+<ul>
+<li>To create a correlation matrix between predictors, use
+<ul>
+<li><code>proc corr</code>, specifying the name of the dataset, and</li>
+<li>the <code>VAR</code> statement with all the predictors in the model:</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb21-1" tabindex="-1"></a>proc corr data <span class="ot">=</span> rheum_arth;</span>
+<span id="cb21-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb21-2" tabindex="-1"></a>  VAR AgeGp Sex Yrs_From_Dx;</span>
+<span id="cb21-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb21-3" tabindex="-1"></a>run;</span></code></pre></div>
+<div class="redbox">
+<p><font size="4"><strong>SAS TIP</strong></font></p>
+<p>Note that <code>proc cor</code> only works on numerical variables.</p>
+</div>
+<p><br></p>
+<p>The table of interest is titled <code>Pearson Correlation Coefficients</code> (the second table in the output). The output displays the correlations coefficients between the possible pairs of variables (first value in the cell), in addition to the <em>p</em>-value for the correlation and the number of observations for each calculation. The correlation coefficients along the diagonal of the table are all equal to 1 because each variable is perfectly correlated with itself.You only need to look at the upper triangle OR lower triangle, for the information, since they both present the same values.</p>
+<p><strong>Multicollinearity</strong></p>
+<p>Multicollinearity happens when one predictor is highly correlated with some combination of two or more other predictors. When there is multicollinearity, it can make the coefficient (beta) estimates less precise, leading to less precise inference. This is called “variance inflation”.</p>
+<p>Variance inflation is measured by the Variance Inflation Factor (or VIF.) The variance inflation factor ranges from 1 to infinity. A VIF below 4 indicates the variable is minimally correlated with any other predictors, a VIF between 4 and 10 indicates moderate correlation, and a VIF above 10 indicates high enough correlation to affect the precision of the coefficient estimates and cast doubt on the effectiveness of the inferential results.</p>
+<p>SAS does not give VIF directly for each variable. However, you can find the <em>tolerance</em> for each coefficient, which is <span class="math inline">\(\frac{1}{VIF}\)</span>, by adding the <code>tolerance</code> option in the <code>MODEL</code> statement of <code>proc glm</code> (Note: Look for tolerances smaller than <span class="math inline">\(0.25\)</span> or <span class="math inline">\(0.10\)</span>):</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="multiple-linear-regression-part-3-in-sas.html#cb22-1" tabindex="-1"></a>proc glm data <span class="ot">=</span> rheum_arth plots <span class="ot">=</span> all;</span>
+<span id="cb22-2"><a href="multiple-linear-regression-part-3-in-sas.html#cb22-2" tabindex="-1"></a>  CLASS <span class="fu">AgeGp</span>(<span class="at">ref=</span><span class="st">&quot;1&quot;</span>);</span>
+<span id="cb22-3"><a href="multiple-linear-regression-part-3-in-sas.html#cb22-3" tabindex="-1"></a>  MODEL CDAI <span class="ot">=</span> AgeGp Sex Yrs_From_Dx <span class="sc">/</span> tolerance solution clparm alpha <span class="ot">=</span> <span class="fl">0.05</span>;</span>
+<span id="cb22-4"><a href="multiple-linear-regression-part-3-in-sas.html#cb22-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The table of interest is titled <code>Tolerances</code> (the third table in the output) and the <code>Type II Tolerance</code> column. The output displays the tolerance values for each regression coefficient in the model.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="multiple-linear-regression-part-2-in-sas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multiple-linear-regression-part-4-in-sas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

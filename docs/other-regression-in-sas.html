@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Software Lesson 11 Other Regression in SAS | 6451 Software Lessons - SAS</title>
+  <meta name="description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Software Lesson 11 Other Regression in SAS | 6451 Software Lessons - SAS" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="github-repo" content="hannah-graff-umn/6451BookdownSAS" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Software Lesson 11 Other Regression in SAS | 6451 Software Lessons - SAS" />
+  
+  <meta name="twitter:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  
+
+
+
+<meta name="date" content="2026-04-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="poisson-regression-in-sas.html"/>
+<link rel="next" href="sample-size-and-power-in-sas.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pubh 6451 Software Lessons - SAS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html"><i class="fa fa-check"></i><b>1</b> Creating Table 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#dataset"><i class="fa fa-check"></i><b>1.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#importing-data"><i class="fa fa-check"></i><b>1.1.1</b> Importing data</a></li>
+<li class="chapter" data-level="1.1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#examine-the-dataset"><i class="fa fa-check"></i><b>1.1.2</b> Examine the dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#creating-table-1"><i class="fa fa-check"></i><b>1.2</b> Creating Table 1</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-1-identify-the-relevant-variables-to-include-in-table-1"><i class="fa fa-check"></i><b>1.2.1</b> Step 1: Identify the relevant variables to include in Table 1</a></li>
+<li class="chapter" data-level="1.2.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-2-determine-which-variables-are-continuous-and-which-are-categorical"><i class="fa fa-check"></i><b>1.2.2</b> Step 2: Determine which variables are continuous and which are categorical</a></li>
+<li class="chapter" data-level="1.2.3" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-3-format-the-values-of-the-categorical-variables-optional"><i class="fa fa-check"></i><b>1.2.3</b> Step 3: Format the values of the categorical variables (optional)</a></li>
+<li class="chapter" data-level="1.2.4" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-4-relabel-the-variable-names-optional"><i class="fa fa-check"></i><b>1.2.4</b> Step 4: Relabel the variable names (optional)</a></li>
+<li class="chapter" data-level="1.2.5" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-5-create-table-1"><i class="fa fa-check"></i><b>1.2.5</b> Step 5: Create Table 1</a></li>
+<li class="chapter" data-level="1.2.6" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-6-export-table-1-to-word-doc"><i class="fa fa-check"></i><b>1.2.6</b> Step 6: Export Table 1 to Word Doc</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html"><i class="fa fa-check"></i><b>2</b> Multiple Linear Regression, Part 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#dataset-1"><i class="fa fa-check"></i><b>2.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#multiple-linear-regression"><i class="fa fa-check"></i><b>2.1.1</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="2.1.2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#fit-multiple-linear-regression-model"><i class="fa fa-check"></i><b>2.1.2</b> Fit multiple linear regression model</a></li>
+<li class="chapter" data-level="2.1.3" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#set-the-reference-group-for-a-categorical-predictor"><i class="fa fa-check"></i><b>2.1.3</b> Set the reference group for a categorical predictor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html"><i class="fa fa-check"></i><b>3</b> Multiple Linear Regression, Part 2 in SAS</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#dataset-2"><i class="fa fa-check"></i><b>3.1</b> Dataset</a></li>
+<li class="chapter" data-level="3.2" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#multicategorical-predictors"><i class="fa fa-check"></i><b>3.2</b> Multicategorical Predictors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#conduct-overall-test-for-multicategorical-predictors"><i class="fa fa-check"></i><b>3.2.1</b> Conduct overall test for multicategorical predictors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html"><i class="fa fa-check"></i><b>4</b> Multiple Linear Regression, Part 3 in SAS</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#dataset-3"><i class="fa fa-check"></i><b>4.1</b> Dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#model-diagnostics"><i class="fa fa-check"></i><b>4.2</b> Model Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#calculate-measures-of-model-fit"><i class="fa fa-check"></i><b>4.2.1</b> Calculate measures of model fit</a></li>
+<li class="chapter" data-level="4.2.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#check-for-outliers-and-influential-points"><i class="fa fa-check"></i><b>4.2.2</b> Check for outliers and influential points</a></li>
+<li class="chapter" data-level="4.2.3" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#collinearity-and-multicollinearity"><i class="fa fa-check"></i><b>4.2.3</b> Collinearity and multicollinearity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html"><i class="fa fa-check"></i><b>5</b> Multiple Linear Regression, Part 4 in SAS</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#dataset-4"><i class="fa fa-check"></i><b>5.1</b> Dataset</a></li>
+<li class="chapter" data-level="5.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interactions"><i class="fa fa-check"></i><b>5.2</b> Interactions</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-one-binary-and-one-continuous-predictor"><i class="fa fa-check"></i><b>5.2.1</b> Interaction between one binary and one continuous predictor</a></li>
+<li class="chapter" data-level="5.2.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#collapse-categories-in-a-categorical-variable"><i class="fa fa-check"></i><b>5.2.2</b> Collapse categories in a categorical variable</a></li>
+<li class="chapter" data-level="5.2.3" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plot-fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.3</b> Create interaction plot &amp; Fit a model with interaction term</a></li>
+<li class="chapter" data-level="5.2.4" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-two-binary-predictors"><i class="fa fa-check"></i><b>5.2.4</b> Interaction between two binary predictors</a></li>
+<li class="chapter" data-level="5.2.5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plots"><i class="fa fa-check"></i><b>5.2.5</b> Create interaction plots</a></li>
+<li class="chapter" data-level="5.2.6" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.6</b> Fit a model with interaction term</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html"><i class="fa fa-check"></i><b>6</b> Logistic Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#dataset-5"><i class="fa fa-check"></i><b>6.1</b> Dataset</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#fit-logistic-regression-model"><i class="fa fa-check"></i><b>6.2.1</b> Fit logistic regression model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#model-evaluation"><i class="fa fa-check"></i><b>6.3</b> Model Evaluation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html"><i class="fa fa-check"></i><b>7</b> Survival Analysis in SAS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#dataset-6"><i class="fa fa-check"></i><b>7.1</b> Dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#survival-analysis"><i class="fa fa-check"></i><b>7.2</b> Survival Analysis</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#create-kaplan-meier-survival-curve"><i class="fa fa-check"></i><b>7.2.1</b> Create Kaplan-Meier survival curve</a></li>
+<li class="chapter" data-level="7.2.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-quartile-e.g.-q1-median-q3-survival-times"><i class="fa fa-check"></i><b>7.2.2</b> Compute quartile (e.g., Q1, median, Q3) survival time(s)</a></li>
+<li class="chapter" data-level="7.2.3" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-survival-at-specific-time-points"><i class="fa fa-check"></i><b>7.2.3</b> Compute survival at specific time points</a></li>
+<li class="chapter" data-level="7.2.4" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#conduct-hypothesis-test-for-comparing-two-groups-on-time-to-event-outcome"><i class="fa fa-check"></i><b>7.2.4</b> Conduct hypothesis test for comparing two groups on time-to-event outcome</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html"><i class="fa fa-check"></i><b>8</b> Proportional Hazards Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#dataset-7"><i class="fa fa-check"></i><b>8.1</b> Dataset</a></li>
+<li class="chapter" data-level="8.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#exploratory-data-analysis-eda"><i class="fa fa-check"></i><b>8.2</b> Exploratory Data Analysis (EDA)</a></li>
+<li class="chapter" data-level="8.3" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-fitting"><i class="fa fa-check"></i><b>8.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-1-cox-proportional-hazards-regression-with-a-categorical-predictor"><i class="fa fa-check"></i><b>8.3.1</b> Model 1: Cox proportional hazards regression with a categorical predictor</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-2-multiple-cox-proportional-hazards-regression"><i class="fa fa-check"></i><b>8.3.2</b> Model 2: Multiple Cox proportional hazards regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="project-1.html"><a href="project-1.html"><i class="fa fa-check"></i><b>9</b> Project 1</a></li>
+<li class="chapter" data-level="10" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html"><i class="fa fa-check"></i><b>10</b> Poisson Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#datasets"><i class="fa fa-check"></i><b>10.1</b> Datasets</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-1-lung-health-study"><i class="fa fa-check"></i><b>10.1.1</b> Dataset #1: Lung Health Study</a></li>
+<li class="chapter" data-level="10.1.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-2-canadian-smoking-and-death-study"><i class="fa fa-check"></i><b>10.1.2</b> Dataset #2: Canadian Smoking and Death Study</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data"><i class="fa fa-check"></i><b>10.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data-cleaning"><i class="fa fa-check"></i><b>10.2.1</b> Data cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-fitting-1"><i class="fa fa-check"></i><b>10.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-1-count-data-with-a-fixed-denominator"><i class="fa fa-check"></i><b>10.3.1</b> Model 1: Count data with a fixed denominator</a></li>
+<li class="chapter" data-level="10.3.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-evaluation-1"><i class="fa fa-check"></i><b>10.3.2</b> Model Evaluation</a></li>
+<li class="chapter" data-level="10.3.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#models-for-overdispersed-data"><i class="fa fa-check"></i><b>10.3.3</b> Models for overdispersed data</a></li>
+<li class="chapter" data-level="10.3.4" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-2-binary-data-with-a-variable-denominator-offset-term"><i class="fa fa-check"></i><b>10.3.4</b> Model 2: Binary data with a variable denominator (offset term)</a></li>
+<li class="chapter" data-level="10.3.5" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-3-binary-data-with-a-variable-denominator-and-a-covariate"><i class="fa fa-check"></i><b>10.3.5</b> Model 3: Binary data with a variable denominator and a covariate</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html"><i class="fa fa-check"></i><b>11</b> Other Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#dataset-8"><i class="fa fa-check"></i><b>11.1</b> Dataset</a></li>
+<li class="chapter" data-level="11.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-ordinal-regression"><i class="fa fa-check"></i><b>11.2</b> Log-Binomial &amp; Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regressiono"><i class="fa fa-check"></i><b>11.2.1</b> Log-Binomial RegressionO</a></li>
+<li class="chapter" data-level="11.2.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-1"><i class="fa fa-check"></i><b>11.2.2</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.2.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#putting-all-edits-together"><i class="fa fa-check"></i><b>11.2.3</b> Putting All Edits Together</a></li>
+<li class="chapter" data-level="11.2.4" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regression-model"><i class="fa fa-check"></i><b>11.2.4</b> Log-Binomial Regression Model</a></li>
+<li class="chapter" data-level="11.2.5" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#estimate-effect-of-predictors-1"><i class="fa fa-check"></i><b>11.2.5</b> Estimate effect of predictors</a></li>
+<li class="chapter" data-level="11.2.6" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#relative-risk"><i class="fa fa-check"></i><b>11.2.6</b> Relative Risk</a></li>
+<li class="chapter" data-level="11.2.7" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#predicted-risk"><i class="fa fa-check"></i><b>11.2.7</b> Predicted Risk</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression"><i class="fa fa-check"></i><b>11.3</b> Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-2"><i class="fa fa-check"></i><b>11.3.1</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.3.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression-model"><i class="fa fa-check"></i><b>11.3.2</b> Ordinal Regression Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html"><i class="fa fa-check"></i><b>12</b> Sample Size and Power in SAS</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#introduction-1"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#methods"><i class="fa fa-check"></i><b>12.2</b> Methods</a></li>
+<li class="chapter" data-level="12.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-means"><i class="fa fa-check"></i><b>12.3</b> Differences in Group Means</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes"><i class="fa fa-check"></i><b>12.3.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.3.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid"><i class="fa fa-check"></i><b>12.3.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.3.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid"><i class="fa fa-check"></i><b>12.3.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-proportions"><i class="fa fa-check"></i><b>12.4</b> Differences in Group Proportions</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes-1"><i class="fa fa-check"></i><b>12.4.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.4.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid-1"><i class="fa fa-check"></i><b>12.4.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.4.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid-1"><i class="fa fa-check"></i><b>12.4.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">6451 Software Lessons - SAS</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="other-regression-in-sas" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">Software Lesson 11</span> Other Regression in SAS<a href="other-regression-in-sas.html#other-regression-in-sas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="graybox">
+<p><font size="4"><strong>Goals</strong></font></p>
+<p>The goal of this software lesson is to learn how to</p>
+<ul>
+<li>fit a log-binomial regression model and obtain estimates for the effect of a predictor in terms of log probabilities, probabilities, and risk ratios, and</li>
+<li>fit an ordinal regression model and obtain estimates for the effect of a predictor in terms of cumulative log odds and common odds ratios.</li>
+</ul>
+</div>
+<div id="dataset-8" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Dataset<a href="other-regression-in-sas.html#dataset-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this software lesson, you will use the Obstetrics and Periodontal Therapy (OPT) dataset. The dataset, data dictionary, and dataset introduction can be found on Canvas, titled <em>OTP.csv</em>, <em>OPT Data Dictionary.pdf</em>, and <em>OPT Dataset Introduction.pdf</em>, respectively.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="other-regression-in-sas.html#cb66-1" tabindex="-1"></a>proc import</span>
+<span id="cb66-2"><a href="other-regression-in-sas.html#cb66-2" tabindex="-1"></a>  DATAFILE <span class="ot">=</span> <span class="st">&quot;/&lt;filepath&gt;/opt.csv&quot;</span></span>
+<span id="cb66-3"><a href="other-regression-in-sas.html#cb66-3" tabindex="-1"></a>  OUT <span class="ot">=</span> opt</span>
+<span id="cb66-4"><a href="other-regression-in-sas.html#cb66-4" tabindex="-1"></a>  DBMS <span class="ot">=</span> csv</span>
+<span id="cb66-5"><a href="other-regression-in-sas.html#cb66-5" tabindex="-1"></a>  REPLACE;</span>
+<span id="cb66-6"><a href="other-regression-in-sas.html#cb66-6" tabindex="-1"></a>  GETNAMES <span class="ot">=</span> yes;</span>
+<span id="cb66-7"><a href="other-regression-in-sas.html#cb66-7" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+<div id="log-binomial-ordinal-regression" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Log-Binomial &amp; Ordinal Regression<a href="other-regression-in-sas.html#log-binomial-ordinal-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Thus far in the course, you have learned four kinds of regression models:</p>
+<ul>
+<li><em>linear</em> regression to model the mean of a continuous outcome,</li>
+<li><em>logistic</em> regression to model the log odds of a binary outcome,</li>
+<li><em>proportional hazards</em> regression to model the log hazard of a time-to-event outcome, and</li>
+<li><em>Poisson</em> regression to model the log count/rate of a discrete/count outcome.</li>
+</ul>
+<p>This software lesson builds on what you have learned thus far, but focuses on <em>log-binomial</em> regression, which is used when you have a binary outcome, and <em>ordinal</em> regression, which is used when you have a ordinal categorical outcome.</p>
+<div id="log-binomial-regressiono" class="section level3 hasAnchor" number="11.2.1">
+<h3><span class="header-section-number">11.2.1</span> Log-Binomial RegressionO<a href="other-regression-in-sas.html#log-binomial-regressiono" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Log-binomial regression is similar to logistic regression in the sense of using it for a binary outcome, but instead of modeling the log odds of the outcome, you model the log probability/risk of the outcome.</p>
+<p>In the OPT study, suppose the researchers were interested in examining the effect of treatment of maternal periodontal disease (<code>Group</code>) on risk of preterm birth (<code>preterm</code>), after adjusting for number of missed prenatal appointments (<code>NumMiss</code>) and previous preterm births status (<code>Live.PTB</code>). In this example, <code>Group</code> is the predictor of interest, and <code>NumMiss</code> and <code>Live.PTB</code> are considered to potential confounders.</p>
+</div>
+<div id="data-cleaning-1" class="section level3 hasAnchor" number="11.2.2">
+<h3><span class="header-section-number">11.2.2</span> Data cleaning<a href="other-regression-in-sas.html#data-cleaning-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Remember it’s good coding practice to look at the dataset to make sure everything was read in properly and the variables are in the correct format (Hint: Use <code>proc print</code> or <code>proc contents</code> to do this).</p>
+<p><strong>Step 1: Checking the names of the variables in the dataset FIRST!</strong></p>
+<p>Before you change the names of any variables, run this code to check how the variables came into SAS. Depending on how they came in, their names may need to be changed.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="other-regression-in-sas.html#cb67-1" tabindex="-1"></a>proc contents data <span class="ot">=</span> opt;</span>
+<span id="cb67-2"><a href="other-regression-in-sas.html#cb67-2" tabindex="-1"></a>run;</span></code></pre></div>
+<p><strong>EDIT 1: Modifying variable names with spaces</strong></p>
+<p>Some of variables have odd characters or spaces in their names, so you will rename them in order to be able to call them more easily.</p>
+<p>Note: The code you need for this depends on whether you are running SAS on your desktop or SAS in the Cloud (SAS On Demand).</p>
+<p><em>For Desktop SAS:</em></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="other-regression-in-sas.html#cb68-1" tabindex="-1"></a>data opt1;</span>
+<span id="cb68-2"><a href="other-regression-in-sas.html#cb68-2" tabindex="-1"></a>  SET opt;</span>
+<span id="cb68-3"><a href="other-regression-in-sas.html#cb68-3" tabindex="-1"></a>  RENAME __Vis_Elig <span class="ot">=</span> N_Vis_Elig;</span>
+<span id="cb68-4"><a href="other-regression-in-sas.html#cb68-4" tabindex="-1"></a>  RENAME __Vis_Att <span class="ot">=</span> N_Vis_Att;</span>
+<span id="cb68-5"><a href="other-regression-in-sas.html#cb68-5" tabindex="-1"></a>run;</span>
+<span id="cb68-6"><a href="other-regression-in-sas.html#cb68-6" tabindex="-1"></a></span>
+<span id="cb68-7"><a href="other-regression-in-sas.html#cb68-7" tabindex="-1"></a>proc contents data <span class="ot">=</span> opt1; </span>
+<span id="cb68-8"><a href="other-regression-in-sas.html#cb68-8" tabindex="-1"></a>run;</span></code></pre></div>
+<p><em>For SAS in the Cloud (SAS On Demand):</em></p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="other-regression-in-sas.html#cb69-1" tabindex="-1"></a>data opt1;</span>
+<span id="cb69-2"><a href="other-regression-in-sas.html#cb69-2" tabindex="-1"></a>  set opt;</span>
+<span id="cb69-3"><a href="other-regression-in-sas.html#cb69-3" tabindex="-1"></a>  RENAME <span class="st">&#39;# Vis Elig&#39;</span>n <span class="ot">=</span> N_Vis_Elig;</span>
+<span id="cb69-4"><a href="other-regression-in-sas.html#cb69-4" tabindex="-1"></a>  RENAME <span class="st">&#39;# Vis Att&#39;</span>n <span class="ot">=</span> N_Vis_Att;</span>
+<span id="cb69-5"><a href="other-regression-in-sas.html#cb69-5" tabindex="-1"></a>  RENAME <span class="st">&#39;GA at outcome&#39;</span>n <span class="ot">=</span> GA_at_outcome;</span>
+<span id="cb69-6"><a href="other-regression-in-sas.html#cb69-6" tabindex="-1"></a>  RENAME <span class="st">&#39;Live PTB&#39;</span>n <span class="ot">=</span> Live_PTB;</span>
+<span id="cb69-7"><a href="other-regression-in-sas.html#cb69-7" tabindex="-1"></a>run;</span>
+<span id="cb69-8"><a href="other-regression-in-sas.html#cb69-8" tabindex="-1"></a></span>
+<span id="cb69-9"><a href="other-regression-in-sas.html#cb69-9" tabindex="-1"></a>proc contents data <span class="ot">=</span> opt1; </span>
+<span id="cb69-10"><a href="other-regression-in-sas.html#cb69-10" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Note: Because there are multiple data edits, rather than having multiple data steps, a single data step will be presented after all of the edit descriptions.</p>
+<p><strong>EDIT 2: Creating the <code>preterm</code> variable</strong></p>
+<p>The outcome, <code>preterm</code>, needs to be created from the variable <code>GA.at.outcome</code>, which is stored as gestational age at end of pregnancy (in number of days). A preterm birth is defined as a birth with a gestational age that is less than 37 weeks (i.e., 259 days). We need to create a new indicator variable (0/1) for preterm birth.</p>
+<p>This can be done in a data step with the <code>IF</code>, <code>THEN</code>, and <code>ELSE</code> statements. The first statement is the <em>if</em> condition, followed by the <em>then</em> result, and finally the <em>else</em> result. The following code can be read as:</p>
+<p>IF the gestational age is less than 259 days, THEN set the preterm indicator to 1, ELSE set the preterm indicator to 0.</p>
+<p><strong>EDIT 3: Creating the <code>NumMiss</code> variable</strong></p>
+<p>The variable <em>NumMiss</em> will be created by taking the number of prenatal visits the participant was eligible for (<code>N_Vis_Elig</code>) and subtracting the number of prenatal visits the participants attended (<code>N_Vis_Att</code>)</p>
+<p><strong>EDIT 4: Creating the <code>PrevPremature</code> variable</strong></p>
+<p>There were 212 participants in the study that had not given birth before, so their value for the variable <code>Live_PTB</code> is NA, which means missing. However, SAS sees NA as a new level as opposed to a missing value. Therefore, we will create a new variable <code>PrevPremature</code> that will have missing values for those 212 participants that should be missing.</p>
+</div>
+<div id="putting-all-edits-together" class="section level3 hasAnchor" number="11.2.3">
+<h3><span class="header-section-number">11.2.3</span> Putting All Edits Together<a href="other-regression-in-sas.html#putting-all-edits-together" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="other-regression-in-sas.html#cb70-1" tabindex="-1"></a>data opt2;</span>
+<span id="cb70-2"><a href="other-regression-in-sas.html#cb70-2" tabindex="-1"></a>  SET opt1;</span>
+<span id="cb70-3"><a href="other-regression-in-sas.html#cb70-3" tabindex="-1"></a></span>
+<span id="cb70-4"><a href="other-regression-in-sas.html#cb70-4" tabindex="-1"></a><span class="sc">*</span> create indicator variable <span class="cf">for</span> whether the baby is <span class="fu">preterm</span> (<span class="sc">&lt;</span><span class="dv">259</span> weeks) or not;</span>
+<span id="cb70-5"><a href="other-regression-in-sas.html#cb70-5" tabindex="-1"></a>IF GA_at_outcome <span class="ot">=</span> . THEN preterm <span class="ot">=</span> <span class="st">&quot;&quot;</span>; </span>
+<span id="cb70-6"><a href="other-regression-in-sas.html#cb70-6" tabindex="-1"></a>ELSE IF GA_at_outcome <span class="sc">&lt;</span> <span class="dv">259</span> THEN preterm <span class="ot">=</span> <span class="st">&quot;1&quot;</span>; </span>
+<span id="cb70-7"><a href="other-regression-in-sas.html#cb70-7" tabindex="-1"></a>ELSE preterm <span class="ot">=</span> <span class="st">&quot;0&quot;</span>;</span>
+<span id="cb70-8"><a href="other-regression-in-sas.html#cb70-8" tabindex="-1"></a>     </span>
+<span id="cb70-9"><a href="other-regression-in-sas.html#cb70-9" tabindex="-1"></a><span class="sc">*</span>create new variable to measure number of prenatal appointments missed;</span>
+<span id="cb70-10"><a href="other-regression-in-sas.html#cb70-10" tabindex="-1"></a>NumMiss <span class="ot">=</span> N_Vis_Elig <span class="sc">-</span> N_Vis_Att; </span>
+<span id="cb70-11"><a href="other-regression-in-sas.html#cb70-11" tabindex="-1"></a>   </span>
+<span id="cb70-12"><a href="other-regression-in-sas.html#cb70-12" tabindex="-1"></a><span class="sc">*</span>edit preterm birth variable to turn <span class="cn">NA</span> (which is no birth before) to missing;</span>
+<span id="cb70-13"><a href="other-regression-in-sas.html#cb70-13" tabindex="-1"></a>LENGTH PrevPreterm <span class="sc">$</span><span class="dv">3</span>;</span>
+<span id="cb70-14"><a href="other-regression-in-sas.html#cb70-14" tabindex="-1"></a>IF Live_ptb <span class="ot">=</span> <span class="st">&quot;NA&quot;</span> THEN PrevPreterm <span class="ot">=</span> <span class="st">&quot;&quot;</span>; </span>
+<span id="cb70-15"><a href="other-regression-in-sas.html#cb70-15" tabindex="-1"></a>ELSE PrevPreterm <span class="ot">=</span> Live_ptb;</span>
+<span id="cb70-16"><a href="other-regression-in-sas.html#cb70-16" tabindex="-1"></a></span>
+<span id="cb70-17"><a href="other-regression-in-sas.html#cb70-17" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Be sure to check these variables to make sure the coding worked correctly.</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional SAS resources on the if-then-else statements, see:</p>
+<ul>
+<li><a href="https://documentation.sas.com/?docsetId=lestmtsref&docsetTarget=n1j60arf27ll4nn1ejavv3nby4pa.htm&docsetVersion=9.4&locale=en"> If-Then-Else </a> (from SAS Documentation)</li>
+</ul>
+</div>
+</div>
+<div id="log-binomial-regression-model" class="section level3 hasAnchor" number="11.2.4">
+<h3><span class="header-section-number">11.2.4</span> Log-Binomial Regression Model<a href="other-regression-in-sas.html#log-binomial-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To fit a log-binomial regression model, use the <code>proc genmod</code> task, specifying the <code>link=log</code> and <code>dist=binomial</code> options in the <code>model</code> statement. There are several other options that are useful in the <code>model</code> statement:</p>
+<ul>
+<li><p><code>type3</code> requests type 3 statistics for categorical variables.</p></li>
+<li><p><code>waldci</code> generates confidence limits for the estimated regression coefficients.</p></li>
+</ul>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="other-regression-in-sas.html#cb71-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> opt2; </span>
+<span id="cb71-2"><a href="other-regression-in-sas.html#cb71-2" tabindex="-1"></a>  CLASS <span class="fu">preterm</span>(<span class="at">ref =</span> <span class="st">&quot;0&quot;</span>) <span class="fu">Group</span>(<span class="at">ref =</span> <span class="st">&quot;C&quot;</span>) <span class="fu">PrevPreterm</span>(<span class="at">ref =</span> <span class="st">&quot;No&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> ref;</span>
+<span id="cb71-3"><a href="other-regression-in-sas.html#cb71-3" tabindex="-1"></a>  MODEL preterm <span class="ot">=</span> Group NumMiss PrevPreterm <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> binomial type3 waldci;</span>
+<span id="cb71-4"><a href="other-regression-in-sas.html#cb71-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Note: Predictor variables that are already coded as indicator variables (0 or 1) do not need to be included in the CLASS statement at all. But if they are included, then be sure to set ref=“0”; otherwise SAS by default will recode them with the last level (1 in this case) as the reference level.</p>
+<p>The model output is the same as in multiple linear regression, logistic regression, and Poisson regression, but estimated regression coefficients are in terms of log of the risk.</p>
+</div>
+<div id="estimate-effect-of-predictors-1" class="section level3 hasAnchor" number="11.2.5">
+<h3><span class="header-section-number">11.2.5</span> Estimate effect of predictors<a href="other-regression-in-sas.html#estimate-effect-of-predictors-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Recall that in a log-binomial regression model, the regression coefficients represent changes in the log of the risks (i.e., log of the probabilities)</p>
+</div>
+<div id="relative-risk" class="section level3 hasAnchor" number="11.2.6">
+<h3><span class="header-section-number">11.2.6</span> Relative Risk<a href="other-regression-in-sas.html#relative-risk" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Relative risk between groups can be calculated by taking the anti-log of the regression coefficients take the anti-log of the regression coefficients (i.e., exponentiate the beta coefficients). You can only do this using the <code>estimate</code> statement in <code>proc genmod</code>, specifying the name of the row (e.g., <code>'Beta XXX'</code>), the predictor of interest, 1 (for numerical variables) or contrasts (for categorical ones), and the <code>exp</code> option.</p>
+<p>For the contrasts, you list the values in the order of the categories found in the model. For binary categorical variables, you use 1 and -1, where the category listed as 1 is the “level of interest” and the category listed as -1 is the “reference level”. For multi-categorical variables, you use 1 and -1 for the two groups you want to compare and 0 for the group(s) that isn’t taken into account. Be careful to pay attention to the order in which the values of each variable are parameterized by SAS.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="other-regression-in-sas.html#cb72-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> opt2; </span>
+<span id="cb72-2"><a href="other-regression-in-sas.html#cb72-2" tabindex="-1"></a>  CLASS <span class="fu">preterm</span>(<span class="at">ref =</span> <span class="st">&quot;0&quot;</span>) <span class="fu">Group</span>(<span class="at">ref =</span> <span class="st">&quot;C&quot;</span>) <span class="fu">PrevPreterm</span>(<span class="at">ref =</span> <span class="st">&quot;No&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> ref;</span>
+<span id="cb72-3"><a href="other-regression-in-sas.html#cb72-3" tabindex="-1"></a>  MODEL preterm <span class="ot">=</span> Group NumMiss PrevPreterm <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> binomial type3 waldci;</span>
+<span id="cb72-4"><a href="other-regression-in-sas.html#cb72-4" tabindex="-1"></a>  ESTIMATE <span class="st">&#39;Beta Group&#39;</span> group <span class="dv">1</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span> exp;</span>
+<span id="cb72-5"><a href="other-regression-in-sas.html#cb72-5" tabindex="-1"></a>  ESTIMATE <span class="st">&#39;Beta NMiss&#39;</span> NumMiss <span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb72-6"><a href="other-regression-in-sas.html#cb72-6" tabindex="-1"></a>  ESTIMATE <span class="st">&#39;Beta LivePTB&#39;</span> PrevPreterm <span class="dv">1</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">/</span> exp;</span>
+<span id="cb72-7"><a href="other-regression-in-sas.html#cb72-7" tabindex="-1"></a>run;</span></code></pre></div>
+<p>There is a new table at the end of the output, titled <code>Contrast Estimate Results</code>, in addition to the usual tables you saw when fitting the log-binomial regression model. Each <code>estimate</code> statement will present two rows of information: one for the regression coefficient (<code>Beta XXX</code>) and one for the exponentiated coefficient (<code>Exp(Beta XXX)</code>). The two columns of interest are the <code>L'Beta Estimate</code>, which presents an estimate of the coefficients (log risk or relative risk, depending on the row) and <code>L'Beta Confidence Limits</code>, which presents confidence limits for the estimates.</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional SAS resources on estimating relative risk from log-binomial regression models, see:</p>
+<ul>
+<li><a href="https://stats.idre.ucla.edu/sas/faq/how-can-i-estimate-relative-risk-in-sas-using-proc-genmod-for-common-outcomes-in-cohort-studies/"> Estimating Relative Risk </a> (from UCLA)</li>
+</ul>
+</div>
+</div>
+<div id="predicted-risk" class="section level3 hasAnchor" number="11.2.7">
+<h3><span class="header-section-number">11.2.7</span> Predicted Risk<a href="other-regression-in-sas.html#predicted-risk" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can estimate a risk value for a particular observation/individual by creating a “new” dataset with the values we want to put into the equation and then using the <code>proc plm</code> task to calculate the risk, using the model equation and the specific values for the predictors.</p>
+<p>This is done by first using the <code>store</code> statement in <code>proc genmod</code> and saving the model results in <code>out=</code> under a particular name. For example, in the code below, we saved the model results in <code>logbinmdl</code>. Then a “new” dataset is created using the <code>data</code> step, and specifying the particular values for the observation. Then the <code>proc plm</code> task is carried out, using the model results that were stored (e.g., <code>source=logbinmdl</code>), the <code>score</code> statement to compute the risk for particular values of an observation (e.g., <code>data=new</code>). Again, we save the results from this procedure in a new name (<code>out=mdlpreds</code>) and can view the predicted risk value using <code>proc print</code>.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="other-regression-in-sas.html#cb73-1" tabindex="-1"></a><span class="sc">*</span>Run model and save results using store statement;</span>
+<span id="cb73-2"><a href="other-regression-in-sas.html#cb73-2" tabindex="-1"></a>proc genmod data <span class="ot">=</span> opt2; </span>
+<span id="cb73-3"><a href="other-regression-in-sas.html#cb73-3" tabindex="-1"></a>  CLASS <span class="fu">preterm</span>(<span class="at">ref =</span> <span class="st">&quot;0&quot;</span>) <span class="fu">Group</span>(<span class="at">ref =</span> <span class="st">&quot;C&quot;</span>) <span class="fu">PrevPreterm</span>(<span class="at">ref =</span> <span class="st">&quot;No&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> ref;</span>
+<span id="cb73-4"><a href="other-regression-in-sas.html#cb73-4" tabindex="-1"></a>  MODEL preterm <span class="ot">=</span> Group NumMiss PrevPreterm <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> binomial type3 waldci;</span>
+<span id="cb73-5"><a href="other-regression-in-sas.html#cb73-5" tabindex="-1"></a>  STORE out <span class="ot">=</span> logbinmdl; <span class="sc">*</span>store the model;</span>
+<span id="cb73-6"><a href="other-regression-in-sas.html#cb73-6" tabindex="-1"></a>run;</span>
+<span id="cb73-7"><a href="other-regression-in-sas.html#cb73-7" tabindex="-1"></a></span>
+<span id="cb73-8"><a href="other-regression-in-sas.html#cb73-8" tabindex="-1"></a><span class="sc">*</span>create new dataset;</span>
+<span id="cb73-9"><a href="other-regression-in-sas.html#cb73-9" tabindex="-1"></a><span class="sc">*</span>consisting of one row;</span>
+<span id="cb73-10"><a href="other-regression-in-sas.html#cb73-10" tabindex="-1"></a><span class="sc">*</span>an individual <span class="cf">in</span> the control group, with <span class="dv">2</span> missed prenatal appointments;</span>
+<span id="cb73-11"><a href="other-regression-in-sas.html#cb73-11" tabindex="-1"></a><span class="sc">*</span>and no previous preterm births;</span>
+<span id="cb73-12"><a href="other-regression-in-sas.html#cb73-12" tabindex="-1"></a>data new;</span>
+<span id="cb73-13"><a href="other-regression-in-sas.html#cb73-13" tabindex="-1"></a>  <span class="sc">*</span>initialize variables;</span>
+<span id="cb73-14"><a href="other-regression-in-sas.html#cb73-14" tabindex="-1"></a>  INPUT Group <span class="sc">$</span><span class="fl">1.</span> NumMiss PrevPreterm <span class="sc">$</span><span class="fl">3.</span>;</span>
+<span id="cb73-15"><a href="other-regression-in-sas.html#cb73-15" tabindex="-1"></a>  <span class="sc">*</span>input data, one observation per row;</span>
+<span id="cb73-16"><a href="other-regression-in-sas.html#cb73-16" tabindex="-1"></a>datalines;</span>
+<span id="cb73-17"><a href="other-regression-in-sas.html#cb73-17" tabindex="-1"></a>C <span class="dv">2</span> No</span>
+<span id="cb73-18"><a href="other-regression-in-sas.html#cb73-18" tabindex="-1"></a>;</span>
+<span id="cb73-19"><a href="other-regression-in-sas.html#cb73-19" tabindex="-1"></a>run;</span>
+<span id="cb73-20"><a href="other-regression-in-sas.html#cb73-20" tabindex="-1"></a></span>
+<span id="cb73-21"><a href="other-regression-in-sas.html#cb73-21" tabindex="-1"></a><span class="sc">*</span>calculate predictions with proc plm and saving the results using out<span class="ot">=</span>;</span>
+<span id="cb73-22"><a href="other-regression-in-sas.html#cb73-22" tabindex="-1"></a>proc plm source <span class="ot">=</span> logbinmdl noprint;</span>
+<span id="cb73-23"><a href="other-regression-in-sas.html#cb73-23" tabindex="-1"></a>  SCORE data <span class="ot">=</span> new out <span class="ot">=</span> mdlpreds pred <span class="ot">=</span> pred lclm <span class="ot">=</span> lower uclm <span class="ot">=</span> upper <span class="sc">/</span> ilink;</span>
+<span id="cb73-24"><a href="other-regression-in-sas.html#cb73-24" tabindex="-1"></a>run;</span>
+<span id="cb73-25"><a href="other-regression-in-sas.html#cb73-25" tabindex="-1"></a></span>
+<span id="cb73-26"><a href="other-regression-in-sas.html#cb73-26" tabindex="-1"></a><span class="sc">*</span>view predicted risk <span class="cf">for</span> the observation;</span>
+<span id="cb73-27"><a href="other-regression-in-sas.html#cb73-27" tabindex="-1"></a>proc print data <span class="ot">=</span> mdlpreds; </span>
+<span id="cb73-28"><a href="other-regression-in-sas.html#cb73-28" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Suppose we wanted to make predictions for multiple individuals. The <code>proc plm</code> task allows us to make predictions for multiple individuals in one fell swoop. Simply create one row per individual you want to calculate a predicted risk for in a <code>data</code> step (<code>new2</code>).</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="other-regression-in-sas.html#cb74-1" tabindex="-1"></a><span class="sc">*</span>Make a prediction <span class="cf">for</span> multiple individuals;</span>
+<span id="cb74-2"><a href="other-regression-in-sas.html#cb74-2" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">1</span><span class="sc">:</span> control group, <span class="dv">0</span> appointments missed, with previous preterm births;</span>
+<span id="cb74-3"><a href="other-regression-in-sas.html#cb74-3" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">2</span><span class="sc">:</span> control group, <span class="dv">0</span> appointments missed, with no previous preterm births;</span>
+<span id="cb74-4"><a href="other-regression-in-sas.html#cb74-4" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">3</span><span class="sc">:</span> control group, <span class="dv">2</span> appointments missed, with previous preterm births;</span>
+<span id="cb74-5"><a href="other-regression-in-sas.html#cb74-5" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">4</span><span class="sc">:</span> control group, <span class="dv">2</span> appointments missed, with no previous preterm births;</span>
+<span id="cb74-6"><a href="other-regression-in-sas.html#cb74-6" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">5</span><span class="sc">:</span> treatment group, <span class="dv">0</span> appointments missed, with previous preterm births;</span>
+<span id="cb74-7"><a href="other-regression-in-sas.html#cb74-7" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">6</span><span class="sc">:</span> treatment group, <span class="dv">0</span> appointments missed, with no previous preterm births;</span>
+<span id="cb74-8"><a href="other-regression-in-sas.html#cb74-8" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">7</span><span class="sc">:</span> treatment group, <span class="dv">2</span> appointments missed, with previous preterm births;</span>
+<span id="cb74-9"><a href="other-regression-in-sas.html#cb74-9" tabindex="-1"></a><span class="sc">*</span>Individual <span class="dv">8</span><span class="sc">:</span> treatment group, <span class="dv">2</span> appointments missed, with no previous preterm births;</span>
+<span id="cb74-10"><a href="other-regression-in-sas.html#cb74-10" tabindex="-1"></a></span>
+<span id="cb74-11"><a href="other-regression-in-sas.html#cb74-11" tabindex="-1"></a>data new2;</span>
+<span id="cb74-12"><a href="other-regression-in-sas.html#cb74-12" tabindex="-1"></a>INPUT Group <span class="sc">$</span><span class="fl">1.</span> NumMiss PrevPreterm <span class="sc">$</span><span class="fl">3.</span>;</span>
+<span id="cb74-13"><a href="other-regression-in-sas.html#cb74-13" tabindex="-1"></a>datalines;</span>
+<span id="cb74-14"><a href="other-regression-in-sas.html#cb74-14" tabindex="-1"></a>C <span class="dv">0</span> Yes</span>
+<span id="cb74-15"><a href="other-regression-in-sas.html#cb74-15" tabindex="-1"></a>C <span class="dv">0</span> No</span>
+<span id="cb74-16"><a href="other-regression-in-sas.html#cb74-16" tabindex="-1"></a>C <span class="dv">2</span> Yes</span>
+<span id="cb74-17"><a href="other-regression-in-sas.html#cb74-17" tabindex="-1"></a>C <span class="dv">2</span> No</span>
+<span id="cb74-18"><a href="other-regression-in-sas.html#cb74-18" tabindex="-1"></a>T <span class="dv">0</span> Yes</span>
+<span id="cb74-19"><a href="other-regression-in-sas.html#cb74-19" tabindex="-1"></a>T <span class="dv">0</span> No</span>
+<span id="cb74-20"><a href="other-regression-in-sas.html#cb74-20" tabindex="-1"></a>T <span class="dv">2</span> Yes</span>
+<span id="cb74-21"><a href="other-regression-in-sas.html#cb74-21" tabindex="-1"></a>T <span class="dv">2</span> No</span>
+<span id="cb74-22"><a href="other-regression-in-sas.html#cb74-22" tabindex="-1"></a>;</span>
+<span id="cb74-23"><a href="other-regression-in-sas.html#cb74-23" tabindex="-1"></a>run;</span>
+<span id="cb74-24"><a href="other-regression-in-sas.html#cb74-24" tabindex="-1"></a></span>
+<span id="cb74-25"><a href="other-regression-in-sas.html#cb74-25" tabindex="-1"></a>proc plm source <span class="ot">=</span> logbinmdl noprint;</span>
+<span id="cb74-26"><a href="other-regression-in-sas.html#cb74-26" tabindex="-1"></a>SCORE data <span class="ot">=</span> new2 out <span class="ot">=</span> mdlpreds2 pred <span class="ot">=</span> pred lclm <span class="ot">=</span> lower uclm <span class="ot">=</span> upper <span class="sc">/</span> ilink;</span>
+<span id="cb74-27"><a href="other-regression-in-sas.html#cb74-27" tabindex="-1"></a>run;</span>
+<span id="cb74-28"><a href="other-regression-in-sas.html#cb74-28" tabindex="-1"></a></span>
+<span id="cb74-29"><a href="other-regression-in-sas.html#cb74-29" tabindex="-1"></a>proc print data <span class="ot">=</span> mdlpreds2; </span>
+<span id="cb74-30"><a href="other-regression-in-sas.html#cb74-30" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+</div>
+<div id="ordinal-regression" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Ordinal Regression<a href="other-regression-in-sas.html#ordinal-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ordinal regression is used when the outcome is an ordinal categorical variable.</p>
+<p>In the OPT study, suppose the researchers were interested in examining the effect of treatment of maternal periodontal disease (<code>Group</code>) on babies’ APGAR scores (<code>apgarlevel</code>), after adjusting for number of missed prenatal appointments (<code>NumMiss</code>) and previous preterm births status (<code>Live.PTB</code>). In this example, Similar to the previous example, <code>Group</code> is the predictor of interest, and <code>NumMiss</code> and <code>Live.PTB</code> are considered to potential confounders.</p>
+<div id="data-cleaning-2" class="section level3 hasAnchor" number="11.3.1">
+<h3><span class="header-section-number">11.3.1</span> Data cleaning<a href="other-regression-in-sas.html#data-cleaning-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>EDIT 5: Creating the <code>apgarlevel</code> variable</strong></p>
+<p>The outcome, <code>apgarlevel</code>, needs to be created from the variable <code>Apgar1</code>, which is stored as a numeric variable, but it is an ordinal variable, and thus must be converted into a factor. Furthermore, it is currently scored between 0 and 10, but, scores are interpreted in the following manner:</p>
+<ul>
+<li><p>7 to 10 = normal (these scores indicate no further interventions need to take place)</p></li>
+<li><p>4 to 6 = low (these scores indicate low oxygen levels and the newborn should be closely monitored and encouraged to breathe)</p></li>
+<li><p>0 to 3 = critically low (these scores indicate critically low oxygen levels and medical professionals should increase oxygen immediately)</p></li>
+</ul>
+<p>We will create this variable in a data step with <code>IF</code>, <code>THEN</code>, and <code>ELSE</code> statements. We will first ensure missing data remains missing with an <code>IF Apgar1 = .</code> statement, followed by <code>THEN apgarlevel = ""</code> statement. The next line will start with <code>ELSE IF</code> and then specify that values below 4 will have the value <em>critically low</em> for the <code>apgarlevel</code> value. The next line will use a similar format to specify the remaining values that are less than 7 should be labeled <em>low</em>, and the final statement will assign the remaining participants (who should have an <code>Apgar1</code> score of 7-10) to an <code>apgarlevel</code> value of <em>normal</em>.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="other-regression-in-sas.html#cb75-1" tabindex="-1"></a>data opt3;</span>
+<span id="cb75-2"><a href="other-regression-in-sas.html#cb75-2" tabindex="-1"></a>  SET opt2;</span>
+<span id="cb75-3"><a href="other-regression-in-sas.html#cb75-3" tabindex="-1"></a><span class="sc">*</span>create ordinal variable <span class="cf">for</span> apgar categories; </span>
+<span id="cb75-4"><a href="other-regression-in-sas.html#cb75-4" tabindex="-1"></a>LENGTH apgarlevel <span class="sc">$</span><span class="dv">15</span>;</span>
+<span id="cb75-5"><a href="other-regression-in-sas.html#cb75-5" tabindex="-1"></a>IF Apgar1 <span class="ot">=</span> . THEN apgarlevel <span class="ot">=</span> <span class="st">&quot;&quot;</span>;</span>
+<span id="cb75-6"><a href="other-regression-in-sas.html#cb75-6" tabindex="-1"></a>ELSE IF Apgar1 <span class="sc">&lt;</span> <span class="dv">4</span> THEN apgarlevel <span class="ot">=</span> <span class="st">&quot;critically low&quot;</span>; </span>
+<span id="cb75-7"><a href="other-regression-in-sas.html#cb75-7" tabindex="-1"></a>ELSE IF Apgar1 <span class="sc">&lt;</span> <span class="dv">7</span> then apgarlevel <span class="ot">=</span> <span class="st">&quot;low&quot;</span>;</span>
+<span id="cb75-8"><a href="other-regression-in-sas.html#cb75-8" tabindex="-1"></a>ELSE apgarlevel <span class="ot">=</span> <span class="st">&quot;normal&quot;</span>;</span>
+<span id="cb75-9"><a href="other-regression-in-sas.html#cb75-9" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+<div id="ordinal-regression-model" class="section level3 hasAnchor" number="11.3.2">
+<h3><span class="header-section-number">11.3.2</span> Ordinal Regression Model<a href="other-regression-in-sas.html#ordinal-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To fit an ordinal regression model, use <code>proc logistic</code>. Specify the model equation the same way you would in logistic regression. Simply list the ordinal variable in the <code>class</code> statement and as the response variable in the <code>model</code> statement.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="other-regression-in-sas.html#cb76-1" tabindex="-1"></a>proc logistic data <span class="ot">=</span> opt3;</span>
+<span id="cb76-2"><a href="other-regression-in-sas.html#cb76-2" tabindex="-1"></a>  CLASS apgarlevel <span class="fu">Group</span>(<span class="at">ref=</span><span class="st">&quot;C&quot;</span>) <span class="fu">PrevPreterm</span>(<span class="at">ref=</span><span class="st">&quot;No&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> ref;</span>
+<span id="cb76-3"><a href="other-regression-in-sas.html#cb76-3" tabindex="-1"></a>  MODEL apgarlevel <span class="ot">=</span> Group NumMiss PrevPreterm <span class="sc">/</span> cl;</span>
+<span id="cb76-4"><a href="other-regression-in-sas.html#cb76-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>Note: Predictor variables that are already coded as indicator variables (0 or 1) do not need to be included in the CLASS statement at all. But if they are included, then be sure to set ref=“0”; otherwise SAS by default will recode them with the last level (1 in this case) as the reference level.</p>
+<p>The output from <code>proc logistic</code> includes many tables. As a reminder, the main information is in four tables.</p>
+<p>The first important table, <code>Type 3 Analysis of Effects</code>, provides the likelihood ratio test results for each predictor in the model. It includes the Chi-squared test statistic (<code>Wald Chi-Square</code>) in the third column and its <em>p</em>-value (<code>Pr &gt; ChiSq</code>) in the fourth column.</p>
+<p>The second important table, <code>Analysis of Maximum Likelihood Estimates</code>, provides the estimated regression coefficients, in terms of common log odds. Recall that ordinal regression in effect fits a series of equations, each with different intercepts (in terms of log odds), for different levels of the outcome variable. The first column, <code>Parameter</code>, specifies each coefficient (intercept or predictor) in the model. The second column of values (unlabeled) provides the group level of interest for the categorical variables. The third column (<code>DF</code>) is the degrees of freedom for the predictor. The fourth column (<code>Estimate</code>) provides effect of the predictor, in terms of common log odds, while the fifth column (<code>Standard Error</code>) provides the standard error of the estimate. The sixth column (<code>Wald Chi-Square</code>) denotes the Chi-square test statistic for that predictor and the last column (<code>Pr &gt; ChiSq</code>) presents the <em>p</em>-value for the test.</p>
+<p>The third important table, <code>Odds Ratio Estimates</code> displays the common odds ratios for each predictor in the model. The first column (<code>Effect</code>) specifies the variable(s) (and groups being compared for the categorical variables). It also includes the estimated common odds ratio (<code>Point Estimate</code>) in the second column along with a 95% confidence interval (<code>95% Wald Confidence Limits</code>) in the last two columns.</p>
+<p>The fourth important table, <code>Parameter Estimates and Wald Confidence Intervals</code>, again shows the estimated regression coefficients (<code>Estimate</code>), in terms of common log odds, for each predictor in the model and provides its 95% confidence interval (<code>95% Confidence Limits</code>).</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional SAS resources on ordinal regression, see:</p>
+<ul>
+<li><a href="https://documentation.sas.com/?docsetId=statug&docsetTarget=statug_logistic_examples03.htm&docsetVersion=14.3&locale=en"> Ordinal Logistic Regression </a> (from SAS Documentation)</li>
+<li><a href="https://stats.idre.ucla.edu/sas/dae/ordinal-logistic-regression/"> Ordinal Logistic Regression </a> (from UCLA)</li>
+<li><a href="https://stats.idre.ucla.edu/sas/output/ordered-logistic-regression/"> Annotated output </a> (from UCLA)</li>
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="poisson-regression-in-sas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sample-size-and-power-in-sas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

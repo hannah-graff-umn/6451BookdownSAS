@@ -1,0 +1,175 @@
+# Survival Analysis in SAS
+
+::: {.graybox}
+
+<font size="4">**Goals**</font>
+
+The goal of this software lesson is to learn how to
+
+* plot Kaplan-Meier curves,
+* estimate quartile (e.g., Q1, median, Q3) survival time(s), and
+* estimate survival at specific time points, and
+* conduct hypotheses tests for comparing two groups on time-to-event data (log-rank test, Gehan-Breslow-Wilcoxon test).
+
+:::
+
+
+## Dataset  
+
+In this software lesson, you will use the Laryngoscope dataset. The dataset, data dictionary, and dataset introduction can be found on Canvas, titled *Laryngoscope.csv*, *Laryngoscope Data Dictionary.pdf*, and *Laryngoscope Dataset Introduction.pdf*, respectively.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc import
+  DATAFILE = "/<filepath>/Laryngoscope.csv"
+  OUT = lar
+  DBMS = csv
+  REPLACE;
+  GETNAMES = yes;
+run;
+```
+
+## Survival Analysis
+
+Thus far in the course, you have focused on *linear* regression, which is used when you have a continuous outcome, and *logistic* regression, which is used when you have a categorical outcome. Another type of variable that is common in the health sciences is time-to-event, which occurs when participants are followed for a period of time until a specified event occurs. Survival analysis is the statistical method for analyzing time-to-event data.  
+
+Because of the unique nature of the data, two pieces of information are needed for each participant: 
+
+- the length of time the participant was followed, and 
+
+- whether or not the participant had the event of interest.
+
+These two variables together make up the time-to-event outcome in the analysis. 
+
+In the Laryngoscope study, the researchers were interested in comparing a novel laryngoscope (Pentax) with a standard one (Macintosh) on time-to-intubation on the first try. In this example, `Randomization` is the intervention variable (1 denoted for those that received *Pentax* and 0 for those that received *Macintosh*), and the two variables that make up the time-to-event outcome are `attempt1_time` (how many seconds it took to intubate) and `attempt1_S_F` (1 denoted as successful intubation on first try and 0 for not successful intubation (censored)). 
+
+### Create Kaplan-Meier survival curve
+
+The best way to visualize time-to-event data is via a Kaplan-Meier plot, either overall or by groups. Since examining survival by group is more common, this will be shown first. 
+
+- To create Kaplan-Meier survival curves by group, use
+    + `proc lifetest`, specifying the name of the dataset and `plots = survival` to indicate you want the survival plot to be displayed (Note: if you want to display confidence bands, you can specify `survival(cl)`. If you want to display confidence bands, the log-rank test p-value, and the number at risk in each group, you specify `survival(cl test atrisk)`), 
+    + the `TIME` statement, specifying the time variable, followed by a `*`, and then the event indicator, indicating which value denotes a censored observation, 
+    + the `STRATA` statement, specifying the grouping variable, 
+    + the `ODS SELECT` statement, specifying `survivalplot` to display only the survival plot (Note: using the `ODS SELECT` statement is optional but can help to minimize the amount of output produced), and 
+    - any additional statements for customizing the output:
+        - the `LABEL`statement to relabel the x-axis; 
+        - the `TITLE` statement to relabel the title; 
+        - the `TITLE2` statement to make a subtitle; 
+        - the `FOOTNOTE` statement to make a footnote: 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc lifetest data = lar plots = survival(cl test atrisk);
+TIME attempt1_time * attempt1_S_F(0);
+STRATA Randomization;
+LABEL attempt1_time = "Time to Intubation (Seconds)";
+TITLE "Time to Intubation";
+TITLE2 "By Laryngoscope";
+FOOTNOTE "First Attempt Only";
+ODS SELECT survivalplot;
+run;
+```
+
+The plot displays one curve per group. Each `+` on the plot indicates a censored observation (i.e., observations that did not have the event, in this case, an observation with an unsuccessful intubation).
+
+- To create a Kaplan-Meier survival curve of overall survival, use the code you have seen thus far, but don't include the `STRATA` statement:
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc lifetest data = lar plots = survival(cl atrisk);
+TIME attempt1_time * attempt1_S_F(0);
+LABEL attempt1_time = "Time to Intubation (Seconds)";
+TITLE "Time to Intubation";
+TITLE2 "By Laryngoscope";
+FOOTNOTE "First Attempt Only";
+ODS SELECT survivalplot;
+run;
+```
+
+The plot displays one curve of overall survival. As before, each `+` on this plot indicates a censored observation (i.e., observations that did not have the event, in this case, an observation with an unsuccessful intubation).
+
+### Compute quartile (e.g., Q1, median, Q3) survival time(s)
+
+One summary statistic for time-to-event data is median survival time, which is the time when the cumulative survival drops below 50%. The median is the 50th percentile, but you can also compute other quartile survival times (e.g., 25th (Q1) or 75th (Q3) percentiles). The `proc lifetest` task automatically estimates the these survival times and their $95\%$ confidence intervals. 
+
+- To obtain quartile survival time(s) and their CIs, use the code you have seen thus far, but modify the `ODS SELECT` statement, specifying `quartiles` to display only the table with the quartile values (Note: using the `ODS SELECT` statement is optional but can help to minimize the amount of output produced):
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc lifetest data = lar;
+TIME attempt1_time * attempt1_S_F(0);
+STRATA Randomization;
+ODS SELECT quartiles;
+run;
+```
+
+The output includes one table per group (if there is a grouping variable) and the following columns: 
+
+- the quartile values (`Point Estimate`), with each row indicating 25th percentile (Q1), 50th percentile (median or Q2), and 75th percentile (Q3) 
+- the lower and upper $95\%$ confidence limits for the quartiles (`[Lower` and `Upper)`). 
+
+### Compute survival at specific time points
+
+Other summary statistics for time-to-event data include estimated survival at specific time points. 
+
+- To obtain survival at specific time points and their CIs, 
+    + first, use the code you have seen thus far, but specify the option `timelist=` to indicate the values of the time points you want estimates of, the option `outsurv=` to save the results, and the option `reduceout` to limit the results to only those listed times. Also modify the `ODS SELECT` statement, specifying `productlimitestimates` to display only the table with the survival estimates (Note: using the `ODS SELECT` statement is optional but can help to minimize the amount of output produced).
+    + then, use `proc print`, specifying the newly saved results in the `outsurv=` option from the `proc lifetest` task: 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc lifetest data = lar timelist = (15 30 42 45 60 75 90) outsurv = surv_estimates reduceout;
+TIME attempt1_time * attempt1_S_F(0);
+STRATA Randomization; 
+ODS SELECT productlimitestimates;
+run;
+
+proc print data=surv_estimates; 
+run;
+```
+
+The output includes three tables, two of them for the survival estimates for each group and one for the survival estimates and their CIs. 
+
+In the two top tables (one for each group), there is one row per time point specified. The first column (`Timelist`) specifies the time points requested and the second column (the name of the time variable) provides the closest time observation in the data to the specified time point. The third column (`Survival`) is the estimated survival probability at the time point and the fifth column (`Survival Standard Error`) provides the standard error for that particular time point. 
+
+In the third table, there is one row per time point per group. The first 6 rows are for the *Macintosh* group and the last 6 rows are for the *Pentax* group. The `Survival` column contains the estimated survival probability at the time point (and will be identical to the values in the tables by group) and the lower and upper limits of the $95\%$ confidence interval are given in the `SDF_LCL` and `SDF_UCL` columns. 
+
+### Conduct hypothesis test for comparing two groups on time-to-event outcome
+
+Besides descriptive results (as shown thus far in this software lesson), you may also be interested in using inferential results () to compare two groups on a time-to-event outcome. Two common tests that can be used are the log-rank test or the Gehan-Breslow-Wilcoxon test (simply called Wilcoxon test). Both tests have the same null hypothesis (that survival is identical in the two groups), but they differ in how they weight early verses late events, with the log-rank test weighting all time points equally and Wilcoxon test putting more weight on early events compared to later events. 
+
+*Log-rank test*
+
+- To conduct a log-rank test, use the code you have seen thus far, but include an option in the `STRATA` statement indicate the type of test to be carried out (`test = logrank`) and modify the `ODS SELECT` statement, specifying `homtests` to display only the table with the test results (Note: using the `ODS SELECT` statement is optional but can help to minimize the amount of output produced):
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc lifetest data = lar;
+TIME attempt1_time * attempt1_S_F(0);
+STRATA Randomization / test = logrank;
+ODS SELECT homtests;
+run;
+```
+
+The output includes a table with the Chi-square test statistic (`Chi-Square`) and the associated *p*-value (`Pr > Chi-Square`). 
+
+*Wilcoxon test*
+
+- To conduct a Wilcoxon test, use the code you have seen thus far, but instead change `test = wilcoxon` to indicate carrying out a Wilcoxon test:
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc lifetest data = lar;
+TIME attempt1_time * attempt1_S_F(0);
+STRATA Randomization / test = wilcoxon;
+ODS SELECT homtests;
+run;
+```
+
+The output is similar to that from the log-rank test. 
+
+::: {.bluebox}
+
+<font size="4">**Additional Resources**</font>
+
+For additional SAS resources on survival analysis, see:
+
+* <a href="https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_lifetest_sect004.htm"> Proc Lifetest Documentation </a> (from SAS)
+* <a href="https://stats.idre.ucla.edu/sas/seminars/sas-survival/"> Introduction to Survival Analysis </a> (from UCLA)
+* <a href="https://www.sas.com/content/dam/SAS/en_ca/User%20Group%20Presentations/Edmonton-User-Group/NiroshaGunasekara-SurvivingSurvivalAnalysis-Spring2014.pdf"> Surviving Survival Analysis </a> (from SAS)
+
+:::

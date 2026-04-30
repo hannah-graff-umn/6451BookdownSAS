@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Software Lesson 10 Poisson Regression in SAS | 6451 Software Lessons - SAS</title>
+  <meta name="description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Software Lesson 10 Poisson Regression in SAS | 6451 Software Lessons - SAS" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  <meta name="github-repo" content="hannah-graff-umn/6451BookdownSAS" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Software Lesson 10 Poisson Regression in SAS | 6451 Software Lessons - SAS" />
+  
+  <meta name="twitter:description" content="SAS software lessons for U of M’s PUBH 6451 class." />
+  
+
+
+
+<meta name="date" content="2026-04-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="project-1.html"/>
+<link rel="next" href="other-regression-in-sas.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pubh 6451 Software Lessons - SAS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html"><i class="fa fa-check"></i><b>1</b> Creating Table 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#dataset"><i class="fa fa-check"></i><b>1.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#importing-data"><i class="fa fa-check"></i><b>1.1.1</b> Importing data</a></li>
+<li class="chapter" data-level="1.1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#examine-the-dataset"><i class="fa fa-check"></i><b>1.1.2</b> Examine the dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#creating-table-1"><i class="fa fa-check"></i><b>1.2</b> Creating Table 1</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-1-identify-the-relevant-variables-to-include-in-table-1"><i class="fa fa-check"></i><b>1.2.1</b> Step 1: Identify the relevant variables to include in Table 1</a></li>
+<li class="chapter" data-level="1.2.2" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-2-determine-which-variables-are-continuous-and-which-are-categorical"><i class="fa fa-check"></i><b>1.2.2</b> Step 2: Determine which variables are continuous and which are categorical</a></li>
+<li class="chapter" data-level="1.2.3" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-3-format-the-values-of-the-categorical-variables-optional"><i class="fa fa-check"></i><b>1.2.3</b> Step 3: Format the values of the categorical variables (optional)</a></li>
+<li class="chapter" data-level="1.2.4" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-4-relabel-the-variable-names-optional"><i class="fa fa-check"></i><b>1.2.4</b> Step 4: Relabel the variable names (optional)</a></li>
+<li class="chapter" data-level="1.2.5" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-5-create-table-1"><i class="fa fa-check"></i><b>1.2.5</b> Step 5: Create Table 1</a></li>
+<li class="chapter" data-level="1.2.6" data-path="creating-table-1-in-sas.html"><a href="creating-table-1-in-sas.html#step-6-export-table-1-to-word-doc"><i class="fa fa-check"></i><b>1.2.6</b> Step 6: Export Table 1 to Word Doc</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html"><i class="fa fa-check"></i><b>2</b> Multiple Linear Regression, Part 1 in SAS</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#dataset-1"><i class="fa fa-check"></i><b>2.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#multiple-linear-regression"><i class="fa fa-check"></i><b>2.1.1</b> Multiple linear regression</a></li>
+<li class="chapter" data-level="2.1.2" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#fit-multiple-linear-regression-model"><i class="fa fa-check"></i><b>2.1.2</b> Fit multiple linear regression model</a></li>
+<li class="chapter" data-level="2.1.3" data-path="multiple-linear-regression-part-1-in-sas.html"><a href="multiple-linear-regression-part-1-in-sas.html#set-the-reference-group-for-a-categorical-predictor"><i class="fa fa-check"></i><b>2.1.3</b> Set the reference group for a categorical predictor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html"><i class="fa fa-check"></i><b>3</b> Multiple Linear Regression, Part 2 in SAS</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#dataset-2"><i class="fa fa-check"></i><b>3.1</b> Dataset</a></li>
+<li class="chapter" data-level="3.2" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#multicategorical-predictors"><i class="fa fa-check"></i><b>3.2</b> Multicategorical Predictors</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="multiple-linear-regression-part-2-in-sas.html"><a href="multiple-linear-regression-part-2-in-sas.html#conduct-overall-test-for-multicategorical-predictors"><i class="fa fa-check"></i><b>3.2.1</b> Conduct overall test for multicategorical predictors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html"><i class="fa fa-check"></i><b>4</b> Multiple Linear Regression, Part 3 in SAS</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#dataset-3"><i class="fa fa-check"></i><b>4.1</b> Dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#model-diagnostics"><i class="fa fa-check"></i><b>4.2</b> Model Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#calculate-measures-of-model-fit"><i class="fa fa-check"></i><b>4.2.1</b> Calculate measures of model fit</a></li>
+<li class="chapter" data-level="4.2.2" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#check-for-outliers-and-influential-points"><i class="fa fa-check"></i><b>4.2.2</b> Check for outliers and influential points</a></li>
+<li class="chapter" data-level="4.2.3" data-path="multiple-linear-regression-part-3-in-sas.html"><a href="multiple-linear-regression-part-3-in-sas.html#collinearity-and-multicollinearity"><i class="fa fa-check"></i><b>4.2.3</b> Collinearity and multicollinearity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html"><i class="fa fa-check"></i><b>5</b> Multiple Linear Regression, Part 4 in SAS</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#dataset-4"><i class="fa fa-check"></i><b>5.1</b> Dataset</a></li>
+<li class="chapter" data-level="5.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interactions"><i class="fa fa-check"></i><b>5.2</b> Interactions</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-one-binary-and-one-continuous-predictor"><i class="fa fa-check"></i><b>5.2.1</b> Interaction between one binary and one continuous predictor</a></li>
+<li class="chapter" data-level="5.2.2" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#collapse-categories-in-a-categorical-variable"><i class="fa fa-check"></i><b>5.2.2</b> Collapse categories in a categorical variable</a></li>
+<li class="chapter" data-level="5.2.3" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plot-fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.3</b> Create interaction plot &amp; Fit a model with interaction term</a></li>
+<li class="chapter" data-level="5.2.4" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#interaction-between-two-binary-predictors"><i class="fa fa-check"></i><b>5.2.4</b> Interaction between two binary predictors</a></li>
+<li class="chapter" data-level="5.2.5" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#create-interaction-plots"><i class="fa fa-check"></i><b>5.2.5</b> Create interaction plots</a></li>
+<li class="chapter" data-level="5.2.6" data-path="multiple-linear-regression-part-4-in-sas.html"><a href="multiple-linear-regression-part-4-in-sas.html#fit-a-model-with-interaction-term"><i class="fa fa-check"></i><b>5.2.6</b> Fit a model with interaction term</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html"><i class="fa fa-check"></i><b>6</b> Logistic Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#dataset-5"><i class="fa fa-check"></i><b>6.1</b> Dataset</a></li>
+<li class="chapter" data-level="6.2" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#logistic-regression"><i class="fa fa-check"></i><b>6.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#fit-logistic-regression-model"><i class="fa fa-check"></i><b>6.2.1</b> Fit logistic regression model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="logistic-regression-in-sas.html"><a href="logistic-regression-in-sas.html#model-evaluation"><i class="fa fa-check"></i><b>6.3</b> Model Evaluation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html"><i class="fa fa-check"></i><b>7</b> Survival Analysis in SAS</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#dataset-6"><i class="fa fa-check"></i><b>7.1</b> Dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#survival-analysis"><i class="fa fa-check"></i><b>7.2</b> Survival Analysis</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#create-kaplan-meier-survival-curve"><i class="fa fa-check"></i><b>7.2.1</b> Create Kaplan-Meier survival curve</a></li>
+<li class="chapter" data-level="7.2.2" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-quartile-e.g.-q1-median-q3-survival-times"><i class="fa fa-check"></i><b>7.2.2</b> Compute quartile (e.g., Q1, median, Q3) survival time(s)</a></li>
+<li class="chapter" data-level="7.2.3" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#compute-survival-at-specific-time-points"><i class="fa fa-check"></i><b>7.2.3</b> Compute survival at specific time points</a></li>
+<li class="chapter" data-level="7.2.4" data-path="survival-analysis-in-sas.html"><a href="survival-analysis-in-sas.html#conduct-hypothesis-test-for-comparing-two-groups-on-time-to-event-outcome"><i class="fa fa-check"></i><b>7.2.4</b> Conduct hypothesis test for comparing two groups on time-to-event outcome</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html"><i class="fa fa-check"></i><b>8</b> Proportional Hazards Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#dataset-7"><i class="fa fa-check"></i><b>8.1</b> Dataset</a></li>
+<li class="chapter" data-level="8.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#exploratory-data-analysis-eda"><i class="fa fa-check"></i><b>8.2</b> Exploratory Data Analysis (EDA)</a></li>
+<li class="chapter" data-level="8.3" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-fitting"><i class="fa fa-check"></i><b>8.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-1-cox-proportional-hazards-regression-with-a-categorical-predictor"><i class="fa fa-check"></i><b>8.3.1</b> Model 1: Cox proportional hazards regression with a categorical predictor</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proportional-hazards-regression-in-sas.html"><a href="proportional-hazards-regression-in-sas.html#model-2-multiple-cox-proportional-hazards-regression"><i class="fa fa-check"></i><b>8.3.2</b> Model 2: Multiple Cox proportional hazards regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="project-1.html"><a href="project-1.html"><i class="fa fa-check"></i><b>9</b> Project 1</a></li>
+<li class="chapter" data-level="10" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html"><i class="fa fa-check"></i><b>10</b> Poisson Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#datasets"><i class="fa fa-check"></i><b>10.1</b> Datasets</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-1-lung-health-study"><i class="fa fa-check"></i><b>10.1.1</b> Dataset #1: Lung Health Study</a></li>
+<li class="chapter" data-level="10.1.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#dataset-2-canadian-smoking-and-death-study"><i class="fa fa-check"></i><b>10.1.2</b> Dataset #2: Canadian Smoking and Death Study</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data"><i class="fa fa-check"></i><b>10.2</b> Data</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#data-cleaning"><i class="fa fa-check"></i><b>10.2.1</b> Data cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-fitting-1"><i class="fa fa-check"></i><b>10.3</b> Model Fitting</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-1-count-data-with-a-fixed-denominator"><i class="fa fa-check"></i><b>10.3.1</b> Model 1: Count data with a fixed denominator</a></li>
+<li class="chapter" data-level="10.3.2" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-evaluation-1"><i class="fa fa-check"></i><b>10.3.2</b> Model Evaluation</a></li>
+<li class="chapter" data-level="10.3.3" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#models-for-overdispersed-data"><i class="fa fa-check"></i><b>10.3.3</b> Models for overdispersed data</a></li>
+<li class="chapter" data-level="10.3.4" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-2-binary-data-with-a-variable-denominator-offset-term"><i class="fa fa-check"></i><b>10.3.4</b> Model 2: Binary data with a variable denominator (offset term)</a></li>
+<li class="chapter" data-level="10.3.5" data-path="poisson-regression-in-sas.html"><a href="poisson-regression-in-sas.html#model-3-binary-data-with-a-variable-denominator-and-a-covariate"><i class="fa fa-check"></i><b>10.3.5</b> Model 3: Binary data with a variable denominator and a covariate</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html"><i class="fa fa-check"></i><b>11</b> Other Regression in SAS</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#dataset-8"><i class="fa fa-check"></i><b>11.1</b> Dataset</a></li>
+<li class="chapter" data-level="11.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-ordinal-regression"><i class="fa fa-check"></i><b>11.2</b> Log-Binomial &amp; Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regressiono"><i class="fa fa-check"></i><b>11.2.1</b> Log-Binomial RegressionO</a></li>
+<li class="chapter" data-level="11.2.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-1"><i class="fa fa-check"></i><b>11.2.2</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.2.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#putting-all-edits-together"><i class="fa fa-check"></i><b>11.2.3</b> Putting All Edits Together</a></li>
+<li class="chapter" data-level="11.2.4" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#log-binomial-regression-model"><i class="fa fa-check"></i><b>11.2.4</b> Log-Binomial Regression Model</a></li>
+<li class="chapter" data-level="11.2.5" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#estimate-effect-of-predictors-1"><i class="fa fa-check"></i><b>11.2.5</b> Estimate effect of predictors</a></li>
+<li class="chapter" data-level="11.2.6" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#relative-risk"><i class="fa fa-check"></i><b>11.2.6</b> Relative Risk</a></li>
+<li class="chapter" data-level="11.2.7" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#predicted-risk"><i class="fa fa-check"></i><b>11.2.7</b> Predicted Risk</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression"><i class="fa fa-check"></i><b>11.3</b> Ordinal Regression</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#data-cleaning-2"><i class="fa fa-check"></i><b>11.3.1</b> Data cleaning</a></li>
+<li class="chapter" data-level="11.3.2" data-path="other-regression-in-sas.html"><a href="other-regression-in-sas.html#ordinal-regression-model"><i class="fa fa-check"></i><b>11.3.2</b> Ordinal Regression Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html"><i class="fa fa-check"></i><b>12</b> Sample Size and Power in SAS</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#introduction-1"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#methods"><i class="fa fa-check"></i><b>12.2</b> Methods</a></li>
+<li class="chapter" data-level="12.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-means"><i class="fa fa-check"></i><b>12.3</b> Differences in Group Means</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes"><i class="fa fa-check"></i><b>12.3.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.3.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid"><i class="fa fa-check"></i><b>12.3.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.3.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid"><i class="fa fa-check"></i><b>12.3.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#differences-in-group-proportions"><i class="fa fa-check"></i><b>12.4</b> Differences in Group Proportions</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#estimating-sample-sizes-1"><i class="fa fa-check"></i><b>12.4.1</b> Estimating sample sizes</a></li>
+<li class="chapter" data-level="12.4.2" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-for-one-mcid-1"><i class="fa fa-check"></i><b>12.4.2</b> Creating power curves and tables for one MCID</a></li>
+<li class="chapter" data-level="12.4.3" data-path="sample-size-and-power-in-sas.html"><a href="sample-size-and-power-in-sas.html#creating-power-curves-and-tables-to-compare-two-or-more-mcid-1"><i class="fa fa-check"></i><b>12.4.3</b> Creating power curves and tables to compare two or more MCID</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">6451 Software Lessons - SAS</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="poisson-regression-in-sas" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Software Lesson 10</span> Poisson Regression in SAS<a href="poisson-regression-in-sas.html#poisson-regression-in-sas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="graybox">
+<p><font size="4"><strong>Goals</strong></font></p>
+<p>The goal of this software lesson is to learn how to</p>
+<ul>
+<li>fit a Poisson regression model, with or without an offset term, and obtain estimates for the effect of a predictor in terms of log count/rate and in terms of rate ratios, and</li>
+<li>obtain model diagnostics to check assumptions and evaluate the model fit (e.g., overdispersion).</li>
+</ul>
+</div>
+<div id="datasets" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Datasets<a href="poisson-regression-in-sas.html#datasets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="dataset-1-lung-health-study" class="section level3 hasAnchor" number="10.1.1">
+<h3><span class="header-section-number">10.1.1</span> Dataset #1: Lung Health Study<a href="poisson-regression-in-sas.html#dataset-1-lung-health-study" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s use the Lung Health Study (LHS) again.</p>
+<p>Recall that the dataset and data dictionary can be found on Canvas, <em>lhs.csv</em> and <em>lhsdoc.docx</em>, respectively.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="poisson-regression-in-sas.html#cb53-1" tabindex="-1"></a>proc import</span>
+<span id="cb53-2"><a href="poisson-regression-in-sas.html#cb53-2" tabindex="-1"></a>  DATAFILE <span class="ot">=</span> <span class="st">&quot;/&lt;filepath&gt;/lhs.csv&quot;</span></span>
+<span id="cb53-3"><a href="poisson-regression-in-sas.html#cb53-3" tabindex="-1"></a>  OUT <span class="ot">=</span> lhs</span>
+<span id="cb53-4"><a href="poisson-regression-in-sas.html#cb53-4" tabindex="-1"></a>  DBMS <span class="ot">=</span> csv</span>
+<span id="cb53-5"><a href="poisson-regression-in-sas.html#cb53-5" tabindex="-1"></a>  REPLACE;</span>
+<span id="cb53-6"><a href="poisson-regression-in-sas.html#cb53-6" tabindex="-1"></a>  GETNAMES <span class="ot">=</span> yes;</span>
+<span id="cb53-7"><a href="poisson-regression-in-sas.html#cb53-7" tabindex="-1"></a>run;</span></code></pre></div>
+<p>You will use this dataset to answer the following question:</p>
+<ul>
+<li><strong>Model 1</strong>: Is the rate of cigarettes smoked per day different after 3 years of a smoking intervention (with and without Atrovent) versus those who have usual care?</li>
+</ul>
+<p>The variables of interest are:</p>
+<ul>
+<li><p><code>cigsYr3</code>: the number of cigarettes smoked per day at year 3 of the study (we will create this variable from the <code>AV3CIGS</code> variable), and</p></li>
+<li><p><code>alphagroup</code>: the intervention of either <em>UC</em> for usual care, <em>SI-A</em> for intervention plus Atrovent, and <em>SI-P</em> for intervention plus placebo.</p></li>
+</ul>
+</div>
+<div id="dataset-2-canadian-smoking-and-death-study" class="section level3 hasAnchor" number="10.1.2">
+<h3><span class="header-section-number">10.1.2</span> Dataset #2: Canadian Smoking and Death Study<a href="poisson-regression-in-sas.html#dataset-2-canadian-smoking-and-death-study" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Another dataset used in this software lesson is the Canadian Smoking and Death Study (CSADS).</p>
+<p>The CSADS was a survey administered to male veterans of either World War I, World War II, or the Korean War. The initial survey was administered from September 1955 through June 1956. All men (or their families) were then re-surveyed in June 1962 to determine their survival status.</p>
+<p>The dataset and report/article of the study can be found on Canvas, titled <em>CanadaSmoking.csv</em> and <em>CanadianSmokingAndDeathStudy.pdf</em>, respectively.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="poisson-regression-in-sas.html#cb54-1" tabindex="-1"></a>proc import</span>
+<span id="cb54-2"><a href="poisson-regression-in-sas.html#cb54-2" tabindex="-1"></a>  DATAFILE <span class="ot">=</span> <span class="st">&quot;/&lt;filepath&gt;/CanadaSmoking.csv&quot;</span></span>
+<span id="cb54-3"><a href="poisson-regression-in-sas.html#cb54-3" tabindex="-1"></a>  OUT <span class="ot">=</span> CSADS</span>
+<span id="cb54-4"><a href="poisson-regression-in-sas.html#cb54-4" tabindex="-1"></a>  DBMS <span class="ot">=</span> csv</span>
+<span id="cb54-5"><a href="poisson-regression-in-sas.html#cb54-5" tabindex="-1"></a>  REPLACE;</span>
+<span id="cb54-6"><a href="poisson-regression-in-sas.html#cb54-6" tabindex="-1"></a>  GETNAMES <span class="ot">=</span> yes;</span>
+<span id="cb54-7"><a href="poisson-regression-in-sas.html#cb54-7" tabindex="-1"></a>run;</span></code></pre></div>
+<p>You will use this dataset to answer the following questions:</p>
+<ul>
+<li><p><strong>Model 2</strong>: Does the death rate differ for those who smoke cigarettes only verses pipe/cigar only verses smoking both verses not smoking?</p></li>
+<li><p><strong>Model 3</strong>: Does the death rate differ for those who smoke cigarettes only verses pipe/cigar only verses smoking both verses not smoking, controlling for age?</p></li>
+</ul>
+<p>Notice that there are 4 variables and what appears to be 36 participants (i.e. 36 rows). However, each row is a summary of participants by age and smoking status. The variable <code>pop</code> is the number of veterans in each age/smoking status group, so it would be better to sum up the values in the <code>pop</code> variable to determine how many veterans were in the study.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="poisson-regression-in-sas.html#cb55-1" tabindex="-1"></a>proc means data <span class="ot">=</span> CSADS sum;</span>
+<span id="cb55-2"><a href="poisson-regression-in-sas.html#cb55-2" tabindex="-1"></a>VAR pop;</span>
+<span id="cb55-3"><a href="poisson-regression-in-sas.html#cb55-3" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output tells us that there were 56,122 veterans in the study.</p>
+<p>The variables of interest are:</p>
+<ul>
+<li><p><code>dead</code>: the number who died in the 6 year period from the group,</p></li>
+<li><p><code>pop</code>: the number in the group,</p></li>
+<li><p><code>smoke</code>: the smoking status of the individuals in the group. There are 4 categories/levels:</p>
+<ul>
+<li><em>no</em>: for those who did not smoke,</li>
+<li><em>cigarPipeOnly</em>: for those who smoked either cigars or a pipe but not cigarettes,</li>
+<li><em>cigaretteOnly</em>: for those who smoked cigarettes but neither cigars nor a pipe, and</li>
+<li><em>cigarettePlus</em>: for those who smoked both cigarettes as well as at least one other form of tobacco,
+and</li>
+</ul></li>
+<li><p><code>age</code>: the age group of the veteran (in 5 year increments starting with 40) (Note: will be used in Model 3 only).</p></li>
+</ul>
+</div>
+</div>
+<div id="data" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Data<a href="poisson-regression-in-sas.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="data-cleaning" class="section level3 hasAnchor" number="10.2.1">
+<h3><span class="header-section-number">10.2.1</span> Data cleaning<a href="poisson-regression-in-sas.html#data-cleaning" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="edit-1-creating-the-cigsyr3-variable-in-lhs-dataset" class="section level4 hasAnchor" number="10.2.1.1">
+<h4><span class="header-section-number">10.2.1.1</span> EDIT 1: Creating the <code>cigsYr3</code> variable in lhs dataset<a href="poisson-regression-in-sas.html#edit-1-creating-the-cigsyr3-variable-in-lhs-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <code>AV3CIGS</code> variable measures the number of cigarettes smoked per day. For most participants, this value was reported as a whole number, but approximately 50 participants reported <span class="math inline">\(\frac{1}{2}\)</span> a cigarette per day. We are going to round those participants up to 1 cigarette per day.</p>
+<p>We will use the <code>if-then-else</code> functions to substitute 1 for 0.5. Because we want to preserve the original data, we will create a new variable called <code>cigsYr3</code>.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="poisson-regression-in-sas.html#cb56-1" tabindex="-1"></a><span class="sc">*</span>data editing and cleaning;</span>
+<span id="cb56-2"><a href="poisson-regression-in-sas.html#cb56-2" tabindex="-1"></a>data lhs1;</span>
+<span id="cb56-3"><a href="poisson-regression-in-sas.html#cb56-3" tabindex="-1"></a>  SET lhs;</span>
+<span id="cb56-4"><a href="poisson-regression-in-sas.html#cb56-4" tabindex="-1"></a>  IF AV3CIGS <span class="ot">=</span> <span class="fl">0.5</span> THEN cigsYr3 <span class="ot">=</span> <span class="dv">1</span>;</span>
+<span id="cb56-5"><a href="poisson-regression-in-sas.html#cb56-5" tabindex="-1"></a>  ELSE cigsYr3 <span class="ot">=</span> AV3CIGS;</span>
+<span id="cb56-6"><a href="poisson-regression-in-sas.html#cb56-6" tabindex="-1"></a>run;</span>
+<span id="cb56-7"><a href="poisson-regression-in-sas.html#cb56-7" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="poisson-regression-in-sas.html#cb56-8" tabindex="-1"></a><span class="sc">*</span>testing code;</span>
+<span id="cb56-9"><a href="poisson-regression-in-sas.html#cb56-9" tabindex="-1"></a>proc freq data <span class="ot">=</span> lhs1;</span>
+<span id="cb56-10"><a href="poisson-regression-in-sas.html#cb56-10" tabindex="-1"></a> TABLE cigsYr3;</span>
+<span id="cb56-11"><a href="poisson-regression-in-sas.html#cb56-11" tabindex="-1"></a> TABLE AV3CIGS;</span>
+<span id="cb56-12"><a href="poisson-regression-in-sas.html#cb56-12" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The table is very large, but we don’t need to check all of it to make sure the <code>cigsYr3</code> variable was coded correctly. Instead, we will want to focus on the first three rows and columns. The first three columns total the number of people in the original variable <code>AV3CIGS</code> that smoked 0, 0.5, and 1 cigarettes, respectively. The first three rows are the lowest three values for our new <code>cigsYr3</code> variable. We see that there is no longer a 0.5 value for this new variable, and instead, all the participants who smoked 0.5 cigarettes have been rounded up to 1 cigarette per day. This is what we wanted, so the recoding worked.</p>
+</div>
+<div id="edit-2-log-transforming-pop-variable-offset-variable-in-csads-dataset" class="section level4 hasAnchor" number="10.2.1.2">
+<h4><span class="header-section-number">10.2.1.2</span> EDIT 2: Log-transforming <code>pop</code> variable (offset variable) in CSADS dataset<a href="poisson-regression-in-sas.html#edit-2-log-transforming-pop-variable-offset-variable-in-csads-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In this dataset, we have the number of veterans who died in a given age group and smoking category, as opposed to the number of an event that a participant engaged in. Therefore, this outcome is a binary variable (died, didn’t die), and the dataset presents the aggregate information. Since the groups are comprised of different numbers of veterans, we can’t just compare the counts. Instead, we need the mortality rate, which is the number of deaths divided by the number of veterans in that group. Since the number of veterans is a separate variable (<code>pop</code>), we will need to use this variable as our offset term.</p>
+<p>Recall that Poisson regression models the LOG of the rate. Because the offset variable needs to be on the same scale as the model, we need to log-transform it:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="poisson-regression-in-sas.html#cb57-1" tabindex="-1"></a><span class="sc">*</span> create log<span class="sc">-</span>transformed variable <span class="cf">for</span> offset;</span>
+<span id="cb57-2"><a href="poisson-regression-in-sas.html#cb57-2" tabindex="-1"></a>data CSADS1;</span>
+<span id="cb57-3"><a href="poisson-regression-in-sas.html#cb57-3" tabindex="-1"></a>  set CSADS;</span>
+<span id="cb57-4"><a href="poisson-regression-in-sas.html#cb57-4" tabindex="-1"></a>  log_pop <span class="ot">=</span> <span class="fu">log</span>(pop);</span>
+<span id="cb57-5"><a href="poisson-regression-in-sas.html#cb57-5" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="model-fitting-1" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Model Fitting<a href="poisson-regression-in-sas.html#model-fitting-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To fit a Poisson regression model, use the <code>proc genmod</code> task, specifying the <code>link=log</code> and <code>dist=poisson</code> options in the <code>model</code> statement. There are several other options that are useful in the <code>model</code> statement:</p>
+<ul>
+<li><p><code>type3</code> requests type 3 statistics for categorical variables.</p></li>
+<li><p><code>waldci</code> generates confidence limits for the estimated regression coefficients.</p></li>
+</ul>
+<div id="model-1-count-data-with-a-fixed-denominator" class="section level3 hasAnchor" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Model 1: Count data with a fixed denominator<a href="poisson-regression-in-sas.html#model-1-count-data-with-a-fixed-denominator" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s see if the treatment groups (<em>SI-A</em> and <em>SI-P</em>) had any affect on the smoking rate (i.e., cigarettes per day) 3 years after the start of the study. The reference group will be the control group (usual care, <em>UC</em>).</p>
+<p>Note that since the variable <code>cigsYr3</code> is the number of cigarettes PER DAY, the data is already in rate form and we do not need an offset term.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="poisson-regression-in-sas.html#cb58-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> lhs1; </span>
+<span id="cb58-2"><a href="poisson-regression-in-sas.html#cb58-2" tabindex="-1"></a>CLASS <span class="fu">alphagroup</span>(<span class="at">ref=</span><span class="st">&quot;UC&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> ref;</span>
+<span id="cb58-3"><a href="poisson-regression-in-sas.html#cb58-3" tabindex="-1"></a>MODEL cigsYr3 <span class="ot">=</span> alphagroup <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> poisson type3 waldci;</span>
+<span id="cb58-4"><a href="poisson-regression-in-sas.html#cb58-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The model output is similar to the output for linear regression and logistic regression.</p>
+<div id="estimate-effect-of-predictors" class="section level4 hasAnchor" number="10.3.1.1">
+<h4><span class="header-section-number">10.3.1.1</span> Estimate effect of predictors<a href="poisson-regression-in-sas.html#estimate-effect-of-predictors" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Recall that in a Poisson regression model, the regression coefficients represent changes in the log count/rate scale. Also recall that you can use the results to estimate rate ratios.</p>
+</div>
+<div id="rate-ratio" class="section level4 hasAnchor" number="10.3.1.2">
+<h4><span class="header-section-number">10.3.1.2</span> Rate Ratio<a href="poisson-regression-in-sas.html#rate-ratio" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>To estimate the effect of predictors in terms of the rate ratio, take the anti-log of the regression coefficients (i.e., exponentiate the beta coefficients). You can only do this using the <code>estimate</code> statement in <code>proc genmod</code>, specifying the name of the row (e.g., <code>'Beta XXX'</code>), the predictor of interest, <code>1</code> (for numerical variables) or contrasts (for categorical ones), and the <code>exp</code> option.</p>
+<p>For the contrasts, you list the values in the order of the categories found in the model. For binary categorical variables, you use 1 and -1, where the category listed as 1 is the “level of interest” and the category listed as -1 is the “reference level”.</p>
+<p>For example, let’s look at a binary variable. The <code>AV3GUM</code> has two levels: 0 is not using nicotine gum and 1 using nicotine gum. If you want to compare <code>1</code> to <code>0</code>, you would list the contrasts as <code>-1 1</code> in the <code>estimate</code> statement.</p>
+<p>For multi-categorical variables, you use 1 and -1 for the two levels you want to compare and 0 for the level(s) that isn’t taken into account. For example, the <code>alphagroup</code> variable has three categories: <em>SI-A</em>, <em>SI-P</em>, and <em>UC</em> (in that order in the model output).</p>
+<ul>
+<li>if you want to compare <em>SI-A</em> to <em>UC</em> (but leave <em>SI-P</em> out), you list the contrasts as <code>1 0 -1</code> in the <code>estimate</code> statement.</li>
+<li>if you want to compare <em>SI-P</em> to <em>UC</em> (but leave <em>SI-A</em> out), you list the contrasts as <code>0 1 -1</code> in the <code>estimate</code> statement.</li>
+<li>if you want to compare <em>SI-A</em> to <em>SI-P</em> (but leave <em>UC</em> out), you list the contrasts as <code>1 -1 0</code> in the <code>estimate</code> statement.</li>
+</ul>
+<p>The code below shows for each of these estimates, in the order that was just presented:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="poisson-regression-in-sas.html#cb59-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> lhs1; </span>
+<span id="cb59-2"><a href="poisson-regression-in-sas.html#cb59-2" tabindex="-1"></a>class <span class="fu">alphagroup</span>(<span class="at">ref=</span><span class="st">&quot;UC&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> glm;</span>
+<span id="cb59-3"><a href="poisson-regression-in-sas.html#cb59-3" tabindex="-1"></a>model cigsYr3 <span class="ot">=</span> alphagroup <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> poisson type3 waldci;</span>
+<span id="cb59-4"><a href="poisson-regression-in-sas.html#cb59-4" tabindex="-1"></a>estimate <span class="st">&#39;Beta SIA vs UC&#39;</span> alphagroup <span class="dv">1</span> <span class="dv">0</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb59-5"><a href="poisson-regression-in-sas.html#cb59-5" tabindex="-1"></a>estimate <span class="st">&#39;Beta SIP vs UC&#39;</span> alphagroup <span class="dv">0</span> <span class="dv">1</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb59-6"><a href="poisson-regression-in-sas.html#cb59-6" tabindex="-1"></a>estimate <span class="st">&#39;Beta SIA vs SIP&#39;</span> alphagroup <span class="dv">1</span> <span class="sc">-</span><span class="dv">1</span> <span class="dv">0</span> <span class="sc">/</span> exp;</span>
+<span id="cb59-7"><a href="poisson-regression-in-sas.html#cb59-7" tabindex="-1"></a>run;</span></code></pre></div>
+<p>There is a new table at the end of the output, titled <code>Contrast Estimate Results</code>, in addition to the usual tables you saw when fitting the Poisson regression model. Each <code>estimate</code> statement will present two rows of information: one for the regression coefficient (<code>Beta XXX</code>) and one for the exponentiated coefficient (<code>Exp(Beta XXX)</code>). The two columns of interest are the <code>L'Beta Estimate</code>, which presents an estimate of the coefficients (log counts or rate ratio, depending on the row) and <code>L'Beta Confidence Limits</code>, which presents confidence limits for the estimates.</p>
+</div>
+<div id="rate-ratio-for-multi-categorical-predictors" class="section level4 hasAnchor" number="10.3.1.3">
+<h4><span class="header-section-number">10.3.1.3</span> Rate ratio for multi-categorical predictors<a href="poisson-regression-in-sas.html#rate-ratio-for-multi-categorical-predictors" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For the categorical variable in the model, you may be interested in analyzing whether there are any differences in the response variable between each group after adjusting for the other predictors in the model. To estimate adjusted effects of a (multi-) categorical variable, use the <code>lsmeans</code> statement and the <code>diff</code> option for multiple comparisons. Options that may be useful include:</p>
+<ul>
+<li><code>exp</code> to exponentiate the coefficients.</li>
+<li><code>cl</code> to get confidence limits.</li>
+<li><code>diff</code> for comparing the levels.</li>
+<li><code>adjust=tukey</code> to adjust <em>p</em>-values for multiple comparisons (using Tukey method).</li>
+</ul>
+<p>You may be asking why we use the <code>lsmeans</code> statement if one can estimate the rate ratio from the model output. The model output only compares each level of a categorical variable to the reference level. For example, it doesn’t give us the rate ratio comparing the <em>SI-P</em> level to the <em>SI-A</em> level. Recall that the <code>lsmeans</code> statement can provide pairwise comparisons for all levels.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="poisson-regression-in-sas.html#cb60-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> lhs1; </span>
+<span id="cb60-2"><a href="poisson-regression-in-sas.html#cb60-2" tabindex="-1"></a>class alphagroup <span class="sc">/</span> param <span class="ot">=</span> glm;</span>
+<span id="cb60-3"><a href="poisson-regression-in-sas.html#cb60-3" tabindex="-1"></a>model cigsYr3 <span class="ot">=</span> alphagroup <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> poisson type3 waldci;</span>
+<span id="cb60-4"><a href="poisson-regression-in-sas.html#cb60-4" tabindex="-1"></a>lsmeans alphagroup <span class="sc">/</span> exp cl diff adjust <span class="ot">=</span> tukey;</span>
+<span id="cb60-5"><a href="poisson-regression-in-sas.html#cb60-5" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The table of interest for comparing all categories of a variable is the last table, labeled <code>Differences of [variable] Least Squares Means Adjustment for Multiple Comparisons: Tukey-Kramer</code>. The values presented in that table include the difference in the log rate between the two levels in that row (<code>Estimate</code>), the model-estimated standard errors for the estimate (<code>Standard Error</code>), the <em>z</em>-statistic (<code>z Value</code>), and its <em>p</em>-value, before (<code>Pr &gt; |z|</code>) and after Tukey’s adjustment for multiple comparisons (<code>Adj P</code>). It also presents the rate ratio between the two levels (<code>Exponentiated</code>) and it’s upper and lower confidence interval, before (<code>Exponentiated Lower</code> and <code>Exponentiated Upper</code>) and after Tukey’s adjustment for multiple comparisons (<code>Adj Lower Exp</code> and <code>Adj Upper Exp</code>).</p>
+</div>
+</div>
+<div id="model-evaluation-1" class="section level3 hasAnchor" number="10.3.2">
+<h3><span class="header-section-number">10.3.2</span> Model Evaluation<a href="poisson-regression-in-sas.html#model-evaluation-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Poisson models assume that the response variable come from a Poisson distribution, which, by definition, assume that the variance (i.e., <span class="math inline">\(sd^2\)</span>) is equal to the mean. Because of this, we need to check for overdispersion in our model.</p>
+<p>Overdispersion happens when the observed variance is larger than the expected (or assumed) variance. To check for overdispersion, you evaluate the ratio of the residual deviance to its degrees of freedom. When this ratio is <em>significantly</em> greater than 1, then its an indication of overdispersion.</p>
+<p>Looking at the table called <code>Criteria For Assessing Goodness of Fit</code> in the <code>proc genmod</code> output, we can see that the <code>Deviance</code> was 91516 and its degrees of freedom was 5463. Therefore, the ratio of these values equals 16.75. Is this value significantly larger than 1? You can test this by using the Chi-square distribution to find the p-value for the given Pearson Chi-Square value and the associated degrees of freedom.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="poisson-regression-in-sas.html#cb61-1" tabindex="-1"></a>data pvalue;</span>
+<span id="cb61-2"><a href="poisson-regression-in-sas.html#cb61-2" tabindex="-1"></a>  df <span class="ot">=</span> <span class="dv">5463</span>; </span>
+<span id="cb61-3"><a href="poisson-regression-in-sas.html#cb61-3" tabindex="-1"></a>  chisq <span class="ot">=</span> <span class="dv">91516</span>;</span>
+<span id="cb61-4"><a href="poisson-regression-in-sas.html#cb61-4" tabindex="-1"></a>  pvalue <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">probchi</span>(chisq, df);</span>
+<span id="cb61-5"><a href="poisson-regression-in-sas.html#cb61-5" tabindex="-1"></a>run;</span>
+<span id="cb61-6"><a href="poisson-regression-in-sas.html#cb61-6" tabindex="-1"></a></span>
+<span id="cb61-7"><a href="poisson-regression-in-sas.html#cb61-7" tabindex="-1"></a>proc print data <span class="ot">=</span> pvalue;</span>
+<span id="cb61-8"><a href="poisson-regression-in-sas.html#cb61-8" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+<div id="models-for-overdispersed-data" class="section level3 hasAnchor" number="10.3.3">
+<h3><span class="header-section-number">10.3.3</span> Models for overdispersed data<a href="poisson-regression-in-sas.html#models-for-overdispersed-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>So the model shows evidence of overdispersion. Now what? There are two ways to handle overdispersion.</p>
+<div id="quasi-poisson-regression" class="section level4 hasAnchor" number="10.3.3.1">
+<h4><span class="header-section-number">10.3.3.1</span> Quasi-Poisson regression<a href="poisson-regression-in-sas.html#quasi-poisson-regression" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>One option is to use a quasi-Poisson regression model, which can be added to the <code>proc genmod</code> task by specifying the <code>scale=pearson</code> option in the <code>model</code> statement.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="poisson-regression-in-sas.html#cb62-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> lhs1; </span>
+<span id="cb62-2"><a href="poisson-regression-in-sas.html#cb62-2" tabindex="-1"></a>class <span class="fu">alphagroup</span>(<span class="at">ref=</span><span class="st">&quot;UC&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> ref;</span>
+<span id="cb62-3"><a href="poisson-regression-in-sas.html#cb62-3" tabindex="-1"></a>model cigsYr3 <span class="ot">=</span> alphagroup <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> poisson scale <span class="ot">=</span> pearson type3 waldci;</span>
+<span id="cb62-4"><a href="poisson-regression-in-sas.html#cb62-4" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output is the same as in the regular Poisson regression model. You will notice that while the estimates are the same between the Poisson and quasi-Poisson models, the standard errors are different. As a result, the tests may differ.</p>
+</div>
+<div id="negative-binomial-regression" class="section level4 hasAnchor" number="10.3.3.2">
+<h4><span class="header-section-number">10.3.3.2</span> Negative binomial regression<a href="poisson-regression-in-sas.html#negative-binomial-regression" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The second option is to fit a negative binomial regression model with the <code>dist=negbin</code> option in the <code>model</code> statement.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="poisson-regression-in-sas.html#cb63-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> lhs1; </span>
+<span id="cb63-2"><a href="poisson-regression-in-sas.html#cb63-2" tabindex="-1"></a>class <span class="fu">alphagroup</span>(<span class="at">ref=</span><span class="st">&quot;UC&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> ref;</span>
+<span id="cb63-3"><a href="poisson-regression-in-sas.html#cb63-3" tabindex="-1"></a>model cigsYr3 <span class="ot">=</span> alphagroup <span class="sc">/</span> dist <span class="ot">=</span> negbin type3;</span>
+<span id="cb63-4"><a href="poisson-regression-in-sas.html#cb63-4" tabindex="-1"></a>run;</span></code></pre></div>
+</div>
+</div>
+<div id="model-2-binary-data-with-a-variable-denominator-offset-term" class="section level3 hasAnchor" number="10.3.4">
+<h3><span class="header-section-number">10.3.4</span> Model 2: Binary data with a variable denominator (offset term)<a href="poisson-regression-in-sas.html#model-2-binary-data-with-a-variable-denominator-offset-term" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Recall that for fixed denominators (such as what we saw using the number of cigarettes smoked per day at the third annual visit in the LHS dataset), we don’t need to specify an offset term. However, if a variable has a denominator that varies, you will need to to use a Poisson regression with an offset term. So now we are going to shift to a dataset where the outcome is binary (death or not) and an offset term is needed (due to a denominators varying).</p>
+<p>For this analysis, we will be predicting the mortality rate in a 6-year period for male veterans in Canada based on the type of smoker they were. Since the data is given as number of deaths, instead of the mortality rate, we will be using the number of participants in the group as our offset term. Since the predictor of interest is the smoking type, we will also calculate the rate ratios for the <code>smoke</code> variable.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="poisson-regression-in-sas.html#cb64-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> CSADS1; </span>
+<span id="cb64-2"><a href="poisson-regression-in-sas.html#cb64-2" tabindex="-1"></a>class <span class="fu">smoke</span>(<span class="at">ref=</span><span class="st">&quot;no&quot;</span>) <span class="sc">/</span> param <span class="ot">=</span> glm;</span>
+<span id="cb64-3"><a href="poisson-regression-in-sas.html#cb64-3" tabindex="-1"></a>model dead <span class="ot">=</span> smoke <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> poisson offset <span class="ot">=</span> log_pop type3 waldci;</span>
+<span id="cb64-4"><a href="poisson-regression-in-sas.html#cb64-4" tabindex="-1"></a>estimate <span class="st">&#39;cigar/pipe vs no&#39;</span> smoke <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb64-5"><a href="poisson-regression-in-sas.html#cb64-5" tabindex="-1"></a>estimate <span class="st">&#39;cigarette only vs no&#39;</span> smoke <span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb64-6"><a href="poisson-regression-in-sas.html#cb64-6" tabindex="-1"></a>estimate <span class="st">&#39;cigarette + other vs no&#39;</span> smoke <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb64-7"><a href="poisson-regression-in-sas.html#cb64-7" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output is similar to those we’ve seen before.</p>
+</div>
+<div id="model-3-binary-data-with-a-variable-denominator-and-a-covariate" class="section level3 hasAnchor" number="10.3.5">
+<h3><span class="header-section-number">10.3.5</span> Model 3: Binary data with a variable denominator and a covariate<a href="poisson-regression-in-sas.html#model-3-binary-data-with-a-variable-denominator-and-a-covariate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>It seems counterintuitive that those who smoked cigarettes and other forms of tobacco would not have a significantly different mortality rate than those who don’t smoke, when those who smoke only those other forms of tobacco do. Could it be that many of older people who smoked multiple forms of tobacco didn’t survive to make it into the study? After all, the mortality rates are higher for the older age groups. Let’s add <code>age</code> as a covariate to control for the potential age effect.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="poisson-regression-in-sas.html#cb65-1" tabindex="-1"></a>proc genmod data <span class="ot">=</span> CSADS1; </span>
+<span id="cb65-2"><a href="poisson-regression-in-sas.html#cb65-2" tabindex="-1"></a>class <span class="fu">smoke</span>(<span class="at">ref=</span><span class="st">&quot;no&quot;</span>) <span class="fu">age</span>(<span class="at">ref=</span><span class="st">&quot;40-44&quot;</span>)<span class="sc">/</span> param <span class="ot">=</span> glm;</span>
+<span id="cb65-3"><a href="poisson-regression-in-sas.html#cb65-3" tabindex="-1"></a>model dead <span class="ot">=</span> smoke age <span class="sc">/</span> link <span class="ot">=</span> log dist <span class="ot">=</span> poisson offset <span class="ot">=</span> log_pop type3 waldci;</span>
+<span id="cb65-4"><a href="poisson-regression-in-sas.html#cb65-4" tabindex="-1"></a>estimate <span class="st">&#39;cigar/pipe vs no&#39;</span> smoke <span class="dv">1</span> <span class="dv">0</span> <span class="dv">0</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb65-5"><a href="poisson-regression-in-sas.html#cb65-5" tabindex="-1"></a>estimate <span class="st">&#39;cigarette only vs no&#39;</span> smoke <span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb65-6"><a href="poisson-regression-in-sas.html#cb65-6" tabindex="-1"></a>estimate <span class="st">&#39;cigarette + other vs no&#39;</span> smoke <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> exp;</span>
+<span id="cb65-7"><a href="poisson-regression-in-sas.html#cb65-7" tabindex="-1"></a>run;</span></code></pre></div>
+<p>The output is similar to those we’ve seen before.</p>
+<div class="bluebox">
+<p><font size="4"><strong>Additional Resources</strong></font></p>
+<p>For additional SAS resources on Poisson regression, see:</p>
+<ul>
+<li><a href="https://stats.idre.ucla.edu/sas/output/poisson-regression/"> Poisson Regression: SAS Annotated Output </a> (from UCLA)</li>
+<li><a href="https://stats.idre.ucla.edu/sas/dae/poisson-regression/"> Poisson Regression: SAS Data Analysis Example </a> (from UCLA)</li>
+<li><a href="https://stats.idre.ucla.edu/sas/faq/how-can-i-estimate-relative-risk-in-sas-using-proc-genmod-for-common-outcomes-in-cohort-studies/"> How can I Estimate Relative Risk in SAS Using Proc Genmod </a> (from UCLA; includes both logistic and Poisson regression examples)</li>
+<li><a href="https://support.sas.com/rnd/app/stat/procedures/genmod.html"> Proc Genmod </a> (from SAS Documentation)</li>
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="project-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="other-regression-in-sas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

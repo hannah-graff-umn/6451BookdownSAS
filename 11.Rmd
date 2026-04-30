@@ -1,0 +1,333 @@
+# Other Regression in SAS
+
+::: {.graybox}
+
+<font size="4">**Goals**</font>
+
+The goal of this software lesson is to learn how to
+
+* fit a log-binomial regression model and obtain estimates for the effect of a predictor in terms of log probabilities, probabilities, and risk ratios, and
+* fit an ordinal regression model and obtain estimates for the effect of a predictor in terms of cumulative log odds and common odds ratios.
+
+:::
+
+## Dataset  
+
+In this software lesson, you will use the Obstetrics and Periodontal Therapy (OPT) dataset. The dataset, data dictionary, and dataset introduction can be found on Canvas, titled *OTP.csv*, *OPT Data Dictionary.pdf*, and *OPT Dataset Introduction.pdf*, respectively.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc import
+  DATAFILE = "/<filepath>/opt.csv"
+  OUT = opt
+  DBMS = csv
+  REPLACE;
+  GETNAMES = yes;
+run;
+```
+
+## Log-Binomial & Ordinal Regression
+
+Thus far in the course, you have learned four kinds of regression models: 
+
+- *linear* regression to model the mean of a continuous outcome, 
+- *logistic* regression to model the log odds of a binary outcome, 
+- *proportional hazards* regression to model the log hazard of a time-to-event outcome, and 
+- *Poisson* regression to model the log count/rate of a discrete/count outcome. 
+
+This software lesson builds on what you have learned thus far, but focuses on *log-binomial* regression, which is used when you have a binary outcome, and *ordinal* regression, which is used when you have a ordinal categorical outcome.
+
+### Log-Binomial RegressionO
+
+Log-binomial regression is similar to logistic regression in the sense of using it for a binary outcome, but instead of modeling the log odds of the outcome, you model the log probability/risk of the outcome. 
+
+In the OPT study, suppose the researchers were interested in examining the effect of treatment of maternal periodontal disease (`Group`) on risk of preterm birth (`preterm`), after adjusting for number of missed prenatal appointments (`NumMiss`) and previous preterm births status (`Live.PTB`). In this example, `Group` is the predictor of interest, and `NumMiss` and `Live.PTB` are considered to potential confounders.
+
+### Data cleaning
+
+Remember it's good coding practice to look at the dataset to make sure everything was read in properly and the variables are in the correct format (Hint: Use `proc print` or `proc contents` to do this).
+
+**Step 1: Checking the names of the variables in the dataset FIRST!**
+
+Before you change the names of any variables, run this code to check how the variables came into SAS. Depending on how they came in, their names may need to be changed.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc contents data = opt;
+run;
+``` 
+
+**EDIT 1: Modifying variable names with spaces** 
+
+Some of variables have odd characters or spaces in their names, so you will rename them in order to be able to call them more easily.
+
+Note: The code you need for this depends on whether you are running SAS on your desktop or SAS in the Cloud (SAS On Demand). 
+
+*For Desktop SAS:*
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+data opt1;
+  SET opt;
+  RENAME __Vis_Elig = N_Vis_Elig;
+  RENAME __Vis_Att = N_Vis_Att;
+run;
+
+proc contents data = opt1; 
+run;
+``` 
+
+*For SAS in the Cloud (SAS On Demand):*
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+data opt1;
+  set opt;
+  RENAME '# Vis Elig'n = N_Vis_Elig;
+  RENAME '# Vis Att'n = N_Vis_Att;
+  RENAME 'GA at outcome'n = GA_at_outcome;
+  RENAME 'Live PTB'n = Live_PTB;
+run;
+
+proc contents data = opt1; 
+run;
+``` 
+
+Note: Because there are multiple data edits, rather than having multiple data steps, a single data step will be presented after all of the edit descriptions.
+
+**EDIT 2: Creating the `preterm` variable**
+
+The outcome, `preterm`, needs to be created from the variable `GA.at.outcome`, which is stored as gestational age at end of pregnancy (in number of days). A preterm birth is defined as a birth with a gestational age that is less than 37 weeks (i.e., 259 days). We need to create a new indicator variable (0/1) for preterm birth. 
+
+This can be done in a data step with the `IF`, `THEN`, and `ELSE` statements. The first statement is the *if* condition, followed by the *then* result, and finally the *else* result. The following code can be read as:  
+
+IF the gestational age is less than 259 days, THEN set the preterm indicator to 1, ELSE set the preterm indicator to 0. 
+
+**EDIT 3: Creating the `NumMiss` variable**
+
+The variable *NumMiss* will be created by taking the number of prenatal visits the participant was eligible for (`N_Vis_Elig`) and subtracting the number of prenatal visits the participants attended (`N_Vis_Att`)
+
+**EDIT 4: Creating the `PrevPremature` variable**
+
+There were 212 participants in the study that had not given birth before, so their value for the variable `Live_PTB` is NA, which means missing. However, SAS sees NA as a new level as opposed to a missing value. Therefore, we will create a new variable `PrevPremature` that will have missing values for those 212 participants that should be missing. 
+
+### Putting All Edits Together
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+data opt2;
+  SET opt1;
+
+* create indicator variable for whether the baby is preterm (<259 weeks) or not;
+IF GA_at_outcome = . THEN preterm = ""; 
+ELSE IF GA_at_outcome < 259 THEN preterm = "1"; 
+ELSE preterm = "0";
+     
+*create new variable to measure number of prenatal appointments missed;
+NumMiss = N_Vis_Elig - N_Vis_Att; 
+   
+*edit preterm birth variable to turn NA (which is no birth before) to missing;
+LENGTH PrevPreterm $3;
+IF Live_ptb = "NA" THEN PrevPreterm = ""; 
+ELSE PrevPreterm = Live_ptb;
+
+run;
+```
+
+Be sure to check these variables to make sure the coding worked correctly.
+
+::: {.bluebox}
+
+<font size="4">**Additional Resources**</font>
+
+For additional SAS resources on the if-then-else statements, see:
+
+* <a href="https://documentation.sas.com/?docsetId=lestmtsref&docsetTarget=n1j60arf27ll4nn1ejavv3nby4pa.htm&docsetVersion=9.4&locale=en"> If-Then-Else </a> (from SAS Documentation)
+
+:::
+
+### Log-Binomial Regression Model
+
+ To fit a log-binomial regression model, use the `proc genmod` task, specifying the `link=log` and `dist=binomial` options in the `model` statement. There are several other options that are useful in the `model` statement: 
+
+- `type3` requests type 3 statistics for categorical variables. 
+
+- `waldci` generates confidence limits for the estimated regression coefficients.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc genmod data = opt2; 
+  CLASS preterm(ref = "0") Group(ref = "C") PrevPreterm(ref = "No") / param = ref;
+  MODEL preterm = Group NumMiss PrevPreterm / link = log dist = binomial type3 waldci;
+run;
+```
+
+Note: Predictor variables that are already coded as indicator variables (0 or 1) do not need to be included in the CLASS statement at all. But if they are included, then be sure to set ref="0"; otherwise SAS by default will recode them with the last level (1 in this case) as the reference level. 
+
+The model output is the same as in multiple linear regression, logistic regression, and Poisson regression, but estimated regression coefficients are in terms of log of the risk.
+
+### Estimate effect of predictors
+
+Recall that in a log-binomial regression model, the regression coefficients represent changes in the log of the risks (i.e., log of the probabilities) 
+
+### Relative Risk 
+
+Relative risk between groups can be calculated by taking the anti-log of the regression coefficients take the anti-log of the regression coefficients (i.e., exponentiate the beta coefficients). You can only do this using the `estimate` statement in `proc genmod`, specifying the name of the row (e.g., `'Beta XXX'`), the predictor of interest, 1 (for numerical variables) or contrasts (for categorical ones), and the `exp` option. 
+
+For the contrasts, you list the values in the order of the categories found in the model. For binary categorical variables, you use 1 and -1, where the category listed as 1 is the "level of interest" and the category listed as -1 is the "reference level". For multi-categorical variables, you use 1 and -1 for the two groups you want to compare and 0 for the group(s) that isn't taken into account. Be careful to pay attention to the order in which the values of each variable are parameterized by SAS. 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc genmod data = opt2; 
+  CLASS preterm(ref = "0") Group(ref = "C") PrevPreterm(ref = "No") / param = ref;
+  MODEL preterm = Group NumMiss PrevPreterm / link = log dist = binomial type3 waldci;
+  ESTIMATE 'Beta Group' group 1 -1/ exp;
+  ESTIMATE 'Beta NMiss' NumMiss 1 / exp;
+  ESTIMATE 'Beta LivePTB' PrevPreterm 1 -1/ exp;
+run;
+```
+
+There is a new table at the end of the output, titled `Contrast Estimate Results`, in addition to the usual tables you saw when fitting the log-binomial regression model. Each `estimate` statement will present two rows of information: one for the regression coefficient (`Beta XXX`) and one for the exponentiated coefficient (`Exp(Beta XXX)`). The two columns of interest are the `L'Beta Estimate`, which presents an estimate of the coefficients (log risk or relative risk, depending on the row) and `L'Beta Confidence Limits`, which presents confidence limits for the estimates.
+
+::: {.bluebox}
+
+<font size="4">**Additional Resources**</font>
+
+For additional SAS resources on estimating relative risk from log-binomial regression models, see:
+
+* <a href="https://stats.idre.ucla.edu/sas/faq/how-can-i-estimate-relative-risk-in-sas-using-proc-genmod-for-common-outcomes-in-cohort-studies/"> Estimating Relative Risk </a> (from UCLA)
+
+:::
+
+### Predicted Risk
+
+We can estimate a risk value for a particular observation/individual by creating a "new" dataset with the values we want to put into the equation and then using the `proc plm` task to calculate the risk, using the model equation and the specific values for the predictors. 
+
+This is done by first using the `store` statement in `proc genmod` and saving the model results in `out=` under a particular name. For example, in the code below, we saved the model results in `logbinmdl`. Then a "new" dataset is created using the `data` step, and specifying the particular values for the observation. Then the `proc plm` task is carried out, using the model results that were stored (e.g., `source=logbinmdl`), the `score` statement to compute the risk for particular values of an observation (e.g., `data=new`). Again, we save the results from this procedure in a new name (`out=mdlpreds`) and can view the predicted risk value using `proc print`.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+*Run model and save results using store statement;
+proc genmod data = opt2; 
+  CLASS preterm(ref = "0") Group(ref = "C") PrevPreterm(ref = "No") / param = ref;
+  MODEL preterm = Group NumMiss PrevPreterm / link = log dist = binomial type3 waldci;
+  STORE out = logbinmdl; *store the model;
+run;
+
+*create new dataset;
+*consisting of one row;
+*an individual in the control group, with 2 missed prenatal appointments;
+*and no previous preterm births;
+data new;
+  *initialize variables;
+  INPUT Group $1. NumMiss PrevPreterm $3.;
+  *input data, one observation per row;
+datalines;
+C 2 No
+;
+run;
+
+*calculate predictions with proc plm and saving the results using out=;
+proc plm source = logbinmdl noprint;
+  SCORE data = new out = mdlpreds pred = pred lclm = lower uclm = upper / ilink;
+run;
+
+*view predicted risk for the observation;
+proc print data = mdlpreds; 
+run;
+```
+
+Suppose we wanted to make predictions for multiple individuals. The `proc plm` task allows us to make predictions for multiple individuals in one fell swoop. Simply create one row per individual you want to calculate a predicted risk for in a `data` step (`new2`). 
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+*Make a prediction for multiple individuals;
+*Individual 1: control group, 0 appointments missed, with previous preterm births;
+*Individual 2: control group, 0 appointments missed, with no previous preterm births;
+*Individual 3: control group, 2 appointments missed, with previous preterm births;
+*Individual 4: control group, 2 appointments missed, with no previous preterm births;
+*Individual 5: treatment group, 0 appointments missed, with previous preterm births;
+*Individual 6: treatment group, 0 appointments missed, with no previous preterm births;
+*Individual 7: treatment group, 2 appointments missed, with previous preterm births;
+*Individual 8: treatment group, 2 appointments missed, with no previous preterm births;
+
+data new2;
+INPUT Group $1. NumMiss PrevPreterm $3.;
+datalines;
+C 0 Yes
+C 0 No
+C 2 Yes
+C 2 No
+T 0 Yes
+T 0 No
+T 2 Yes
+T 2 No
+;
+run;
+
+proc plm source = logbinmdl noprint;
+SCORE data = new2 out = mdlpreds2 pred = pred lclm = lower uclm = upper / ilink;
+run;
+
+proc print data = mdlpreds2; 
+run;
+```
+
+## Ordinal Regression
+
+Ordinal regression is used when the outcome is an ordinal categorical variable. 
+
+In the OPT study, suppose the researchers were interested in examining the effect of treatment of maternal periodontal disease (`Group`) on babies' APGAR scores (`apgarlevel`), after adjusting for number of missed prenatal appointments (`NumMiss`) and previous preterm births status (`Live.PTB`). In this example, Similar to the previous example, `Group` is the predictor of interest, and `NumMiss` and `Live.PTB` are considered to potential confounders.
+
+### Data cleaning
+
+**EDIT 5: Creating the `apgarlevel` variable**
+
+The outcome, `apgarlevel`, needs to be created from the variable `Apgar1`, which is stored as a numeric variable, but it is an ordinal variable, and thus must be converted into a factor. Furthermore, it is currently scored between 0 and 10, but, scores are interpreted in the following manner: 
+
+- 7 to 10 = normal (these scores indicate no further interventions need to take place)
+
+- 4 to 6 = low (these scores indicate low oxygen levels and the newborn should be closely monitored and encouraged to breathe)
+
+- 0 to 3 = critically low (these scores indicate critically low oxygen levels and medical professionals should increase oxygen immediately)
+
+We will create this variable in a data step with `IF`, `THEN`, and `ELSE` statements. We will first ensure missing data remains missing with an `IF Apgar1 = .` statement, followed by `THEN apgarlevel = ""` statement. The next line will start with `ELSE IF` and then specify that values below 4 will have the value *critically low* for the `apgarlevel` value. The next line will use a similar format to specify the remaining values that are less than 7 should be labeled *low*, and the final statement will assign the remaining participants (who should have an `Apgar1` score of 7-10) to an `apgarlevel` value of *normal*.
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+data opt3;
+  SET opt2;
+*create ordinal variable for apgar categories; 
+LENGTH apgarlevel $15;
+IF Apgar1 = . THEN apgarlevel = "";
+ELSE IF Apgar1 < 4 THEN apgarlevel = "critically low"; 
+ELSE IF Apgar1 < 7 then apgarlevel = "low";
+ELSE apgarlevel = "normal";
+run;
+```
+
+### Ordinal Regression Model
+
+To fit an ordinal regression model, use `proc logistic`. Specify the model equation the same way you would in logistic regression. Simply list the ordinal variable in the `class` statement and as the response variable in the `model` statement.
+
+\vspace{0.15cm}
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc logistic data = opt3;
+  CLASS apgarlevel Group(ref="C") PrevPreterm(ref="No") / param = ref;
+  MODEL apgarlevel = Group NumMiss PrevPreterm / cl;
+run;
+```
+
+Note: Predictor variables that are already coded as indicator variables (0 or 1) do not need to be included in the CLASS statement at all. But if they are included, then be sure to set ref="0"; otherwise SAS by default will recode them with the last level (1 in this case) as the reference level. 
+
+The output from `proc logistic` includes many tables. As a reminder, the main information is in four tables. 
+
+The first important table, `Type 3 Analysis of Effects`, provides the likelihood ratio test results for each predictor in the model. It includes the Chi-squared test statistic (`Wald Chi-Square`) in the third column and its *p*-value (`Pr > ChiSq`) in the fourth column.
+
+The second important table, `Analysis of Maximum Likelihood Estimates`, provides the estimated regression coefficients, in terms of common log odds. Recall that ordinal regression in effect fits a series of equations, each with different intercepts (in terms of log odds), for different levels of the outcome variable. The first column, `Parameter`, specifies each coefficient (intercept or predictor) in the model. The second column of values (unlabeled) provides the group level of interest for the categorical variables. The third column (`DF`) is the degrees of freedom for the predictor. The fourth column (`Estimate`) provides effect of the predictor, in terms of common log odds, while the fifth column (`Standard Error`) provides the standard error of the estimate. The sixth column (`Wald Chi-Square`) denotes the Chi-square test statistic for that predictor and the last column (`Pr > ChiSq`) presents the *p*-value for the test. 
+
+The third important table, `Odds Ratio Estimates` displays the common odds ratios for each predictor in the model. The first column (`Effect`) specifies the variable(s) (and groups being compared for the categorical variables). It also includes the estimated common odds ratio (`Point Estimate`) in the second column along with a 95% confidence interval (`95% Wald Confidence Limits`) in the last two columns. 
+
+The fourth important table, `Parameter Estimates and Wald Confidence Intervals`, again shows the estimated regression coefficients (`Estimate`), in terms of common log odds, for each predictor in the model and provides its 95% confidence interval (`95% Confidence Limits`).
+
+::: {.bluebox}
+
+<font size="4">**Additional Resources**</font>
+
+For additional SAS resources on ordinal regression, see:
+
+* <a href="https://documentation.sas.com/?docsetId=statug&docsetTarget=statug_logistic_examples03.htm&docsetVersion=14.3&locale=en"> Ordinal Logistic Regression </a> (from SAS Documentation)
+* <a href="https://stats.idre.ucla.edu/sas/dae/ordinal-logistic-regression/"> Ordinal Logistic Regression </a> (from UCLA)
+* <a href="https://stats.idre.ucla.edu/sas/output/ordered-logistic-regression/"> Annotated output </a> (from UCLA)
+
+:::

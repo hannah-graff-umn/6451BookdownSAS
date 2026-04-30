@@ -1,0 +1,279 @@
+# Creating Table 1 in SAS
+
+::: {.graybox}
+
+<font size="4">**Goals**</font>
+
+The goal of this software lesson is to learn how to
+
+* create "Table 1" for a report or manuscript.
+* examine the missingness of the variables in the dataset.
+
+:::
+
+
+## Dataset
+
+In this software lesson, you will use the Rheumatoid Arthritis dataset. The dataset, data dictionary, and dataset introduction can be found on Canvas, titled *RheumArth.csv*, *RheumArth Data Dictionary.pdf*, and *RheumArth Data Introduction.pdf*, respectively.
+
+### Importing data
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc import
+  DATAFILE = "/<filepath>/RheumArth.csv"
+  OUT = rheum_arth
+  DBMS = csv
+  REPLACE;
+  GETNAMES = yes;
+run;
+```
+
+NOTE: `<filepath>` should be replaced by the exact filepath name for the dataset. In SAS Studio, you can figure out the exact filepath name by right-clicking on the dataset in your `Files(Home)` folder, choose `Properties`, and copy-and-paste the `Location:` information in between the quotation marks after the `DATAFILE =`. 
+
+### Examine the dataset 
+
+Make sure to view your imported dataset and explore the variables (e.g., variable type, missingness, min/max for unusual values) before you begin any analyses to make sure it was imported properly.
+
+In the previous course (PubH 6450: Biostatistics 1), you learned how to examine the dataset and carry out exploratory data analysis. However, you may not have explicitly learned how to examine the missingness of the variables. 
+
+- To count the number of missing values in each variable, use `proc means`, specifying the name of the dataset and the option `NMISS`, which calculates number of missing observations for each variable:
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc means data=rheum_arth NMISS;
+run;
+```
+
+The output produces two columns: one for each variable in the dataset and the number of missing observations for each variable (`N Miss`). 
+
+## Creating Table 1
+
+Previously, when you would calculate summary statistics for many variables, you would run multiple lines of the same code for all the variables of interest and then manually type those values into a table in a separate document. As you progress in your coding abilities, it's important to start using best coding practices, and one of those is reproducibility. It's better to let the computer do the work and produce the output you need with minimal copy-and-pasting. In this class, when you have to make a "large" table of summary statistics (i.e., Table 1), use a function that will do all of the work for you.
+
+Recall that the purpose of Table 1 is to summarize demographic, baseline, clinical, and other relevant variables for the participants in the study, overall and/or by exposure/intervention groups.  
+
+::: {.bluebox}
+
+<font size="4">**Additional Resources**</font>
+
+For additional resources on Table 1, see:
+
+* <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6773463/">Who is in this study, anyway? Guidelines for a useful Table 1 </a> (Hayes-Larson et al. 2019)
+* <a href="https://blog.uvm.edu/tbplante/2022/07/05/part-5-baseline-characteristics-in-a-table-1/"> Baseline Characteristics in a Table 1 </a> (University of Vermont)
+* <a href="https://www.goodreports.org/reporting-checklists/consort/info/#15"> CONSORT Guidelines for Baseline Data </a> (\#15) 
+* <a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0040297"> STROBE Guidelines Explanation and Elaboration </a> (see \#14(a). Descriptive Data)
+
+::: 
+
+<br>
+
+When creating Table 1, there are several steps that you need to work through. 
+
+### Step 1: Identify the relevant variables to include in Table 1
+
+First, identify the relevant variables to include in Table 1, both the ones in the rows and the one(s) in the columns. 
+
+- **Rows**: The variables presented in the rows of Table 1 are a subset of ones in the dataset, focusing on demographic, baseline, and clinical characteristics and sometimes the exploratory variables of interest in the research question. 
+
+- **Columns**: The variable(s) presented in the columns of Table 1 are overall and/or by groups. For randomized clinical trials (RCTs), ALWAYS have column for the intervention groups. For observational studies, have a column for exposure groups (if relevant) or by cases/controls (for a case-control study).
+
+Suppose for the Rheumatoid Arthritis study, you are interested investigating whether there is a difference in disease activity measurements and treatments by age groups (elderly vs. young patients). 
+
+In this scenario, your Table 1 might summarize 10 variables by age group (`AgeGp`):
+
+- available baseline characteristics (i.e., `Sex`; years since rheumatoid arthritis diagnosis `Yrs_From_Dx`), and also 
+
+- disease activity measurements (i.e., Clinical Disease Activity Indicator value `CDAI`; CDAI measurement status `CDAI_YN`; disease activity score value `DAS_28`; DAS measurement status `DAS28_YN`) and 
+
+- treatment indicators (steroid treatment status `Steroids_GT_5`; disease modifying anti-rheumatic treatment status `DMARDs`; biologic agent status `Biologics`; synthetic DMARDs status `sDMARDS`).
+
+### Step 2: Determine which variables are continuous and which are categorical
+
+The summary statistics that are calculated depend on the type of variable, but there are at least two values for each variable. 
+
+- For continuous variables, the summary statistics include a measure of center and a measure of spread, so this might be mean + SD (for symmetric data) or median + IQR (for skewed data). Be sure to plot the continuous variable(s) (e.g., boxplot, histogram) prior to creating Table 1 to understand the appropriate summary statistics to use. 
+
+- For categorical variables, the summary statistics are count (n) + proportion or percent. 
+
+For the Rheumatoid Arthritis study, three of the variables in Table 1 are continuous: `Yrs_From_Dx`, `CDAI`, and `DAS_28` (and the rest are categorical variables). If you plot these variables using code learned from the previous course, you will see that they all have skewed distributions so the most appropriate summary statistics for these variables are median + IQR.
+
+### Step 3: Format the values of the categorical variables (optional)
+
+Prior to creating Table 1, it can be helpful to format the values of the categorical variables to how you want them displayed in the table. In particular, it allows you to rename the values as well as insert a fixed number of spaces in front of the names so that the text appears to be indented in the table (e.g., 4 spaces, tab).
+
+- To format the values of the categorical variables, use
+    + the `proc format` step, 
+    + the `VALUE` statement for each reformatted categorical variable, specifying a name for the formatted variable (e.g., `AgeGpf`) and how the values should be reformatted in quotation marks, including adding spaces in front of the text if you want indentation in the table (Note: 3 spaces were added in front of the text in the example),
+    + (optional) the `PICTURE` statement to create a template for printing numbers (e.g., `pctfmt (round) other = "009.9%"` formats the percents by rounding them to the nearest tenth).
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+proc format;
+
+VALUE AgeGpf 1 = "40 to 70 years (control)" 
+             2 = "75+ years (elderly)";
+
+VALUE Sexf 0 = "   Female"	
+           1 = "   Male";
+
+VALUE CDAI_YNf 1 = "   No" 
+               2 = "   Yes";
+
+VALUE DAS28_YNf 1 = "   No" 
+                2 = "   Yes";
+
+VALUE Steroids_GT_5f 0 = "   No" 
+                     1 = "   Yes";
+
+VALUE DMARDsf 0 = "   No" 
+              1 = "   Yes";
+
+VALUE Biologicsf 0 = "   No"
+				         1 = "   Yes";
+
+VALUE sDMARDSf 0 = "   No"
+			         1 = "   Yes";
+			   
+PICTURE pctfmt (round) other = "009.9%";
+
+run;
+```
+
+Remember that the `proc format` step won't result in any output, but is stored internally in SAS to be used in a later procedure.
+
+### Step 4: Relabel the variable names (optional)
+
+Another helpful step prior to creating Table 1 is relabeling the variable names to the words or phrases you want displayed in the table. 
+
+- To relabel the variables, use
+    + the `data` step to create a new dataset, specifying the name of the new dataset in the first line of code (e.g., `table1arth`), and using the `SET` statement to make a copy of the original dataset, and
+    + the `LABEL` statement for the variable you want to relabel, specifying the original variable name first (e.g., `AgeGp`) followed by an equals sign (`=`) and the text (in quotation marks) you want displayed in the table (e.g., `"Age Group"`).
+
+```{r, eval=FALSE, echo=TRUE, comment = ""}
+data table1arth;
+	SET rheum_arth;
+
+LABEL AgeGp = "Age Group";
+LABEL Yrs_From_Dx = "Years since Diagnosis";
+LABEL CDAI = "CDAI Score";
+LABEL CDAI_YN = "Was CDAI measured?";
+LABEL DAS_28 = "DAS Score";
+LABEL DAS28_YN = "Was DAS measured?";;
+LABEL Steroids_GT_5 = "Taking 5mg Steroids Daily";
+LABEL DMARDS = "Receiving DMARDs";
+LABEL Biologics = "Receiving biologic agents";
+LABEL sDMARDS = "Receiving synthetic DMARDs";
+
+run;
+```
+
+### Step 5: Create Table 1
+
+To create Table 1, use `proc tabulate`. The general template for using this procedure is:
+
+```{r, eval=FALSE, echo=TRUE, comment = " "}
+PROC TABULATE data = dataset <options>;
+  
+  CLASS list_cat_variable(s) < / options>; -> variables used in PROC FREQ, if any
+
+  VAR list_cont_variable(s) < / options>; -> variables used in PROC MEANS, if any
+           
+  TABLE (row variables)*(statistics), (column variables) < / options>;
+
+run;
+```
+
+Knowing the basics of the procedure can be helpful as you read through worked examples or generate your own Table 1 (otherwise the code can be a little overwhelming). 
+
+::: {.redbox}
+
+<font size="4">**SAS TIP**</font>
+
+Other useful tips when using `proc tabulate`:
+
+* All variables listed in the `TABLE` statement must be listed in `CLASS` or `VAR`.
+* The order of the variables in the `TABLE` statement will be the same as the table that is produced.
+* Parentheses (`()`) group elements and simplify coding.
+* Using the word `All` in the `TABLE} statement calculates row or column totals.
+
+:::
+
+<br>
+
+- To create Table 1, use
+    + the `proc tabulate` step, specifying the name of the dataset and any options (e.g., `order=formatted` to order the values by ascending formatted values), 
+    + the `CLASS` statement with all the categorical variables of interest, including the exposure/intervention group and the `missing` option to include missingness of the variables in the table, 
+    + (optional) the `CLASSLEV` statement to list the variables that you want to apply a style element (e.g., indent categorical values in rows), 
+    + the `VAR` statement with all the continuous variables of interest,
+    + the `TABLE` statement to supply the information for the variables in the rows and the variables in the columns. 
+        + First list the row variables, followed by an asterisk (`*`), and in parentheses, the statistics to be calculated for those variables (e.g., `n` for count; `colpctn` for column percent; `mean`, `std` for standard deviation; `median`, `qrange` for IQR) as well as any customizations you want displayed in the table (e.g., `statistic = "NAME"` to relabel the statistic in the table; `*f=` after the statistic (+ relabel) to add some formatting to the displayed value). Code is shown on how to change the statistics for continuous variables to `mean` and `std` (Note: it's currently commented out, but the `/* */` can be removed if you need to use it in the future).
+        + Add a comma (`,`) after listing all of the row variables.
+        + Then list the column variable(s) (e.g., `All` for adding a column for overall summary statistics, `AgeGp`).
+        + Add the option (`/` ) of `misstext = "0"` to put a 0 in for cells with no data (if any), and
+    + (optional) the `FORMAT` statement to relabel the values of the categorical variables (from Step 3). The structure for this is to list the variable first (as it occurs in the dataset), followed by a space and then list the formatted variable name (e.g., `AgeGp AgeGpf.`), making sure to put a period (`.`) after the formatted variable name.
+
+```{r, eval=FALSE, echo=TRUE, comment = " "}
+proc tabulate data = table1arth order=formatted;
+  CLASS AgeGp Sex CDAI_YN DAS28_YN Steroids_GT_5 DMARDs Biologics sDMARDS / missing;
+  CLASSLEV Sex CDAI_YN DAS28_YN Steroids_GT_5 DMARDs Biologics sDMARDS 
+           / style = [asis=on];
+  
+  VAR Yrs_From_Dx CDAI DAS_28;
+  
+  TABLE Sex*(n = "N" colpctn = "%"*f=pctfmt.)
+  		Yrs_From_Dx*(n median qrange = "IQR") /*Yrs_From_Dx*(n mean std = "SD")*/
+  		CDAI*(n median qrange = "IQR") /*CDAI*(n mean std = "SD")*/
+  		CDAI_YN*(n = "N" colpctn = "%"*f=pctfmt.)
+  		DAS_28*(n median qrange = "IQR") /*DAS_28*(n mean std = "SD")*/
+  		(DAS28_YN Steroids_GT_5 DMARDs Biologics sDMARDS)*(n = "N" 
+  		                                                   colpctn = "%"*f=pctfmt.),
+        (All AgeGp) / misstext = "0";
+        
+  FORMAT AgeGp AgeGpf. Sex Sexf. CDAI_YN CDAI_YNf. DAS28_YN DAS28_YNf. 
+  		   Steroids_GT_5 Steroids_GT_5f. DMARDs DMARDsf. Biologics Biologicsf. 
+  		   sDMARDS sDMARDSf.;
+run;
+```
+
+The output will display the count and percent for the 7 categorical variables and the count, median, and Q1 and Q3 for the 3 continuous variables, by overall and by Age Group. It will also present the variable names and categories in a "pretty" way (as specified in Step 4 and in Step 3).
+
+::: {.bluebox}
+
+<font size="4">**Additional Resources**</font>
+
+For additional SAS resources on `proc tabulate`, see:
+
+KEEP GOING
+
+* <a href="https://www.sas.com/content/dam/SAS/en_ca/User%20Group%20Presentations/Vancouver-User-Group/Lai_ProcTabulateIntro_May2015.pdf"> Basics of Proc Tabulate </a> (Anky Lai)
+* <a href="https://support.sas.com/resources/papers/proceedings/pdfs/sgf2008/091-2008.pdf"> Creating Journal-Style Tables in an Easy Way </a> (SAS Global Forum 2008)
+* <a href="https://www.lexjansen.com/nesug/nesug06/dm/da05.pdf"> Introduction to PROC TABULATE </a> (NESUG 2006)
+* <a href="http://people.musc.edu/~elg26/teaching/statcomputing.2013/Lectures/Lecture5.SAStabulate/Proc_Tabulate_how_to_-_version_2.0.pdf"> How to use Proc Tabulate </a> (Tasha Chapman)
+* <a href="https://support.sas.com/resources/papers/proceedings/pdfs/sgf2008/264-2008.pdf"> PROC TABULATE and the Neat Things You Can Do With It </a> (SAS Global Forum 2008)
+
+:::
+
+### Step 6: Export Table 1 to Word Doc
+
+You can export SAS tables into an HTML, PDF, and Rich Text File (RTF; which can be opened via Word Document).
+
+::: {.redbox}
+
+<font size="4">**SAS TIP**</font>
+
+By default, SAS Studio has exporting tables into a PDF and RTF turned off. 
+
+To modify your SAS Studio preferences:
+* Go to the icon with the 3 lines and 3 dots in the upper-right-hand corner of the SAS Studio window and click Preferences. 
+* Then click on Results and then select the box for "Produce PDF output" and the box for "Produce RTF output". 
+* Then click Save. 
+
+If those icons are still greyed out, refresh your SAS Studio page and rerun your code to get the table you want to export.
+
+:::
+
+<br>
+
+- To export SAS Results, click on the file icon with the "W" in the lower-right-corner (third icon from the left) and the file will save into your Downloads folder on your computer. 
+
+Right-click the file and select a Word Document software to view the table. Once the table is opened via a Word Document, you can copy-and-paste the entire table to another document and do some editing of the labels (if need be). 
+
+

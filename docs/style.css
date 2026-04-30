@@ -1,0 +1,104 @@
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+p code {
+  white-space: inherit;
+}
+pre {
+  word-break: normal;
+  word-wrap: normal;
+}
+pre code {
+  white-space: inherit;
+}
+
+code span.er { 
+    color: #AD0000;
+    font-style: italic; 
+}
+
+.graybox {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 0.7em;
+  border-radius: 5px;
+}
+
+.bluebox {
+  background-color: #F2F2FF;
+  border: 1px solid #000080;
+  padding: 0.7em;
+  border-radius: 5px;
+}
+
+.redbox {
+  background-color: #FFF3F3;
+  border: 1px solid #BF0000;
+  padding: 0.7em;
+  border-radius: 5px;
+}
+
+.yellowbox {
+  background-color: #FFF8DB;
+  border: 1px solid #FFFF80;
+  padding: 0.7em;
+  border-radius: 5px;
+}
+
+.greenbox {
+  background-color: #F2FBF2;
+  border: 1px solid #004D00;
+  padding: 0.7em;
+  border-radius: 5px;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal span.op {
+  color: #8A3E00;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal span.co {
+  color: #305864;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal span.dv {
+  color: #245B41;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal span.st {
+  color: #2F5D04;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal span.at {
+  color: #665300;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal span.sc {
+  color: #853C00;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal span.fl {
+  color: #265E42;
+}
+
+/* Target links specifically within the body text area */
+.book .book-body .page-wrapper .page-inner section.normal a,
+.book .book-body .page-wrapper .page-inner section.normal a:visited {
+  color: #255783 !important;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal a:hover {
+  color: #255783 !important;
+  text-decoration: underline !important;
+}
+
+/* Target the internal citations and footnotes explicitly */
+.book .book-body .page-wrapper .page-inner section.normal a.footnote-ref,
+.book .book-body .page-wrapper .page-inner section.normal .citation a {
+  color: #255783 !important;
+}
+
+/* Ensure the sidebar/summary links also follow suit if needed */
+.book .book-summary ul.summary li.active > a {
+  color: #255783 !important;
+}
